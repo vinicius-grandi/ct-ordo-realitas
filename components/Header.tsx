@@ -6,15 +6,15 @@ import mainCss from '../styles/main.module.sass';
 import Menu from './header/Menu';
 
 const Header: NextPage = () => {
-  const windowsSize = useWindowsSize();
   const [showPopup, setShowPopup] = useState(false);
+  const windowsSize = useWindowsSize(setShowPopup);
 
   return (
     <header id={mainCss.header}>
       <button type="button">
         <Image src="/images/logo.svg" height={100} width={100} alt="ordo realitas" />
       </button>
-      { windowsSize > 1000 && <Menu />}
+      { windowsSize > 1000 && <Menu /> }
       {!showPopup && (
       <button
         id="menubutton"
