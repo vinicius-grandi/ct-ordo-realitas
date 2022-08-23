@@ -1,3 +1,52 @@
+@use './mixins'
+@use './variables' as vars
+
 #header
+    margin-top: 1rem
     display: flex
     justify-content: space-around
+    button
+        border: none
+        background-color: transparent
+    img
+        cursor: pointer
+
+    ul
+        display: flex
+        align-items: end
+
+    li:first-child
+        background: vars.$red
+
+    li
+        cursor: pointer
+        color: white
+        mix-blend-mode: multiply
+        display: inline
+        margin: 0 2rem
+        padding: 0 0.22rem
+        text-transform: uppercase
+        background: vars.$black
+
+    @include mixins.desktop
+        button[role='menu']
+            display: none
+
+.content
+    h1
+        margin: 1rem
+    p
+        margin: 0 1rem
+
+    @include mixins.desktop
+        h1
+            margin: 2rem
+        p
+            margin: 0 2rem
+    a
+        text-decoration: none
+        color: vars.$red
+        &:visited
+            color: vars.$dark-yellow
+        &:hover
+            color: vars.$yellow

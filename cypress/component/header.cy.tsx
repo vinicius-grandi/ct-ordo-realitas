@@ -8,4 +8,6 @@ it('renders learn react link', async () => {
   cy.viewport(360, 640);
   cy.findByRole('banner').should('exist');
   cy.findByRole('menu').should('exist');
+  cy.viewport(1001, 640);
+  cy.findByRole('menu').should('not exist');
 });
