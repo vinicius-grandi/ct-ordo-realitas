@@ -12,7 +12,10 @@
         "**/__tests__/**/*.[jt]s?(x)",
         "**/?(*.)+(spec|test).[jt]s?(x)"
       ],
-      "extends": ["plugin:testing-library/react"]
+      "extends": ["plugin:testing-library/react"],
+      "env": {
+        "jest": true
+      }
     }
   ],
   "extends": [
@@ -21,6 +24,7 @@
     "prettier",
     "plugin:react/recommended",
     "plugin:import/errors",
+    "plugin:import/typescript",
     "plugin:import/warnings",
     "plugin:jsx-a11y/recommended",
     "plugin:react-hooks/recommended",
@@ -34,7 +38,7 @@
     "node": true
   },
   "parserOptions": {
-    "project": "./tsconfig.json",
+    "project": ["./tsconfig.json"],
     "ecmaVersion": 6,
     "sourceType": "module",
     "ecmaFeatures": {
@@ -44,6 +48,12 @@
   "settings": {
     "react": {
       "version": "detect"
+    },
+    "import/resolver": {
+      "node": {
+        "moduleDirectory": ["node_modules", "./"],
+        "extensions": [".js", ".tsx", ".jsx", ".ts"]
+      }
     }
   },
   "rules": {

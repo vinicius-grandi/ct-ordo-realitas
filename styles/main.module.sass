@@ -1,0 +1,104 @@
+@use './mixins'
+@use './variables' as vars
+
+@font-face
+    font-family: 'outro-lado-regular'
+    src: url('/fonts/outro-lado-regular.ttf')
+
+#header
+    margin-top: 1rem
+    display: flex
+    justify-content: space-around
+    button
+        border: none
+        background-color: transparent
+    img
+        cursor: pointer
+
+    ul
+        display: flex
+
+    li
+        cursor: pointer
+
+    @include mixins.mobile
+        ul
+            animation: rotate-center 0.3s ease-in-out both
+            flex-direction: column
+            text-align: center
+            background: url('/images/expanded-menu.svg')
+            background-size: cover
+            background-repeat: no-repeat
+            position: absolute
+            width: 100%
+            height: 100%
+            top: 0
+            left: 0
+
+        li
+            text-transform: uppercase
+            margin-top: 2rem
+            color: white
+            font-size: 1.4rem
+
+        ul ~ button
+            cursor: pointer
+            position: absolute
+            color: white
+            padding: 0.8rem 1.2rem
+            background-color: black
+            font-size: 2rem
+            bottom: 0
+            margin-bottom: 2rem
+    @include mixins.desktop
+        button:last-child
+            display: none
+        li:first-child
+            background: vars.$red
+
+        ul
+            align-items: end
+
+        li
+            color: white
+            mix-blend-mode: multiply
+            display: inline
+            margin: 0 2rem
+            padding: 0 0.22rem
+            text-transform: uppercase
+            background: vars.$black
+
+#footer
+    background-color: black
+    color: white
+    padding: 0.1rem
+    p
+        margin: 1rem
+        font-family: 'outro-lado-regular', sans-serif
+    span
+        font-family: Arial, Helvetica, sans-serif
+
+.content
+    h1
+        margin: 1rem
+    p
+        margin: 0 1rem
+
+    @include mixins.desktop
+        h1
+            margin: 2rem
+        p
+            margin: 0 2rem
+    a
+        text-decoration: none
+        color: vars.$red
+        &:visited
+            color: vars.$dark-yellow
+        &:hover
+            color: vars.$yellow
+
+@keyframes rotate-center
+  0%
+    transform: translateX(-500px)
+  100%
+    transform: translate(0, 0)

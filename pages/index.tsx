@@ -1,6 +1,30 @@
 import type { NextPage } from 'next';
-import variables from '../styles/variables.module.sass';
+import Head from 'next/head';
+import Link from 'next/link';
+import styles from '../styles/main.module.sass';
 
-const Home: NextPage = () => <h1>{variables.primaryColor}</h1>;
+const Home: NextPage = () => (
+  <>
+    <Head>
+      <title>Ordo Realitas - Centro de Treinamento</title>
+    </Head>
+    <main className={styles.content}>
+      <h1>BOAS VINDAS!</h1>
+      <p>Bem vindo, caro agente,</p>
+      <p>
+        Esse é o centro de treinamento da Ordo Realitas, aqui você poderá realizar
+        diversos tipos de atividades, como simulações e estudos do
+        {' '}
+        <strong>Outro Lado.</strong>
+      </p>
+      <p className={styles.link}>
+        Como recomendação, caso o ocultismo seja de seu interesse, visite a página
+        de
+        {' '}
+        <Link href="/classe/ocultista">Sigilos</Link>
+      </p>
+    </main>
+  </>
+);
 
 export default Home;
