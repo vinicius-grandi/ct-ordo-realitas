@@ -1,7 +1,6 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
-import Header from '../components/Header';
 import styles from '../styles/main.module.sass';
 
 const Home: NextPage = () => (
@@ -9,7 +8,6 @@ const Home: NextPage = () => (
     <Head>
       <title>Ordo Realitas - Centro de Treinamento</title>
     </Head>
-    <Header />
     <main className={styles.content}>
       <h1>BOAS VINDAS!</h1>
       <p>Bem vindo, caro agente,</p>

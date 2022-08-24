@@ -1,6 +1,10 @@
 @use './mixins'
 @use './variables' as vars
 
+@font-face
+    font-family: 'outro-lado-regular'
+    src: url('/fonts/outro-lado-regular.ttf')
+
 #header
     margin-top: 1rem
     display: flex
@@ -63,6 +67,16 @@
             padding: 0 0.22rem
             text-transform: uppercase
             background: vars.$black
+
+#footer
+    background-color: black
+    color: white
+    padding: 0.1rem
+    p
+        margin: 1rem
+        font-family: 'outro-lado-regular', sans-serif
+    span
+        font-family: Arial, Helvetica, sans-serif
 
 .content
     h1

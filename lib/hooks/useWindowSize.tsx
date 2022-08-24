@@ -13,7 +13,6 @@ const useWindowsSize = (
     setWindowSize(window.innerWidth);
     window.addEventListener('resize', handleResize);
     return () => {
-      console.log('cu');
       window.removeEventListener('resize', handleResize);
     };
   }, [setPopup]);
