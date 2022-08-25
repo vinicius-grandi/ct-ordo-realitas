@@ -5,3 +5,49 @@
 @mixin mobile
     @media (max-width: 1000px)
         @content
+
+@mixin buttons
+    border: none
+    width: 50px
+    height: 50px
+    border-radius: 5px
+    color: white
+    font-size: 1.3rem
+
+@mixin content
+    h1
+        margin: 1rem
+    p
+        margin: 0 1rem
+
+    @include desktop
+        h1
+            margin: 2rem
+        p
+            margin: 0 2rem
+
+@mixin flex-column
+    display: flex
+    flex-direction: column
+
+@mixin entity
+    @include flex-column
+    position: relative
+    justify-content: space-evenly
+    button, output
+        z-index: 1
+    output
+        background: white
+        padding: 0 0.5rem
+        color: black
+    button
+        @include buttons
+        font-size: 0.8rem
+        text-align: center
+        overflow-wrap: break-word
+        background: none
+        z-index: 1
+    align-items: center
+    color: white
+    svg
+        position: absolute

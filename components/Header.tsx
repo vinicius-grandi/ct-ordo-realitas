@@ -35,7 +35,7 @@ const Header: NextPage = () => {
       { windowsSize < 1000 && showPopup && (
         <>
           <Menu id="menu" role="menu" aria="menubutton" />
-          <button type="button" onClick={() => setShowPopup(false)}>X</button>
+          <button aria-label="close" type="button" onClick={() => setShowPopup(false)}>X</button>
         </>
       )}
     </header>

@@ -13,6 +13,7 @@ function makeModuleNameMapper(srcPath, tsconfigPath) {
       const path = paths[item][0].replace('/*', '/$1');
       aliases[key] = srcPath + '/' + path;
   });
+  aliases['^uuid$'] = require.resolve('uuid');
   return aliases;
 }
 

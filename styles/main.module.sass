@@ -79,16 +79,7 @@
         font-family: Arial, Helvetica, sans-serif
 
 .content
-    h1
-        margin: 1rem
-    p
-        margin: 0 1rem
-
-    @include mixins.desktop
-        h1
-            margin: 2rem
-        p
-            margin: 0 2rem
+    @include mixins.content
     a
         text-decoration: none
         color: vars.$red
@@ -96,6 +87,32 @@
             color: vars.$dark-yellow
         &:hover
             color: vars.$yellow
+
+.simulacao
+    @include mixins.content
+
+.battlefield
+    @include mixins.flex-column
+    background: black
+    align-items: center
+    div
+        margin: 1rem 0
+
+.add-enemy
+    @include mixins.buttons
+    background-color: vars.$red
+
+.add-player
+    @include mixins.buttons
+    background-color: #007843
+
+.player
+    @include mixins.entity
+
+.enemy
+    @include mixins.entity
+    polygon
+        fill: vars.$red
 
 @keyframes rotate-center
   0%
