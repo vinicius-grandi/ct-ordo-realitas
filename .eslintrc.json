@@ -62,7 +62,8 @@
     "react/react-in-jsx-scope": "off",
     "react/function-component-definition": "off",
     "@typescript-eslint/no-floating-promises": ["error"],
-    "no-void": "off"
+    "no-void": "off",
+    "operator-linebreak": "off"
   },
   "ignorePatterns": ["**/*.js"]
 }

@@ -1,43 +1,20 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import Image from 'next/image';
 import type { Entities } from './Battlefield';
 import styles from '../../styles/main.module.sass';
-
-type ShortcutT = {
-  nome: string;
-  dados: string;
-};
-
-type EntityConfig = {
-  tipo: Entities;
-  pv: number;
-  nome: string;
-  atalhos: ShortcutT[];
-  notas: string;
-};
-
-const Shortcut = ({ nome, dados }: ShortcutT) => (
-  <div>
-    <p>{nome}</p>
-    <div className={styles.dices}>
-      <svg width="50" height="50">
-        <rect width="50" height="50" fill="#b3b3b3" />
-        <text x="20" y="30" fill="black">6</text>
-      </svg>
-      <span>{dados}</span>
-    </div>
-    <button type="button">rolar</button>
-  </div>
-);
+import useFocusNext from '../../lib/hooks/useFocusNext';
+import Shortcut, { EntityConfig, ShortcutT } from './Shortcut';
 
 const Entity = ({ type }: { type: Entities }) => {
+  const focusNext = useFocusNext();
   const [showOverlay, setShowOverlay] = useState(false);
   const [newShortcut, setNewShortcut] = useState(false);
-  const [shortcut, setShortcut] = useState<ShortcutT>({
+  const shortcutInitialValue = {
     dados: '',
     nome: '',
-  });
+  };
+  const [shortcut, setShortcut] = useState<ShortcutT>(shortcutInitialValue);
   const [entity, setEntity] = useState<EntityConfig>({
     tipo: type,
     pv: 0,
@@ -45,11 +22,16 @@ const Entity = ({ type }: { type: Entities }) => {
     atalhos: [],
     notas: '',
   });
-  const ref = useRef<HTMLInputElement>(null);
 
   const handleNewShortcut = () => {
     setNewShortcut(false);
     setEntity({ ...entity, atalhos: [...entity.atalhos, shortcut] });
+    setShortcut(shortcutInitialValue);
+  };
+
+  const handleOverlay = () => {
+    setShowOverlay(!showOverlay);
+    document.body.style.overflow = showOverlay ? 'initial' : 'hidden';
   };
 
   const handleChange = (ev: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -57,7 +39,9 @@ const Entity = ({ type }: { type: Entities }) => {
       'shortcut-dice': 'dados',
       'shortcut-name': 'nome',
     };
-    const { target: { name, value } } = ev;
+    const {
+      target: { name, value },
+    } = ev;
 
     if (name === 'nome' && value.length > 15) return;
 
@@ -73,10 +57,16 @@ const Entity = ({ type }: { type: Entities }) => {
   return (
     <>
       <div className={styles[type]}>
-        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 600 520" width="50" height="50">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          version="1.1"
+          viewBox="0 0 600 520"
+          width="50"
+          height="50"
+        >
           <polygon points="300,0 600,520 0,520" fill="#007843" />
         </svg>
-        <button type="button" onClick={() => setShowOverlay(true)}>
+        <button type="button" onClick={handleOverlay}>
           {entity.nome}
         </button>
         <output>0</output>
@@ -89,7 +79,7 @@ const Entity = ({ type }: { type: Entities }) => {
               {type === 'player' ? 'monstro' : 'jogador'}
             </span>
             <input type="text" value={entity.nome} name="nome" onChange={handleChange} />
-            <button type="button" aria-label="close" onClick={() => setShowOverlay(false)}>
+            <button type="button" aria-label="close" onClick={handleOverlay}>
               X
             </button>
           </div>
@@ -100,20 +90,34 @@ const Entity = ({ type }: { type: Entities }) => {
           <div className={styles['shortcuts-tab']}>
             <h2>Atalhos</h2>
             <div className={styles.shortcuts}>
-              {entity.atalhos.length > 0
-              && entity.atalhos.map((val) => (
-                <Shortcut nome={val.nome} dados={val.dados} key={uuidv4()} />
-              ))}
+              {entity.atalhos.length > 0 &&
+                entity.atalhos.map((val) => (
+                  <Shortcut nome={val.nome} dados={val.dados} key={uuidv4()} />
+                ))}
             </div>
             {newShortcut && (
               <div className={styles['new-shortcut']}>
                 <label htmlFor="shortcut-name">
                   nome:
-                  <input type="text" name="shortcut-name" id="shortcut-name" value={shortcut.nome} onChange={handleChange} ref={ref} />
+                  <input
+                    type="text"
+                    name="shortcut-name"
+                    id="shortcut-name"
+                    value={shortcut.nome}
+                    onChange={handleChange}
+                    ref={focusNext}
+                  />
                 </label>
                 <label htmlFor="shortcut-dice">
                   dados:
-                  <input type="text" name="shortcut-dice" value={shortcut.dados} id="shortcut-dice" onChange={handleChange} />
+                  <input
+                    type="text"
+                    name="shortcut-dice"
+                    value={shortcut.dados}
+                    id="shortcut-dice"
+                    ref={focusNext}
+                    onChange={handleChange}
+                  />
                 </label>
                 <button type="button" onClick={handleNewShortcut}>
                   salvar
@@ -124,7 +128,6 @@ const Entity = ({ type }: { type: Entities }) => {
               type="button"
               aria-label="add-new-shortcut"
               onClick={() => {
-                setTimeout(() => ref.current?.focus(), 100);
                 setNewShortcut(true);
               }}
             >
@@ -133,7 +136,13 @@ const Entity = ({ type }: { type: Entities }) => {
           </div>
           <div>
             <h2>Notas</h2>
-            <textarea name="notas" value={entity.notas} cols={20} rows={10} onChange={handleChange} />
+            <textarea
+              name="notas"
+              value={entity.notas}
+              cols={20}
+              rows={10}
+              onChange={handleChange}
+            />
           </div>
         </div>
       )}
