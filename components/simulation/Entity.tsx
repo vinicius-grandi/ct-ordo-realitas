@@ -1,12 +1,27 @@
-import { useState } from 'react';
+import {
+  KeyboardEvent,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import Image from 'next/image';
 import type { Entities } from './Battlefield';
 import styles from '../../styles/main.module.sass';
 import useFocusNext from '../../lib/hooks/useFocusNext';
 import Shortcut, { EntityConfig, ShortcutT } from './Shortcut';
+import CloseButton from '../CloseButton';
+import Token from './Token';
 
-const Entity = ({ type }: { type: Entities }) => {
+const Entity = ({
+  type,
+  eid,
+  removeEntity,
+}: {
+  type: Entities;
+  eid: string;
+  removeEntity: (t: Entities, k: string) => void | null;
+}) => {
   const focusNext = useFocusNext();
   const [showOverlay, setShowOverlay] = useState(false);
   const [newShortcut, setNewShortcut] = useState(false);
@@ -29,10 +44,10 @@ const Entity = ({ type }: { type: Entities }) => {
     setShortcut(shortcutInitialValue);
   };
 
-  const handleOverlay = () => {
+  const handleOverlay = useCallback(() => {
     setShowOverlay(!showOverlay);
     document.body.style.overflow = showOverlay ? 'initial' : 'hidden';
-  };
+  }, [showOverlay]);
 
   const handleChange = (ev: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const map = {
@@ -48,29 +63,38 @@ const Entity = ({ type }: { type: Entities }) => {
     if (name === 'shortcut-dice' || name === 'shortcut-name') {
       setShortcut({ ...shortcut, [map[name]]: value });
     }
+
     if (name in entity) {
       setEntity({ ...entity, [name]: value });
-      console.log(entity);
     }
+  };
+
+  useEffect(() => {
+    const handleEsc: any = (ev: KeyboardEvent): void => {
+      const key = ev.key.toLowerCase();
+      if (key === 'escape' && showOverlay) {
+        handleOverlay();
+      }
+    };
+
+    document.addEventListener('keydown', handleEsc);
+    return () => document.removeEventListener('keydown', handleEsc);
+  }, [handleOverlay, showOverlay]);
+
+  const handleRemoval = () => {
+    removeEntity(type, eid);
+    document.body.style.overflow = 'initial';
   };
 
   return (
     <>
-      <div className={styles[type]}>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          version="1.1"
-          viewBox="0 0 600 520"
-          width="50"
-          height="50"
-        >
-          <polygon points="300,0 600,520 0,520" fill="#007843" />
-        </svg>
-        <button type="button" onClick={handleOverlay}>
-          {entity.nome}
-        </button>
-        <output>0</output>
-      </div>
+      <Token
+        handleOverlay={handleOverlay}
+        nome={entity.nome}
+        type={type}
+        handleRemoval={handleRemoval}
+        pv={entity.pv}
+      />
       {showOverlay && (
         <div className={styles['simulation-overlay']}>
           <div className={styles['name-tab']}>
@@ -79,9 +103,7 @@ const Entity = ({ type }: { type: Entities }) => {
               {type === 'player' ? 'monstro' : 'jogador'}
             </span>
             <input type="text" value={entity.nome} name="nome" onChange={handleChange} />
-            <button type="button" aria-label="close" onClick={handleOverlay}>
-              X
-            </button>
+            <CloseButton handleClose={handleOverlay} />
           </div>
           <div className={styles['life-points-tab']}>
             <h2>Pontos de Vida</h2>

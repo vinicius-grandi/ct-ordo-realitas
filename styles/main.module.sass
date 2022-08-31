@@ -6,6 +6,12 @@
     font-family: 'outro-lado-regular'
     src: url('/fonts/outro-lado-regular.ttf')
 
+.true-list
+    list-style-type: disc
+    margin: 1rem
+    li
+        margin: 1rem
+
 #header
     margin-top: 1rem
     display: flex
@@ -96,18 +102,30 @@
 
 .battlefield
     @include mixins.flex-column
+    justify-content: space-between
     background: black
     align-items: center
+    min-height: 550px
     div
         margin: 1rem 0
+
+.entity-container
+    display: flex
+    justify-content: center
+    flex-wrap: wrap
+    width: 100%
+    & > *
+        flex-basis: 33%
 
 .add-enemy
     @include mixins.buttons
     background-color: vars.$red
+    margin: 1rem
 
 .add-player
     @include mixins.buttons
     background-color: #007843
+    margin: 1rem
 
 .player
     @include mixins.entity

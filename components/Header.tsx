@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 import useWindowsSize from '../lib/hooks/useWindowSize';
 import mainCss from '../styles/main.module.sass';
+import CloseButton from './CloseButton';
 import Menu from './header/Menu';
 
 const Header: NextPage = () => {
@@ -35,7 +36,7 @@ const Header: NextPage = () => {
       { windowsSize < 1000 && showPopup && (
         <>
           <Menu id="menu" role="menu" aria="menubutton" />
-          <button aria-label="close" type="button" onClick={() => setShowPopup(false)}>X</button>
+          <CloseButton handleClose={() => setShowPopup(false)} />
         </>
       )}
     </header>
