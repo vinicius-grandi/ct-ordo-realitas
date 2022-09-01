@@ -2,8 +2,13 @@ import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import Entity from './Entity';
 import styles from '../../styles/main.module.sass';
+import { EntityConfig } from './Shortcut';
 
 export type Entities = 'player' | 'enemy';
+
+type Config = {
+  entidades: EntityConfig[],
+};
 
 const AddButton = (
   { addEntity, type }: { addEntity: (type: Entities) => void | null; type: Entities },
@@ -40,6 +45,7 @@ const AddButton = (
 const Battlefield = () => {
   const [enemies, setEnemies] = useState<JSX.Element[]>([]);
   const [players, setPlayers] = useState<JSX.Element[]>([]);
+  const [config, setConfig] = useState({});
 
   const removeEntity = (e: Entities, k: string) => {
     switch (e) {

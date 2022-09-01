@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import styles from '../../styles/main.module.sass';
 import type { Entities } from './Battlefield';
 
@@ -38,6 +39,8 @@ function rollDice(amount: number, max: number, result: RollDice = {
 
 const Shortcut = ({ nome, dados }: ShortcutT) => {
   const [diceValue, setDiceValue] = useState(0);
+  const [dices, setDices] = useState<number[]>([]);
+
   const handleDice = () => {
     // 4d10+2
     // [4d10, 2]
@@ -49,6 +52,7 @@ const Shortcut = ({ nome, dados }: ShortcutT) => {
         const dice = Number(v[0]);
         const sides = Number(v[1]);
         const res = rollDice(dice, sides);
+        setDices(res.values);
         return res.sum;
       }
       return parseInt(val, 10);
@@ -73,6 +77,11 @@ const Shortcut = ({ nome, dados }: ShortcutT) => {
         <span>{dados}</span>
       </div>
       <button type="button" onClick={handleDice}>rolar</button>
+      <ul>
+        {dices.map((val) => (
+          <li key={uuidv4()}>{val}</li>
+        ))}
+      </ul>
     </div>
   );
 };

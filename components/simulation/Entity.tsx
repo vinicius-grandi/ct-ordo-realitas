@@ -40,14 +40,22 @@ const Entity = ({
 
   const handleNewShortcut = () => {
     setNewShortcut(false);
+    if (shortcut.dados.length < 1 || shortcut.nome.length < 1) return;
     setEntity({ ...entity, atalhos: [...entity.atalhos, shortcut] });
     setShortcut(shortcutInitialValue);
   };
 
   const handleOverlay = useCallback(() => {
     setShowOverlay(!showOverlay);
-    document.body.style.overflow = showOverlay ? 'initial' : 'hidden';
   }, [showOverlay]);
+
+  const verifyValue = (name: string, value: string) => {
+    const r = /^[d+*-/ \d]*$/ig;
+    if (name === 'shortcut-dice' && !r.test(value)) {
+      return false;
+    }
+    return true;
+  };
 
   const handleChange = (ev: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const map = {
@@ -61,6 +69,10 @@ const Entity = ({
     if (name === 'nome' && value.length > 15) return;
 
     if (name === 'shortcut-dice' || name === 'shortcut-name') {
+      const isValid = verifyValue(name, value);
+
+      if (!isValid) return;
+
       setShortcut({ ...shortcut, [map[name]]: value });
     }
 
@@ -83,7 +95,6 @@ const Entity = ({
 
   const handleRemoval = () => {
     removeEntity(type, eid);
-    document.body.style.overflow = 'initial';
   };
 
   return (
@@ -93,7 +104,7 @@ const Entity = ({
         nome={entity.nome}
         type={type}
         handleRemoval={handleRemoval}
-        pv={entity.pv}
+        pv={String(entity.pv)}
       />
       {showOverlay && (
         <div className={styles['simulation-overlay']}>
