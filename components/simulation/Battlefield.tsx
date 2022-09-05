@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import Entity from './Entity';
 import styles from '../../styles/main.module.sass';
-import { EntityConfig } from './Shortcut';
 
 export type Entities = 'player' | 'enemy';
 

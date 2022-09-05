@@ -12,6 +12,7 @@ import useFocusNext from '../../lib/hooks/useFocusNext';
 import Shortcut, { EntityConfig, ShortcutT } from './Shortcut';
 import CloseButton from '../CloseButton';
 import Token from './Token';
+import { useSimulacao } from '../../contexts/simulacao';
 
 const Entity = ({
   type,
@@ -23,6 +24,7 @@ const Entity = ({
   removeEntity: (t: Entities, k: string) => void | null;
 }) => {
   const focusNext = useFocusNext();
+  const { setConfig, config } = useSimulacao();
   const [showOverlay, setShowOverlay] = useState(false);
   const [newShortcut, setNewShortcut] = useState(false);
   const shortcutInitialValue = {
@@ -47,7 +49,13 @@ const Entity = ({
 
   const handleOverlay = useCallback(() => {
     setShowOverlay(!showOverlay);
-  }, [showOverlay]);
+    setConfig({
+      entidades: {
+        ...config.entidades,
+        [eid]: entity,
+      },
+    });
+  }, [config, eid, entity, setConfig, showOverlay]);
 
   const verifyValue = (name: string, value: string) => {
     const r = /^[d+*-/ \d]*$/ig;
