@@ -8,7 +8,12 @@ import { EntityConfig } from '../components/simulation/Shortcut';
 
 type Config = {
   entidades: {
-    [key in string]: EntityConfig
+    player: {
+      [key in string]: EntityConfig
+    },
+    enemy: {
+      [key in string]: EntityConfig
+    }
   },
 };
 
@@ -20,13 +25,19 @@ type ConfigState = {
 const ContextSimulacao = createContext<ConfigState>({
   setConfig: () => {},
   config: {
-    entidades: {},
+    entidades: {
+      player: {},
+      enemy: {},
+    },
   },
 });
 
 function SimulacaoProvider({ children }: { children: JSX.Element[] }) {
   const [config, setConfig] = useState<Config>({
-    entidades: {},
+    entidades: {
+      player: {},
+      enemy: {},
+    },
   });
 
   const value = useMemo(() => ({ config, setConfig }), [config]);

@@ -52,10 +52,12 @@ const Entity = ({
     setConfig({
       entidades: {
         ...config.entidades,
-        [eid]: entity,
+        [type]: {
+          [eid]: entity,
+        },
       },
     });
-  }, [config, eid, entity, setConfig, showOverlay]);
+  }, [config.entidades, eid, entity, setConfig, showOverlay, type]);
 
   const verifyValue = (name: string, value: string) => {
     const r = /^[d+*-/ \d]*$/ig;

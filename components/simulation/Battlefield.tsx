@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import Entity from './Entity';
+import { useSimulacao } from '../../contexts/simulacao';
 import styles from '../../styles/main.module.sass';
 
 export type Entities = 'player' | 'enemy';
@@ -38,6 +39,10 @@ const AddButton = (
 };
 
 const Battlefield = () => {
+  const {
+    config: { entidades: { enemy: defaultEnemies, player: defaultPlayers } },
+  } = useSimulacao();
+
   const [enemies, setEnemies] = useState<JSX.Element[]>([]);
   const [players, setPlayers] = useState<JSX.Element[]>([]);
 
