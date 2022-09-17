@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 import Entity from './Entity';
-import { useSimulacao } from '../../contexts/simulacao';
 import styles from '../../styles/main.module.sass';
 
 export type Entities = 'player' | 'enemy';
@@ -38,69 +36,41 @@ const AddButton = (
   );
 };
 
-const Battlefield = () => {
-  const {
-    config: { entidades: { enemy: defaultEnemies, player: defaultPlayers } },
-  } = useSimulacao();
-
-  const [enemies, setEnemies] = useState<JSX.Element[]>([]);
-  const [players, setPlayers] = useState<JSX.Element[]>([]);
-
-  const removeEntity = (e: Entities, k: string) => {
-    switch (e) {
-      case ('player'):
-        return setPlayers(players.filter(({ key }) => key !== k));
-      case ('enemy'):
-        return setEnemies(enemies.filter(({ key }) => key !== k));
-      default:
-        return null;
-    }
-  };
-
-  const addEntity = (e: Entities) => {
-    const id = uuidv4();
-    switch (e) {
-      case ('player'):
-        return setPlayers([
-          ...players,
-          <Entity type="player" key={id} eid={id} removeEntity={removeEntity} />,
-        ]);
-      case ('enemy'):
-        return setEnemies([
-          ...enemies,
-          <Entity type="enemy" key={id} eid={id} removeEntity={removeEntity} />,
-        ]);
-      default:
-        return null;
-    }
-  };
-
-  return (
-    <div className={styles.battlefield}>
-      <AddButton addEntity={addEntity} type="enemy" />
-      <div className={styles['entity-container']}>
-        {enemies.map(({ props: { type, eid }, key }) => (
-          <Entity
-            type={type}
-            key={key}
-            eid={eid}
-            removeEntity={removeEntity}
-          />
-        ))}
-      </div>
-      <div className={styles['entity-container']}>
-        {players.map(({ props: { type, eid }, key }) => (
-          <Entity
-            type={type}
-            key={key}
-            eid={eid}
-            removeEntity={removeEntity}
-          />
-        ))}
-      </div>
-      <AddButton addEntity={addEntity} type="player" />
+const Battlefield = (
+  {
+    players, enemies, addEntity, removeEntity,
+  }:
+  {
+    players: JSX.Element[];
+    enemies: JSX.Element[];
+    addEntity: (e: Entities) => void;
+    removeEntity: (e: Entities, k: string) => void;
+  },
+) => (
+  <div className={styles.battlefield}>
+    <AddButton addEntity={addEntity} type="enemy" />
+    <div className={styles['entity-container']}>
+      {enemies.map(({ props: { type, eid }, key }) => (
+        <Entity
+          type={type}
+          key={key}
+          eid={eid}
+          removeEntity={removeEntity}
+        />
+      ))}
     </div>
-  );
-};
+    <div className={styles['entity-container']}>
+      {players.map(({ props: { type, eid }, key }) => (
+        <Entity
+          type={type}
+          key={key}
+          eid={eid}
+          removeEntity={removeEntity}
+        />
+      ))}
+    </div>
+    <AddButton addEntity={addEntity} type="player" />
+  </div>
+);
 
 export default Battlefield;

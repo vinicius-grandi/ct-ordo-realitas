@@ -32,7 +32,7 @@ const Entity = ({
     nome: '',
   };
   const [shortcut, setShortcut] = useState<ShortcutT>(shortcutInitialValue);
-  const [entity, setEntity] = useState<EntityConfig>({
+  const [entity, setEntity] = useState<EntityConfig>(config.entidades[type][eid] ?? {
     tipo: type,
     pv: 0,
     nome: type,
@@ -53,6 +53,7 @@ const Entity = ({
       entidades: {
         ...config.entidades,
         [type]: {
+          ...config.entidades[type],
           [eid]: entity,
         },
       },
