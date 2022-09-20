@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import Battlefield, { Entities } from '../components/simulation/Battlefield';
 import { useSimulacao } from '../contexts/simulacao';
 import styles from '../styles/main.module.sass';
-import Entity from "../components/simulation/Entity";
+import Entity from '../components/simulation/Entity';
 
 const SimulationPage: NextPage = () => {
   const { config, setConfig } = useSimulacao();
@@ -14,9 +14,9 @@ const SimulationPage: NextPage = () => {
 
   const removeEntity = (e: Entities, k: string) => {
     switch (e) {
-      case ('player'):
+      case 'player':
         return setPlayers(players.filter(({ key }) => key !== k));
-      case ('enemy'):
+      case 'enemy':
         return setEnemies(enemies.filter(({ key }) => key !== k));
       default:
         return null;
@@ -26,12 +26,12 @@ const SimulationPage: NextPage = () => {
   const addEntity = (e: Entities) => {
     const id = uuidv4();
     switch (e) {
-      case ('player'):
+      case 'player':
         return setPlayers([
           ...players,
           <Entity type="player" key={id} eid={id} removeEntity={removeEntity} />,
         ]);
-      case ('enemy'):
+      case 'enemy':
         return setEnemies([
           ...enemies,
           <Entity type="enemy" key={id} eid={id} removeEntity={removeEntity} />,
@@ -65,15 +65,29 @@ const SimulationPage: NextPage = () => {
           onChange={(ev) => {
             if (ev.target.files !== null) {
               const reader = new FileReader();
-              reader.onload = (e) => {
-                if (e.target !== null && typeof e.target.result === 'string') {
-                  const json = JSON.parse(e.target.result);
+              reader.onload = ({ target }) => {
+                if (target !== null && typeof target.result === 'string') {
+                  const json = JSON.parse(target.result);
                   setConfig(json);
                   setPlayers(
-                    Object.keys(json.entidades.player).map((eid) => <Entity eid={eid} type="player" removeEntity={removeEntity} extraInfo={json.entidades.player[eid]} />),
+                    Object.keys(json.entidades.player).map((eid) => (
+                      <Entity
+                        eid={eid}
+                        type="player"
+                        removeEntity={removeEntity}
+                        extraInfo={json.entidades.player[eid]}
+                      />
+                    )),
                   );
                   setEnemies(
-                    Object.keys(json.entidades.enemy).map((eid) => <Entity eid={eid} type="enemy" removeEntity={removeEntity} extraInfo={json.entidades.enemy[eid]} />),
+                    Object.keys(json.entidades.enemy).map((eid) => (
+                      <Entity
+                        eid={eid}
+                        type="enemy"
+                        removeEntity={removeEntity}
+                        extraInfo={json.entidades.enemy[eid]}
+                      />
+                    )),
                   );
                 }
               };
@@ -86,19 +100,18 @@ const SimulationPage: NextPage = () => {
       <button
         type="button"
         onClick={() => {
-          const blob = new Blob([JSON.stringify(config)], { type: "text/json" });
-          const link = document.createElement("a");
+          const blob = new Blob([JSON.stringify(config)], { type: 'text/json' });
+          const link = document.createElement('a');
 
           link.download = 'simulacao-config.json';
           link.href = window.URL.createObjectURL(blob);
-          link.dataset.downloadurl = ["text/json", link.download, link.href].join(":");
+          link.dataset.downloadurl = ['text/json', link.download, link.href].join(':');
 
           link.click();
           link.remove();
         }}
       >
         exportar
-
       </button>
     </main>
   );

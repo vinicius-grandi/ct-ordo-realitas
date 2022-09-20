@@ -2,5 +2,11 @@
     "name": "@ct-ordo-realitas/app",
     "version": "1.0.0",
     "scripts": {},
-    "license": "MIT"
-  }
+    "license": "MIT",
+    "dependencies": {
+        "@os-team/i18next-react-native-language-detector": "^1.0.16",
+        "i18next": "^21.9.2",
+        "i18next-browser-languagedetector": "^6.1.5",
+        "react-i18next": "^11.18.6"
+    }
+}

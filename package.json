@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "expo:start": "npm -w @ct-ordo-realitas/expo start",
-    "next:dev": "npm -w @ct-ordo-realitas/next dev"
+    "next:dev": "npm run dev -w @ct-ordo-realitas/next"
   },
   "repository": {
     "type": "git",
