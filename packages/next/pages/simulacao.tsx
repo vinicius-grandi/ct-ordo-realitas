@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/quotes */
 import { NextPage } from 'next';
 import { useState } from 'react';
-import { setConfig } from "next/config";
 import { v4 as uuidv4 } from 'uuid';
 import Battlefield, { Entities } from '../components/simulation/Battlefield';
 import { useSimulacao } from '../contexts/simulacao';
@@ -9,7 +8,7 @@ import styles from '../styles/main.module.sass';
 import Entity from "../components/simulation/Entity";
 
 const SimulationPage: NextPage = () => {
-  const { config } = useSimulacao();
+  const { config, setConfig } = useSimulacao();
   const [enemies, setEnemies] = useState<JSX.Element[]>([]);
   const [players, setPlayers] = useState<JSX.Element[]>([]);
 
@@ -71,10 +70,10 @@ const SimulationPage: NextPage = () => {
                   const json = JSON.parse(e.target.result);
                   setConfig(json);
                   setPlayers(
-                    Object.keys(json.entidades.player).map((eid) => <Entity eid={eid} type="player" removeEntity={removeEntity} />),
+                    Object.keys(json.entidades.player).map((eid) => <Entity eid={eid} type="player" removeEntity={removeEntity} extraInfo={json.entidades.player[eid]} />),
                   );
                   setEnemies(
-                    Object.keys(json.entidades.enemy).map((eid) => <Entity eid={eid} type="enemy" removeEntity={removeEntity} />),
+                    Object.keys(json.entidades.enemy).map((eid) => <Entity eid={eid} type="enemy" removeEntity={removeEntity} extraInfo={json.entidades.enemy[eid]} />),
                   );
                 }
               };

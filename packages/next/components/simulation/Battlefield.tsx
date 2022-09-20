@@ -50,22 +50,24 @@ const Battlefield = (
   <div className={styles.battlefield}>
     <AddButton addEntity={addEntity} type="enemy" />
     <div className={styles['entity-container']}>
-      {enemies.map(({ props: { type, eid }, key }) => (
+      {enemies.map(({ props: { type, eid, extraInfo } }) => (
         <Entity
           type={type}
-          key={key}
+          key={eid}
           eid={eid}
           removeEntity={removeEntity}
+          extraInfo={extraInfo}
         />
       ))}
     </div>
     <div className={styles['entity-container']}>
-      {players.map(({ props: { type, eid }, key }) => (
+      {players.map(({ props: { type, eid, extraInfo } }) => (
         <Entity
           type={type}
-          key={key}
+          key={eid}
           eid={eid}
           removeEntity={removeEntity}
+          extraInfo={extraInfo}
         />
       ))}
     </div>

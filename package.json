@@ -4,7 +4,8 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "expo:start": "npm -w @ct-ordo-realitas/expo start"
+    "expo:start": "npm -w @ct-ordo-realitas/expo start",
+    "next:dev": "npm -w @ct-ordo-realitas/next dev"
   },
   "repository": {
     "type": "git",

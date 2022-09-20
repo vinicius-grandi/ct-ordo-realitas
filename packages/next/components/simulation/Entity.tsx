@@ -4,26 +4,30 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { v4 as uuidv4 } from 'uuid';
-import Image from 'next/image';
-import type { Entities } from './Battlefield';
+import PropTypes from 'prop-types';
 import styles from '../../styles/main.module.sass';
-import useFocusNext from '../../lib/hooks/useFocusNext';
-import Shortcut, { EntityConfig, ShortcutT } from './Shortcut';
-import CloseButton from '../CloseButton';
 import Token from './Token';
 import { useSimulacao } from '../../contexts/simulacao';
+import EntityHeader from './entity/EntityHeader';
+import LifePoints from './entity/LifePoints';
+import Shortcuts from './entity/Shortcuts';
+import type { Entities } from './Battlefield';
+import type { EntityConfig, ShortcutT } from './Shortcut';
+import Notes from './entity/Notes';
+
+export type InputChangeEvent = React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>;
 
 const Entity = ({
   type,
   eid,
   removeEntity,
+  extraInfo,
 }: {
   type: Entities;
   eid: string;
   removeEntity: (t: Entities, k: string) => void | null;
+  extraInfo: EntityConfig;
 }) => {
-  const focusNext = useFocusNext();
   const { setConfig, config } = useSimulacao();
   const [showOverlay, setShowOverlay] = useState(false);
   const [newShortcut, setNewShortcut] = useState(false);
@@ -32,13 +36,15 @@ const Entity = ({
     nome: '',
   };
   const [shortcut, setShortcut] = useState<ShortcutT>(shortcutInitialValue);
-  const [entity, setEntity] = useState<EntityConfig>(config.entidades[type][eid] ?? {
-    tipo: type,
-    pv: 0,
-    nome: type,
-    atalhos: [],
-    notas: '',
-  });
+  const [entity, setEntity] = useState<EntityConfig>(
+    extraInfo ?? {
+      tipo: type,
+      pv: 0,
+      nome: type,
+      atalhos: [],
+      notas: '',
+    },
+  );
 
   const handleNewShortcut = () => {
     setNewShortcut(false);
@@ -61,14 +67,14 @@ const Entity = ({
   }, [config.entidades, eid, entity, setConfig, showOverlay, type]);
 
   const verifyValue = (name: string, value: string) => {
-    const r = /^[d+*-/ \d]*$/ig;
+    const r = /^[d+*-/ \d]*$/gi;
     if (name === 'shortcut-dice' && !r.test(value)) {
       return false;
     }
     return true;
   };
 
-  const handleChange = (ev: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (ev: InputChangeEvent) => {
     const map = {
       'shortcut-dice': 'dados',
       'shortcut-name': 'nome',
@@ -119,79 +125,42 @@ const Entity = ({
       />
       {showOverlay && (
         <div className={styles['simulation-overlay']}>
-          <div className={styles['name-tab']}>
-            <span>
-              <Image src="/images/user-icon.svg" width={50} height={50} alt="user-icon" />
-              {type === 'player' ? 'monstro' : 'jogador'}
-            </span>
-            <input type="text" value={entity.nome} name="nome" onChange={handleChange} />
-            <CloseButton handleClose={handleOverlay} />
-          </div>
-          <div className={styles['life-points-tab']}>
-            <h2>Pontos de Vida</h2>
-            <input type="number" name="pv" value={entity.pv} onChange={handleChange} />
-          </div>
-          <div className={styles['shortcuts-tab']}>
-            <h2>Atalhos</h2>
-            <div className={styles.shortcuts}>
-              {entity.atalhos.length > 0 &&
-                entity.atalhos.map((val) => (
-                  <Shortcut nome={val.nome} dados={val.dados} key={uuidv4()} />
-                ))}
-            </div>
-            {newShortcut && (
-              <div className={styles['new-shortcut']}>
-                <label htmlFor="shortcut-name">
-                  nome:
-                  <input
-                    type="text"
-                    name="shortcut-name"
-                    id="shortcut-name"
-                    value={shortcut.nome}
-                    onChange={handleChange}
-                    ref={focusNext}
-                  />
-                </label>
-                <label htmlFor="shortcut-dice">
-                  dados:
-                  <input
-                    type="text"
-                    name="shortcut-dice"
-                    value={shortcut.dados}
-                    id="shortcut-dice"
-                    ref={focusNext}
-                    onChange={handleChange}
-                  />
-                </label>
-                <button type="button" onClick={handleNewShortcut}>
-                  salvar
-                </button>
-              </div>
-            )}
-            <button
-              type="button"
-              aria-label="add-new-shortcut"
-              onClick={() => {
-                setNewShortcut(true);
-              }}
-            >
-              +
-            </button>
-          </div>
-          <div>
-            <h2>Notas</h2>
-            <textarea
-              name="notas"
-              value={entity.notas}
-              cols={20}
-              rows={10}
-              onChange={handleChange}
-            />
-          </div>
+          <EntityHeader entity={entity} handleChange={handleChange} handleOverlay={handleOverlay} />
+          <LifePoints entity={entity} handleChange={handleChange} />
+          <Shortcuts
+            entity={entity}
+            handleChange={handleChange}
+            handleNewShortcut={handleNewShortcut}
+            newShortcut={newShortcut}
+            shortcut={shortcut}
+          />
+          <Notes entity={entity} handleChange={handleChange} />
         </div>
       )}
     </>
   );
+};
+
+Entity.propTypes = {
+  type: PropTypes.string.isRequired,
+  eid: PropTypes.string.isRequired,
+  removeEntity: PropTypes.func.isRequired,
+  extraInfo: PropTypes.shape({
+    tipo: PropTypes.string,
+    pv: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    nome: PropTypes.string,
+    atalhos: PropTypes.arrayOf(
+      PropTypes.shape({
+        dados: PropTypes.string,
+        nome: PropTypes.string,
+      }),
+    ),
+    notas: PropTypes.string,
+  }),
+};
+
+Entity.defaultProps = {
+  extraInfo: null,
 };
 
 export default Entity;
