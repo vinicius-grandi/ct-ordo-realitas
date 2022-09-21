@@ -1,4 +1,5 @@
 import { View, Text, StyleSheet } from 'react-native';
+import Battlefield from '../components/simulacao/Battlefield';
 import { useTranslation } from 'react-i18next';
 
 const styles = StyleSheet.create({
@@ -19,10 +20,11 @@ export default function Simulacao() {
       <View>
         {t<string, string[]>('simulacao.tips', { returnObjects: true }).map(
           (val) => (
-            <Text style={styles.text}>{val}</Text>
+            <Text style={styles.text}>&#8226;{val}</Text>
           )
         )}
       </View>
+      <Battlefield />
     </View>
   );
 }
