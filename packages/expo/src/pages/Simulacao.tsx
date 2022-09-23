@@ -1,10 +1,21 @@
 import { View, Text, ScrollView } from 'react-native';
 import Battlefield from '../components/simulacao/Battlefield';
+import useEntities from '@ct-ordo-realitas/next/lib/hooks/useEntities';
 import { useTranslation } from 'react-i18next';
 import styles from '../styles/main.sass';
+import Entity from "../components/simulacao/Entity";
 
 export default function Simulacao() {
   const { t } = useTranslation();
+  const {
+    addEntity,
+    removeEntity,
+    enemies,
+    players,
+    setPlayers,
+    setEnemies,
+  } = useEntities(Entity);
+
   return (
     <View style={{ flex: 20 }}>
       <ScrollView contentContainerStyle={{ flex: 1}}>
@@ -16,7 +27,13 @@ export default function Simulacao() {
             )
           )}
         </View>
-        <Battlefield />
+        <Battlefield
+          addEntity={addEntity}
+          enemies={enemies}
+          players={players}
+          removeEntity={removeEntity}
+        />
+
       </ScrollView>
     </View>
   );

@@ -141,7 +141,7 @@ const Entity = ({
   );
 };
 
-Entity.propTypes = {
+export const propTypes = {
   type: PropTypes.string.isRequired,
   eid: PropTypes.string.isRequired,
   removeEntity: PropTypes.func.isRequired,
@@ -159,8 +159,12 @@ Entity.propTypes = {
   }),
 };
 
-Entity.defaultProps = {
+Entity.propTypes = propTypes;
+
+export const defaultProps = {
   extraInfo: null,
 };
+
+Entity.defaultProps = defaultProps;
 
 export default Entity;

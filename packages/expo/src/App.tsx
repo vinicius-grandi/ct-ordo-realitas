@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import Simulacao from './pages/Simulacao';
 import { NativeRouter, Link, Route, Routes } from 'react-router-native';
+import background from '../assets/background.png'
 import Provider from '@ct-ordo-realitas/next/contexts/simulacao';
 import { useTranslation } from 'react-i18next';
 
@@ -20,14 +21,14 @@ const styles = StyleSheet.create({
 });
 
 const Home = () => <Text>Home</Text>;
-
+// @ct-ordo-realitas/next/public/images/background.png
 export default function App() {
   const { t } = useTranslation();
   return (
     <NativeRouter>
       <Provider>
         <ImageBackground
-          source={require('../assets/icon.png')}
+          source={background}
           style={{ flex: 1 }}
         >
           <SafeAreaView style={styles.container}>

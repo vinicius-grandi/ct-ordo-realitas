@@ -1,45 +1,21 @@
 /* eslint-disable @typescript-eslint/quotes */
 import { NextPage } from 'next';
-import { useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
-import Battlefield, { Entities } from '../components/simulation/Battlefield';
+import Battlefield from '../components/simulation/Battlefield';
 import { useSimulacao } from '../contexts/simulacao';
 import styles from '../styles/main.module.sass';
 import Entity from '../components/simulation/Entity';
+import useEntities from "../lib/hooks/useEntities";
 
 const SimulationPage: NextPage = () => {
   const { config, setConfig } = useSimulacao();
-  const [enemies, setEnemies] = useState<JSX.Element[]>([]);
-  const [players, setPlayers] = useState<JSX.Element[]>([]);
-
-  const removeEntity = (e: Entities, k: string) => {
-    switch (e) {
-      case 'player':
-        return setPlayers(players.filter(({ key }) => key !== k));
-      case 'enemy':
-        return setEnemies(enemies.filter(({ key }) => key !== k));
-      default:
-        return null;
-    }
-  };
-
-  const addEntity = (e: Entities) => {
-    const id = uuidv4();
-    switch (e) {
-      case 'player':
-        return setPlayers([
-          ...players,
-          <Entity type="player" key={id} eid={id} removeEntity={removeEntity} />,
-        ]);
-      case 'enemy':
-        return setEnemies([
-          ...enemies,
-          <Entity type="enemy" key={id} eid={id} removeEntity={removeEntity} />,
-        ]);
-      default:
-        return null;
-    }
-  };
+  const {
+    addEntity,
+    removeEntity,
+    enemies,
+    players,
+    setPlayers,
+    setEnemies,
+  } = useEntities(Entity);
 
   return (
     <main className={styles.simulacao}>
