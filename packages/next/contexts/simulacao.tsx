@@ -32,7 +32,7 @@ const ContextSimulacao = createContext<ConfigState>({
   },
 });
 
-function SimulacaoProvider({ children }: { children: JSX.Element[] }) {
+function SimulacaoProvider({ children }: { children: JSX.Element[] | JSX.Element }) {
   const [config, setConfig] = useState<Config>({
     entidades: {
       player: {},

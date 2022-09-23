@@ -1,6 +1,33 @@
 // For React Native version 0.59 or later
 var upstreamTransformer = require("metro-react-native-babel-transformer");
+const magicImporter = require('node-sass-magic-importer');
 const path = require('path');
+const workspaceRoot = path.resolve(__dirname, '../..', 'node_modules', '@ct-ordo-realitas', 'next', 'styles');
+
+const magicOptions = {
+  // Defines the path in which your node_modules directory is found.
+  cwd: workspaceRoot,
+  // Define the package.json keys and in which order to search for them.
+  packageKeys: [
+    'sass',
+    'scss',
+    'style',
+    'css',
+    'main.sass',
+    'main.scss',
+    'main.style',
+    'main.css',
+    'main'
+  ],
+  // You can set the special character for indicating a module resolution.
+  packagePrefix: '~',
+  // Disable console warnings.
+  disableWarnings: false,
+  // Disable importing files only once.
+  disableImportOnce: false,
+  // Add custom node filters.
+  customFilters: undefined
+};
 
 // For React Native version 0.56-0.58
 // var upstreamTransformer = require("metro/src/reactNativeTransformer");
@@ -18,24 +45,19 @@ var sassTransformer = require("react-native-sass-transformer");
 
 module.exports.transform = function({ src, filename, options }) {
   if (filename.endsWith(".scss") || filename.endsWith(".sass")) {
-    /**@type { { sassOptions: import('sass/types/options').Options } } */
-    const sassOptions = {
+    var opts = Object.assign(options, {
       sassOptions: {
-        loadPaths: [
-          'node_modules',
-          'node_modules/@ct-ordo-realitas/next'
-        ],
-        importers: [{
-          // An importer that redirects relative URLs starting with "~" to
-          // `node_modules`.
-          findFileUrl(url) {
-            if (!url.startsWith('~')) return null;
-            return new URL(url.substring(1), pathToFileURL('node_modules'));
+        functions: {
+          "rem($px)": px => {
+            px.setValue(px.getValue() / 16);
+            px.setUnit("rem");
+            return px;
           }
-        }]
+        },
+        importer: magicImporter(magicOptions)
       }
-    };
-    var opts = Object.assign(options, sassOptions);
+    });
+
     return sassTransformer.transform({ src, filename, options: opts });
   } else {
     return upstreamTransformer.transform({ src, filename, options });

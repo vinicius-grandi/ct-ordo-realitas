@@ -102,12 +102,7 @@
 
 .battlefield
     @include mixins.flex-column
-    justify-content: space-between
-    background: black
-    align-items: center
-    min-height: 550px
-    div
-        margin: 1rem 0
+    @include mixins.battlefield
 
 .entity-container
     display: flex
@@ -124,7 +119,7 @@
 
 .add-player
     @include mixins.buttons
-    background-color: #007843
+    background-color: vars.$green
     margin: 1rem
 
 .player

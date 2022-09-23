@@ -1,4 +1,36 @@
-@use "@styles/variables" as vars
+@use "~@ct-ordo-realitas/next/styles/variables" as vars
+@use "~@ct-ordo-realitas/next/styles/mixins"
+@use "./mixins" as relMixins
 
 .battlefield
-    background-cnolor: black
+    @include mixins.battlefield
+    min-height: 0
+    flex: 1
+    margin-bottom: rem(10)
+    padding-top: rem(10)
+    padding-bottom: rem(10)
+
+.add-enemy
+    @include mixins.buttons
+    @include relMixins.center
+    background-color: vars.$red
+
+.add-player
+    @include mixins.buttons
+    @include relMixins.center
+    background-color: vars.$green
+
+.token-text
+    @include relMixins.font
+    color: #fff
+
+.title
+    fontSize: 32
+    fontWeight: 600
+    padding: rem(2)
+
+.list
+    padding: rem(2)
+
+.text
+    fontSize: 16
