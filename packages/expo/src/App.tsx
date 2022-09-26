@@ -1,16 +1,10 @@
-import {
-  Text,
-  Platform,
-  StatusBar,
-  StyleSheet,
-  SafeAreaView,
-  ImageBackground,
-} from 'react-native';
-import Simulacao from './pages/Simulacao';
-import { NativeRouter, Link, Route, Routes } from 'react-router-native';
-import background from '../assets/background.png'
 import Provider from '@ct-ordo-realitas/next/contexts/simulacao';
 import { useTranslation } from 'react-i18next';
+import { Text, Platform, StatusBar, StyleSheet, SafeAreaView, ImageBackground } from 'react-native';
+import { NativeRouter, Link, Route, Routes } from 'react-router-native';
+
+import background from '../assets/background.png';
+import Simulacao from './pages/Simulacao';
 
 const styles = StyleSheet.create({
   container: {
@@ -27,10 +21,7 @@ export default function App() {
   return (
     <NativeRouter>
       <Provider>
-        <ImageBackground
-          source={background}
-          style={{ flex: 1 }}
-        >
+        <ImageBackground source={background} style={{ flex: 1 }}>
           <SafeAreaView style={styles.container}>
             <Link to="/">
               <Text>{t('home')}</Text>

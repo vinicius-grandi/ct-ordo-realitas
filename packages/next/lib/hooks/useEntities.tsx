@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import Entity from '../../components/simulation/Entity';
+import type Entity from '../../components/simulation/Entity';
 import type { Entities } from '../../components/simulation/Battlefield';
 
 const useEntities = (E: typeof Entity) => {
