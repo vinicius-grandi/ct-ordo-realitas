@@ -36,12 +36,28 @@ export default function Battlefield({
       <Button styling={styles['add-enemy']} addEntity={addEntity} type="enemy">
         +
       </Button>
-      {enemies.map(({ props: { type, eid, extraInfo } }) => (
-        <Entity type={type} key={eid} eid={eid} removeEntity={removeEntity} extraInfo={extraInfo} />
-      ))}
-      {players.map(({ props: { type, eid, extraInfo } }) => (
-        <Entity type={type} key={eid} eid={eid} removeEntity={removeEntity} extraInfo={extraInfo} />
-      ))}
+      <View style={styles.entity}>
+        {enemies.map(({ props: { type, eid, extraInfo } }) => (
+          <Entity
+            type={type}
+            key={eid}
+            eid={eid}
+            removeEntity={removeEntity}
+            extraInfo={extraInfo}
+          />
+        ))}
+      </View>
+      <View style={styles.entity}>
+        {players.map(({ props: { type, eid, extraInfo } }) => (
+          <Entity
+            type={type}
+            key={eid}
+            eid={eid}
+            removeEntity={removeEntity}
+            extraInfo={extraInfo}
+          />
+        ))}
+      </View>
       <Button styling={styles['add-player']} addEntity={addEntity} type="player">
         +
       </Button>

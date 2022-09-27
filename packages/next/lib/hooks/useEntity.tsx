@@ -1,8 +1,12 @@
 import { useState, useCallback } from 'react';
 import { useSimulacao } from '../../contexts/simulacao';
 import type { Entities } from '../../components/simulation/Battlefield';
-import type { InputChangeEvent } from '../../components/simulation/Entity';
+// import type { InputChangeEvent } from '../../components/simulation/Entity';
 import type { EntityConfig, ShortcutT } from '../../components/simulation/Shortcut';
+
+export type EventHandler = {
+  target: { name: string, value: string }
+};
 
 export default function useEntity(
   type: Entities,
@@ -56,7 +60,7 @@ export default function useEntity(
     return true;
   };
 
-  const handleChange = (ev: InputChangeEvent) => {
+  const handleChange = (ev: EventHandler) => {
     const map = {
       'shortcut-dice': 'dados',
       'shortcut-name': 'nome',

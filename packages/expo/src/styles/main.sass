@@ -9,6 +9,11 @@
     padding-top: rem(10)
     padding-bottom: rem(10)
 
+.entity
+    flex-direction: row
+    flex-wrap: wrap
+    justify-content: center
+
 .add-enemy
     @include mixins.buttons
     @include relMixins.center
@@ -18,6 +23,10 @@
     @include mixins.buttons
     @include relMixins.center
     background-color: vars.$green
+
+.token
+    align-items: center
+    flex-basis: 30%
 
 .token-text
     @include relMixins.font
@@ -33,3 +42,16 @@
 
 .text
     fontSize: 16
+
+.simulation-overlay
+    position: absolute
+    background-color: #000
+    top: 0
+    padding-top: 20
+    width: 100%
+    height: 100%
+    align-items: center
+
+.close-btn
+    font-size: 30
+    color: #fff

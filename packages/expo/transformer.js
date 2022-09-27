@@ -1,8 +1,17 @@
 // For React Native version 0.59 or later
-var upstreamTransformer = require("metro-react-native-babel-transformer");
+const upstreamTransformer = require('metro-react-native-babel-transformer');
 const magicImporter = require('node-sass-magic-importer');
 const path = require('path');
-const workspaceRoot = path.resolve(__dirname, '../..', 'node_modules', '@ct-ordo-realitas', 'next', 'styles');
+const sassTransformer = require('react-native-sass-transformer');
+const svgTransformer = require('react-native-svg-transformer');
+const workspaceRoot = path.resolve(
+  __dirname,
+  '../..',
+  'node_modules',
+  '@ct-ordo-realitas',
+  'next',
+  'styles'
+);
 
 const magicOptions = {
   // Defines the path in which your node_modules directory is found.
@@ -17,7 +26,7 @@ const magicOptions = {
     'main.scss',
     'main.style',
     'main.css',
-    'main'
+    'main',
   ],
   // You can set the special character for indicating a module resolution.
   packagePrefix: '~',
@@ -26,7 +35,7 @@ const magicOptions = {
   // Disable importing files only once.
   disableImportOnce: false,
   // Add custom node filters.
-  customFilters: undefined
+  customFilters: undefined,
 };
 
 // For React Native version 0.56-0.58
@@ -41,24 +50,24 @@ const magicOptions = {
 // For React Native version 0.46
 // var upstreamTransformer = require("metro-bundler/build/transformer");
 
-var sassTransformer = require("react-native-sass-transformer");
-
-module.exports.transform = function({ src, filename, options }) {
-  if (filename.endsWith(".scss") || filename.endsWith(".sass")) {
-    var opts = Object.assign(options, {
+module.exports.transform = function ({ src, filename, options }) {
+  if (filename.endsWith('.scss') || filename.endsWith('.sass')) {
+    const opts = Object.assign(options, {
       sassOptions: {
         functions: {
-          "rem($px)": px => {
+          'rem($px)': (px) => {
             px.setValue(px.getValue() / 16);
-            px.setUnit("rem");
+            px.setUnit('rem');
             return px;
-          }
+          },
         },
-        importer: magicImporter(magicOptions)
-      }
+        importer: magicImporter(magicOptions),
+      },
     });
 
     return sassTransformer.transform({ src, filename, options: opts });
+  } else if (filename.endsWith('.svg')) {
+    return svgTransformer.transform({ src, filename, options });
   } else {
     return upstreamTransformer.transform({ src, filename, options });
   }
