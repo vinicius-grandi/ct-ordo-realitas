@@ -1,3 +1,5 @@
+@use './variables' as vars
+
 @mixin desktop
     @media (min-width: 1000px)
         @content
@@ -53,6 +55,23 @@
         position: absolute
     span
         z-index: 1
+
+
+@mixin life-points-tab
+    border-radius: 3px
+    text-align: center
+    background: vars.$red
+    color: #ffffff
+    font-size: 18px
+    width: 100px
+
+@mixin blue-button
+    border: none
+    background: vars.$blue
+    color: white
+    font-size: 1.5rem
+    padding: 0.5rem 1rem
+    border-radius: 3px
 
 @mixin battlefield
     justify-content: space-between

@@ -7,6 +7,8 @@ import { Portal } from 'react-native-paper';
 
 import styles from '../../styles/main.sass';
 import EntityHeader from '../simulacao/entity/EntityHeader';
+import LifePoints from '../simulacao/entity/LifePoints';
+import Shortcuts from '../simulacao/entity/Shortcuts';
 import Token from './Token';
 
 function Entity({
@@ -50,7 +52,7 @@ function Entity({
               handleChange={handleChange}
               handleOverlay={handleOverlay}
             />
-            {/* <LifePoints entity={entity} handleChange={handleChange} />
+            <LifePoints entity={entity} handleChange={handleChange} />
             <Shortcuts
               entity={entity}
               handleChange={handleChange}
@@ -58,6 +60,7 @@ function Entity({
               newShortcut={newShortcut}
               shortcut={shortcut}
             />
+            {/*
             <Notes entity={entity} handleChange={handleChange} /> */}
           </View>
         </Portal>

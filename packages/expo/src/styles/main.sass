@@ -14,6 +14,21 @@
     flex-wrap: wrap
     justify-content: center
 
+.line
+    flex-direction: row
+    justify-content: space-between
+    align-items: center
+    width: 100%
+
+.overlay-title
+    @include relMixins.font
+    color: #ffffff
+    font-family: Vazirmat
+    font-weight: bold
+    font-size: 1.5rem
+
+.shortcuts
+
 .add-enemy
     @include mixins.buttons
     @include relMixins.center
@@ -47,11 +62,24 @@
     position: absolute
     background-color: #000
     top: 0
-    padding-top: 20
+    align-items: flex-start
+    padding: 20px
     width: 100%
     height: 100%
-    align-items: center
+
+.shortcut-button
+    @include mixins.blue-button
+    padding: 0.01rem
+
+.shortcut-button-text
+    color: #fff
+    font-size: 1.2rem
 
 .close-btn
     font-size: 30
+    color: #fff
+
+.life-points
+    @include relMixins.font
+    @include mixins.life-points-tab
     color: #fff

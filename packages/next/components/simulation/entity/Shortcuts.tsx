@@ -35,6 +35,7 @@ export default function Shortcuts({
               type="text"
               name="shortcut-name"
               id="shortcut-name"
+              placeholder="ex: agredir"
               value={shortcut.nome}
               onChange={handleChange}
               ref={focusNext}
@@ -46,6 +47,7 @@ export default function Shortcuts({
               type="text"
               name="shortcut-dice"
               value={shortcut.dados}
+              placeholder="ex: 2d6"
               id="shortcut-dice"
               ref={focusNext}
               onChange={handleChange}
@@ -55,6 +57,15 @@ export default function Shortcuts({
             salvar
           </button>
         </div>
+      )}
+      {(shortcut.nome.length < 1 || shortcut.dados.length < 1) && (
+      <button
+        type="button"
+        aria-label="add-new-shortcut"
+        onClick={handleNewShortcut}
+      >
+        {newShortcut ? '-' : '+'}
+      </button>
       )}
     </div>
   );

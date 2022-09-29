@@ -1,8 +1,10 @@
 import Provider from '@ct-ordo-realitas/next/contexts/simulacao';
+import { useFonts } from 'expo-font';
 import { useTranslation } from 'react-i18next';
 import { Text, Platform, StatusBar, StyleSheet, SafeAreaView, ImageBackground } from 'react-native';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { NativeRouter, Link, Route, Routes } from 'react-router-native';
+import '@ct-ordo-realitas/app/translate/i18mobile';
 
 import background from '../assets/background.png';
 import Simulacao from './pages/Simulacao';
@@ -34,6 +36,12 @@ const Safe = ({ children }: { children: JSX.Element }) => (
 
 // @ct-ordo-realitas/next/public/images/background.png
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    Vazirmatn: require('../assets/Vazirmatn.ttf'),
+  });
+
+  if (!fontsLoaded) return <Text>Loading</Text>;
+
   return (
     <PaperProvider>
       <NativeRouter>

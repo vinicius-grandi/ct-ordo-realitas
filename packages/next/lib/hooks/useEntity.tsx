@@ -33,7 +33,8 @@ export default function useEntity(
   );
 
   const handleNewShortcut = () => {
-    setNewShortcut(false);
+    setNewShortcut(!newShortcut);
+    setShortcut(shortcutInitialValue);
     if (shortcut.dados.length < 1 || shortcut.nome.length < 1) return;
     setEntity({ ...entity, atalhos: [...entity.atalhos, shortcut] });
     setShortcut(shortcutInitialValue);
@@ -91,6 +92,7 @@ export default function useEntity(
   return {
     entity,
     shortcut,
+    setNewShortcut,
     handleChange,
     handleOverlay,
     handleRemoval,

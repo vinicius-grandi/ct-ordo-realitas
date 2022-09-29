@@ -1,14 +1,15 @@
 import type { EntityConfig } from '@ct-ordo-realitas/next/components/simulation/Shortcut';
 import { EventHandler } from '@ct-ordo-realitas/next/lib/hooks/useEntity';
-import { View, TextInput, Pressable, Text, StyleSheet } from 'react-native';
+import { View, TextInput, Text, StyleSheet } from 'react-native';
 
 import UserIcon from '../../../../assets/user-icon.svg';
-import CloseButton from "../../CloseButton";
+import styles from '../../../styles/main.sass';
+import CloseButton from '../../CloseButton';
 
 const localStyle = StyleSheet.create({
   position: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     width: '100%',
   },
   input: {
@@ -39,7 +40,7 @@ export default function EntityHeader({
       </View>
       <TextInput
         style={localStyle.input}
-        value={entity.nome}
+        defaultValue={entity.nome}
         onChangeText={(text) => {
           handleChange({ target: { value: text, name: 'nome' } });
         }}
