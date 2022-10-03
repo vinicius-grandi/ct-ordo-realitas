@@ -3,11 +3,10 @@ import type {
   ShortcutT,
 } from '@ct-ordo-realitas/next/components/simulation/Shortcut';
 import type { HandleChange } from '@ct-ordo-realitas/next/lib/hooks/useEntity';
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, FlatList } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
-import { v4 as uuidv4 } from 'uuid';
 
 import styles from '../../../styles/main.sass';
 import Shortcut from './Shortcut';
@@ -56,25 +55,21 @@ export default function ShortcutsShortcuts({
   shortcut: ShortcutT;
 }) {
   const { t } = useTranslation();
-  const scrollViewRef = useRef<ScrollView>(null);
 
-  useEffect(() => {
-    setTimeout(function () {
-      scrollViewRef.current?.flashScrollIndicators();
-    }, 500);
-  }, []);
   const hasShortcut = shortcut.nome.length > 0 && shortcut.dados.length > 0;
   return (
     <View style={styles.shortcuts}>
       <Text style={{ ...styles['overlay-title'], width: '100%' }}>
         {t('simulacao.overlay.shortcuts.title')}
       </Text>
-      <ScrollView style={styles.shortcuts} ref={scrollViewRef}>
-        {entity.atalhos.length > 0 &&
-          entity.atalhos.map((val) => (
-            <Shortcut nome={val.nome} dados={val.dados} key={uuidv4()} />
-          ))}
-      </ScrollView>
+      <View style={styles.shortcuts}>
+        <FlatList
+          data={entity.atalhos}
+          indicatorStyle="white"
+          contentContainerStyle={{ overflow: 'scroll' }}
+          renderItem={({ item }) => <Shortcut nome={item.nome} dados={item.dados} />}
+        />
+      </View>
       {newShortcut && (
         <View>
           <NewShortcutInput

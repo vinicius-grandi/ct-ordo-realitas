@@ -13,13 +13,12 @@ export default function Notes({
   handleChange: HandleChange;
 }) {
   return (
-    <View>
-      <Text>Notas</Text>
+    <View style={styles.notes}>
+      <Text style={{ color: '#fff' }}>Notas</Text>
       <TextInput
         value={entity.notas}
         multiline
         numberOfLines={10}
-        style={styles.notes}
         onChangeText={(txt) => {
           handleChange({ target: { name: 'notas', value: txt } });
         }}
