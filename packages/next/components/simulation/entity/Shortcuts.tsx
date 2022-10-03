@@ -18,6 +18,7 @@ export default function Shortcuts({
   shortcut: ShortcutT;
 }) {
   const focusNext = useFocusNext();
+  const hasShortcut = shortcut.nome.length > 0 && shortcut.dados.length > 0;
   return (
     <div className={styles['shortcuts-tab']}>
       <h2>Atalhos</h2>
@@ -53,12 +54,14 @@ export default function Shortcuts({
               onChange={handleChange}
             />
           </label>
+          {hasShortcut && (
           <button type="button" onClick={handleNewShortcut}>
             salvar
           </button>
+          )}
         </div>
       )}
-      {(shortcut.nome.length < 1 || shortcut.dados.length < 1) && (
+      {!hasShortcut && (
       <button
         type="button"
         aria-label="add-new-shortcut"

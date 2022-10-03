@@ -8,6 +8,8 @@ export type EventHandler = {
   target: { name: string, value: string }
 };
 
+export type HandleChange = (ev: EventHandler) => string | null;
+
 export default function useEntity(
   type: Entities,
   extraInfo: EntityConfig,
@@ -61,7 +63,7 @@ export default function useEntity(
     return true;
   };
 
-  const handleChange = (ev: EventHandler) => {
+  const handleChange: HandleChange = (ev) => {
     const map = {
       'shortcut-dice': 'dados',
       'shortcut-name': 'nome',
@@ -70,19 +72,22 @@ export default function useEntity(
       target: { name, value },
     } = ev;
 
-    if (name === 'nome' && value.length > 15) return;
+    if (name === 'nome' && value.length > 15) return null;
 
     if (name === 'shortcut-dice' || name === 'shortcut-name') {
       const isValid = verifyValue(name, value);
 
-      if (!isValid) return;
+      if (!isValid) return null;
 
       setShortcut({ ...shortcut, [map[name]]: value });
+      return value;
     }
 
     if (name in entity) {
       setEntity({ ...entity, [name]: value });
+      return value;
     }
+    return null;
   };
 
   const handleRemoval = () => {
