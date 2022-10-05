@@ -16,7 +16,7 @@ export default function Notes({
     <View style={styles.notes}>
       <Text style={{ color: '#fff' }}>Notas</Text>
       <TextInput
-        value={entity.notas}
+        defaultValue={entity.notas}
         multiline
         numberOfLines={10}
         onChangeText={(txt) => {

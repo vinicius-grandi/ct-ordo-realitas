@@ -1,9 +1,9 @@
 import type { EntityConfig } from '@ct-ordo-realitas/next/components/simulation/Shortcut';
 import { EventHandler } from '@ct-ordo-realitas/next/lib/hooks/useEntity';
-import { View, TextInput, Text, StyleSheet } from 'react-native';
+import { useEffect } from 'react';
+import { View, TextInput, Text, StyleSheet, BackHandler } from 'react-native';
 
 import UserIcon from '../../../../assets/user-icon.svg';
-import styles from '../../../styles/main.sass';
 import CloseButton from '../../CloseButton';
 
 const localStyle = StyleSheet.create({
@@ -32,6 +32,13 @@ export default function EntityHeader({
   handleOverlay: () => void;
   entity: EntityConfig;
 }) {
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+      handleOverlay();
+      return true;
+    });
+    return () => backHandler.remove();
+  }, []);
   return (
     <View style={localStyle.position}>
       <View>
