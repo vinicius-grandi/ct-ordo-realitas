@@ -35,7 +35,6 @@
 @mixin entity
     @include flex-column
     @include buttons
-    cursor: pointer
     font-size: 0.8rem
     text-align: center
     overflow-wrap: break-word
@@ -43,8 +42,6 @@
     position: relative
     margin: auto
     justify-content: space-evenly
-    button, output
-        z-index: 1
     output
         background: white
         padding: 0 0.5rem
@@ -53,8 +50,10 @@
     color: white
     svg
         position: absolute
-    span
+        cursor: pointer
+    span, output
         z-index: 1
+        pointer-events: none
 
 
 @mixin life-points-tab
@@ -75,7 +74,7 @@
 
 @mixin battlefield
     justify-content: space-between
-    background: black
+    background: vars.$black
     align-items: center
     min-height: 550px
     div

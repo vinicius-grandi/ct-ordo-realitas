@@ -58,30 +58,31 @@ const Token = ({
   }, [handleOverlay, removeEnemy, toId]);
 
   return (
-    <button
-      type="button"
-      ref={ref}
-      onClick={handleOverlay}
-      className={styles[type]}
-      onMouseUp={() => {
-        clearTimeout(toId);
-      }}
-      onMouseDown={() => {
-        setToId(removeEnemy());
-      }}
-    >
-      <span>{nome}</span>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        version="1.1"
-        viewBox="0 0 600 520"
-        width="50"
-        height="50"
+    <div className={styles[type]}>
+      <button
+        type="button"
+        ref={ref}
+        onClick={handleOverlay}
+        onMouseUp={() => {
+          clearTimeout(toId);
+        }}
+        onMouseDown={() => {
+          setToId(removeEnemy());
+        }}
       >
-        <polygon points="300,0 600,520 0,520" fill="#007843" />
-      </svg>
-      <output>{pv}</output>
-    </button>
+        <span>{nome}</span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          version="1.1"
+          viewBox="0 0 600 520"
+          width="50"
+          height="50"
+        >
+          <polygon points="300,0 600,520 0,520" fill="#007843" />
+        </svg>
+        <output>{pv}</output>
+      </button>
+    </div>
   );
 };
 

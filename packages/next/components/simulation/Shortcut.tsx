@@ -35,6 +35,7 @@ const Shortcut = ({ nome, dados }: ShortcutT) => {
           <li key={uuidv4()}>{val}</li>
         ))}
       </ul>
+      { dice.length > 0 && <button type="button">ATACAR UM ALVO</button> }
     </div>
   );
 };

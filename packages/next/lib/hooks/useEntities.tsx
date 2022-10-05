@@ -22,15 +22,17 @@ const useEntities = (E: typeof Entity) => {
     const id = uuidv4();
     switch (e) {
       case 'player':
-        return setPlayers([
+        setPlayers([
           ...players,
           <E type="player" key={id} eid={id} removeEntity={removeEntity} />,
         ]);
+        return true;
       case 'enemy':
-        return setEnemies([
+        setEnemies([
           ...enemies,
           <E type="enemy" key={id} eid={id} removeEntity={removeEntity} />,
         ]);
+        return true;
       default:
         return null;
     }

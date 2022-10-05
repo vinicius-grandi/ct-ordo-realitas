@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import styles from '@styles/main.module.sass';
+import { useEffect } from 'react';
 import CloseButton from '../../CloseButton';
 import { EntityConfig } from '../Shortcut';
 
@@ -12,6 +13,12 @@ export default function EntityHeader({
   handleOverlay: () => void;
   entity: EntityConfig;
 }) {
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'initial';
+    };
+  }, []);
   return (
     <div className={styles['name-tab']}>
       <span>

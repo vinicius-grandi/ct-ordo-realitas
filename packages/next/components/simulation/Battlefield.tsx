@@ -14,7 +14,7 @@ const AddButton = (
   return (
     <button
       type="button"
-      aria-label="add-new-enemy"
+      aria-label={`add-new-${type}`}
       onClick={() => {
         addEntity(type);
         if (type === 'player') {

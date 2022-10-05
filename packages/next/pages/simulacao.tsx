@@ -7,7 +7,6 @@ import Entity from '../components/simulation/Entity';
 import useEntities from "../lib/hooks/useEntities";
 
 const SimulationPage: NextPage = () => {
-  const { config, setConfig } = useSimulacao();
   const {
     addEntity,
     removeEntity,
@@ -16,6 +15,7 @@ const SimulationPage: NextPage = () => {
     setPlayers,
     setEnemies,
   } = useEntities(Entity);
+  const { config, setConfig } = useSimulacao();
 
   return (
     <main className={styles.simulacao}>
