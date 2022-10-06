@@ -1,4 +1,4 @@
-import type { EntityConfig } from '@ct-ordo-realitas/next/components/simulation/Shortcut';
+import type { EntityConfig } from '@ct-ordo-realitas/next/components/simulation/Shortcut.d';
 import { EventHandler } from '@ct-ordo-realitas/next/lib/hooks/useEntity';
 import { useEffect } from 'react';
 import { View, TextInput, Text, StyleSheet, BackHandler } from 'react-native';

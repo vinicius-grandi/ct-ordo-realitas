@@ -1,7 +1,8 @@
 import styles from '@styles/main.module.sass';
 import { v4 as uuidv4 } from 'uuid';
 import useFocusNext from '../../../lib/hooks/useFocusNext';
-import Shortcut, { EntityConfig, ShortcutT } from '../Shortcut';
+import Shortcut from '../Shortcut';
+import type { EntityConfig, ShortcutT } from '../Shortcut.d';
 import type { InputChangeEvent } from '../Entity';
 
 export default function Shortcuts({

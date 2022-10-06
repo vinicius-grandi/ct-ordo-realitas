@@ -4,19 +4,20 @@ import {
   useRef,
   useCallback,
 } from 'react';
+import { useSimulacao } from '../../contexts/simulacao';
 import styles from '../../styles/main.module.sass';
 
 const Token = ({
   nome,
   pv,
   type,
-  handleOverlay,
+  handleSave,
   handleRemoval,
 }: {
   nome: string;
   type: string;
   pv: string;
-  handleOverlay: () => void;
+  handleSave: () => void;
   handleRemoval: () => void;
 }) => {
   const ref = useRef(null);
@@ -26,6 +27,7 @@ const Token = ({
     handleRemoval();
     isItOverlay.current = false;
   }, 500), [handleRemoval]);
+  const { handleOverlay } = useSimulacao();
 
   useEffect(() => {
     function absorbEvent(event: TouchEvent) {
@@ -47,6 +49,7 @@ const Token = ({
         absorbEvent(ev);
         clearTimeout(toId);
         if (isItOverlay.current) {
+          handleSave();
           handleOverlay();
         }
       };
@@ -55,14 +58,15 @@ const Token = ({
     if (ref.current) {
       preventLongPressMenu(ref.current);
     }
-  }, [handleOverlay, removeEnemy, toId]);
+  }, [handleOverlay, handleSave, removeEnemy, toId]);
 
   return (
-    <div className={styles[type]}>
+    <div>
       <button
         type="button"
         ref={ref}
-        onClick={handleOverlay}
+        className={styles[type]}
+        onClick={() => { handleSave(); handleOverlay(); }}
         onMouseUp={() => {
           clearTimeout(toId);
         }}

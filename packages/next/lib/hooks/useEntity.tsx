@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 import { useSimulacao } from '../../contexts/simulacao';
 import type { Entities } from '../../components/simulation/Battlefield';
 // import type { InputChangeEvent } from '../../components/simulation/Entity';
-import type { EntityConfig, ShortcutT } from '../../components/simulation/Shortcut';
+import type { EntityConfig, ShortcutT } from '../../components/simulation/Shortcut.d';
 
 export type EventHandler = {
   target: { name: string, value: string }
@@ -17,7 +17,6 @@ export default function useEntity(
   removeEntity: (t: Entities, k: string) => void | null,
 ) {
   const { setConfig, config } = useSimulacao();
-  const [showOverlay, setShowOverlay] = useState(false);
   const [newShortcut, setNewShortcut] = useState(false);
   const shortcutInitialValue = {
     dados: '',
@@ -42,9 +41,9 @@ export default function useEntity(
     setShortcut(shortcutInitialValue);
   };
 
-  const handleOverlay = useCallback(() => {
-    setShowOverlay(!showOverlay);
+  const handleSave = useCallback(() => {
     setConfig({
+      ...config,
       entidades: {
         ...config.entidades,
         [type]: {
@@ -53,7 +52,7 @@ export default function useEntity(
         },
       },
     });
-  }, [config.entidades, eid, entity, setConfig, showOverlay, type]);
+  }, [config, eid, entity, setConfig, type]);
 
   const verifyValue = (name: string, value: string) => {
     const r = /^[d+*-/ \d]*$/gi;
@@ -99,10 +98,9 @@ export default function useEntity(
     shortcut,
     setNewShortcut,
     handleChange,
-    handleOverlay,
+    handleSave,
     handleRemoval,
     handleNewShortcut,
     newShortcut,
-    showOverlay,
   };
 }

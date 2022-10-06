@@ -1,15 +1,15 @@
 import {
   screen,
-  render,
   fireEvent,
   waitFor,
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Simulation from '../../pages/simulacao';
+import customRender from '../utils/customRender';
 
 describe('Simulation Page', () => {
   it('renders a battlefield where a player can fight against enemies', () => {
-    render(<Simulation />);
+    customRender(<Simulation />);
     const title = screen.getByText(/simulação/i);
     const addEnemyBtn = screen.getByRole('button', {
       name: 'add-new-enemy',
@@ -25,7 +25,7 @@ describe('Simulation Page', () => {
   });
 
   it('allows to add a new player and enemy', async () => {
-    render(<Simulation />);
+    customRender(<Simulation />);
     const addEnemyBtn = screen.getByRole('button', {
       name: 'add-new-enemy',
     });
@@ -42,7 +42,7 @@ describe('Simulation Page', () => {
   });
 
   it('shows a popup when a entity is clicked', async () => {
-    render(<Simulation />);
+    customRender(<Simulation />);
     const addEnemyBtn = screen.getByRole('button', {
       name: 'add-new-enemy',
     });
@@ -58,7 +58,7 @@ describe('Simulation Page', () => {
   });
 
   it('shows a popup when a entity is clicked', async () => {
-    render(<Simulation />);
+    customRender(<Simulation />);
     const addEnemyBtn = screen.getByRole('button', {
       name: 'add-new-enemy',
     });
@@ -110,7 +110,7 @@ describe('Simulation Page', () => {
     ).toBeInTheDocument();
   });
   it('allows you select a target to deal damage', async () => {
-    render(<Simulation />);
+    customRender(<Simulation />);
     const addEnemyBtn = screen.getByRole('button', {
       name: 'add-new-enemy',
     });
@@ -165,9 +165,11 @@ describe('Simulation Page', () => {
     fireEvent.click(damageBtn);
 
     // battlefield screen locked
-    fireEvent.click(enemy);
-    screen.getByRole('button', {
+    fireEvent.click(screen.getByText('enemy'));
+    const attackBtn = screen.getByRole('button', {
       name: 'ATACAR',
     });
+    fireEvent.click(attackBtn);
+    expect(screen.getByDisplayValue(/-[0-9]/i)).toBeInTheDocument();
   });
 });

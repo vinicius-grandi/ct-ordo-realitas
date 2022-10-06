@@ -1,23 +1,12 @@
 import { v4 as uuidv4 } from 'uuid';
+import { useSimulacao } from '../../contexts/simulacao';
 import useDice from '../../lib/hooks/useDice';
 import styles from '../../styles/main.module.sass';
-import type { Entities } from './Battlefield';
-
-export type ShortcutT = {
-  nome: string;
-  dados: string;
-};
-
-export type EntityConfig = {
-  tipo: Entities;
-  pv: number;
-  nome: string;
-  atalhos: ShortcutT[];
-  notas: string;
-};
+import type { ShortcutT } from './Shortcut.d';
 
 const Shortcut = ({ nome, dados }: ShortcutT) => {
   const { diceValue, handleDice, dice } = useDice(dados);
+  const { handleOverlay, handleIsSelectionMode } = useSimulacao();
 
   return (
     <div>
@@ -35,7 +24,7 @@ const Shortcut = ({ nome, dados }: ShortcutT) => {
           <li key={uuidv4()}>{val}</li>
         ))}
       </ul>
-      { dice.length > 0 && <button type="button">ATACAR UM ALVO</button> }
+      { dice.length > 0 && <button type="button" onClick={() => { handleOverlay(); handleIsSelectionMode(); }}>ATACAR UM ALVO</button> }
     </div>
   );
 };

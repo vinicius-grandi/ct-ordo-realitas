@@ -5,10 +5,11 @@ import EntityHeader from './entity/EntityHeader';
 import LifePoints from './entity/LifePoints';
 import Shortcuts from './entity/Shortcuts';
 import type { Entities } from './Battlefield';
-import type { EntityConfig } from './Shortcut';
+import type { EntityConfig } from './Shortcut.d';
 import Notes from './entity/Notes';
 import { entityDefaultProps, entityPropTypes } from '../../types';
 import useEntity from '../../lib/hooks/useEntity';
+import { useSimulacao } from '../../contexts/simulacao';
 
 export type InputChangeEvent = React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>;
 
@@ -27,34 +28,29 @@ const Entity = ({
     entity,
     shortcut,
     handleChange,
-    handleOverlay,
+    handleSave,
     handleRemoval,
     handleNewShortcut,
     newShortcut,
-    showOverlay,
-  } = useEntity(
-    type,
-    extraInfo,
-    eid,
-    removeEntity,
-  );
-
+  } = useEntity(type, extraInfo, eid, removeEntity);
+  const { showOverlay, handleOverlay } = useSimulacao();
   useEffect(() => {
     const handleEsc: any = (ev: KeyboardEvent): void => {
       const key = ev.key.toLowerCase();
       if (key === 'escape' && showOverlay) {
+        handleSave();
         handleOverlay();
       }
     };
 
     document.addEventListener('keydown', handleEsc);
     return () => document.removeEventListener('keydown', handleEsc);
-  }, [handleOverlay, showOverlay]);
+  }, [handleOverlay, handleSave, showOverlay]);
 
   return (
     <>
       <Token
-        handleOverlay={handleOverlay}
+        handleSave={handleSave}
         nome={entity.nome}
         type={type}
         handleRemoval={handleRemoval}
@@ -62,7 +58,7 @@ const Entity = ({
       />
       {showOverlay && (
         <div className={styles['simulation-overlay']}>
-          <EntityHeader entity={entity} handleChange={handleChange} handleOverlay={handleOverlay} />
+          <EntityHeader entity={entity} handleChange={handleChange} handleSave={handleSave} />
           <LifePoints entity={entity} handleChange={handleChange} />
           <Shortcuts
             entity={entity}

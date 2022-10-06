@@ -1,6 +1,6 @@
 import styles from '@styles/main.module.sass';
 import type { InputChangeEvent } from '../Entity';
-import type { EntityConfig } from '../Shortcut';
+import type { EntityConfig } from '../Shortcut.d';
 
 export default function LifePoints({
   entity,

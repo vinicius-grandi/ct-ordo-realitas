@@ -2,17 +2,19 @@ import Image from 'next/image';
 import styles from '@styles/main.module.sass';
 import { useEffect } from 'react';
 import CloseButton from '../../CloseButton';
-import { EntityConfig } from '../Shortcut';
+import { EntityConfig } from '../Shortcut.d';
+import { useSimulacao } from '../../../contexts/simulacao';
 
 export default function EntityHeader({
   handleChange,
-  handleOverlay,
+  handleSave,
   entity,
 }: {
   handleChange: (ev: React.ChangeEvent<HTMLInputElement>) => void;
-  handleOverlay: () => void;
+  handleSave: () => void;
   entity: EntityConfig;
 }) {
+  const { handleOverlay } = useSimulacao();
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     return () => {
@@ -26,7 +28,7 @@ export default function EntityHeader({
         {entity.tipo === 'player' ? 'monstro' : 'jogador'}
       </span>
       <input type="text" value={entity.nome} name="nome" onChange={handleChange} />
-      <CloseButton handleClose={handleOverlay} />
+      <CloseButton handleClose={() => { handleSave(); handleOverlay(); }} />
     </div>
   );
 }

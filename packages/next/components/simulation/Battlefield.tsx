@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Entity from './Entity';
 import styles from '../../styles/main.module.sass';
+import { useSimulacao } from '../../contexts/simulacao';
 
 export type Entities = 'player' | 'enemy';
 
@@ -46,33 +47,37 @@ const Battlefield = (
     addEntity: (e: Entities) => void;
     removeEntity: (e: Entities, k: string) => void;
   },
-) => (
-  <div className={styles.battlefield}>
-    <AddButton addEntity={addEntity} type="enemy" />
-    <div className={styles['entity-container']}>
-      {enemies.map(({ props: { type, eid, extraInfo } }) => (
-        <Entity
-          type={type}
-          key={eid}
-          eid={eid}
-          removeEntity={removeEntity}
-          extraInfo={extraInfo}
-        />
-      ))}
+) => {
+  const { isSelectionMode } = useSimulacao();
+  return (
+    <div className={styles.battlefield}>
+      <AddButton addEntity={addEntity} type="enemy" />
+      <div className={styles['entity-container']}>
+        {enemies.map(({ props: { type, eid, extraInfo } }) => (
+          <Entity
+            type={type}
+            key={eid}
+            eid={eid}
+            removeEntity={removeEntity}
+            extraInfo={extraInfo}
+          />
+        ))}
+      </div>
+      <div className={styles['entity-container']}>
+        {players.map(({ props: { type, eid, extraInfo } }) => (
+          <Entity
+            type={type}
+            key={eid}
+            eid={eid}
+            removeEntity={removeEntity}
+            extraInfo={extraInfo}
+          />
+        ))}
+      </div>
+      <AddButton addEntity={addEntity} type="player" />
+      {isSelectionMode && <button type="button">ATACAR</button>}
     </div>
-    <div className={styles['entity-container']}>
-      {players.map(({ props: { type, eid, extraInfo } }) => (
-        <Entity
-          type={type}
-          key={eid}
-          eid={eid}
-          removeEntity={removeEntity}
-          extraInfo={extraInfo}
-        />
-      ))}
-    </div>
-    <AddButton addEntity={addEntity} type="player" />
-  </div>
-);
+  );
+};
 
 export default Battlefield;
