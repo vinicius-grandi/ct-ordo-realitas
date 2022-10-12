@@ -19,8 +19,13 @@
   },
   "homepage": "https://github.com/vinicius-grandi/ct-ordo-realitas#readme",
   "workspaces": {
-    "packages": ["packages/*"],
-    "nohoist": ["**/react", "**/react/**"]
+    "packages": [
+      "packages/*"
+    ],
+    "nohoist": [
+      "**/react",
+      "**/react/**"
+    ]
   },
   "devDependencies": {
     "eslint": "^8.24.0",

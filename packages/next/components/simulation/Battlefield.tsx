@@ -2,12 +2,19 @@ import { useEffect, useState } from 'react';
 import Entity from './Entity';
 import styles from '../../styles/main.module.sass';
 import { useSimulacao } from '../../contexts/simulacao';
+import { useSelector, useDispatch } from 'react-redux';
+import type { EntitiesHash } from '@ct-ordo-realitas/app/redux/battlefieldSlice'
+import { RootState } from "@ct-ordo-realitas/app/redux/reducers"
 
 export type Entities = 'player' | 'enemy';
 
-const AddButton = (
-  { addEntity, type }: { addEntity: (type: Entities) => void | null; type: Entities },
-) => {
+const AddButton = ({
+  addEntity,
+  type,
+}: {
+  addEntity: (type: Entities) => void | null;
+  type: Entities;
+}) => {
   const [height, setHeight] = useState(0);
   useEffect(() => {
     setHeight(document.body.scrollHeight - window.innerHeight);
@@ -23,9 +30,13 @@ const AddButton = (
             const currHeight = document.body.scrollHeight - window.innerHeight;
             if (height < currHeight) {
               setHeight(currHeight);
-              setTimeout(() => window.scrollBy({
-                top: 70,
-              }), 0);
+              setTimeout(
+                () =>
+                  window.scrollBy({
+                    top: 70,
+                  }),
+                0,
+              );
             }
           }, 200);
         }
@@ -37,18 +48,19 @@ const AddButton = (
   );
 };
 
-const Battlefield = (
-  {
-    players, enemies, addEntity, removeEntity,
-  }:
-  {
-    players: JSX.Element[];
-    enemies: JSX.Element[];
-    addEntity: (e: Entities) => void;
-    removeEntity: (e: Entities, k: string) => void;
-  },
-) => {
+const Battlefield = ({
+  players,
+  enemies,
+  addEntity,
+  removeEntity,
+}: {
+  players: JSX.Element[];
+  enemies: JSX.Element[];
+  addEntity: (e: Entities) => void;
+  removeEntity: (e: Entities, k: string) => void;
+}) => {
   const { isSelectionMode } = useSimulacao();
+  const entities = useSelector<RootState, EntitiesHash['entities']>((state) => state.battlefieldReducer.entities);
   return (
     <div className={styles.battlefield}>
       <AddButton addEntity={addEntity} type="enemy" />

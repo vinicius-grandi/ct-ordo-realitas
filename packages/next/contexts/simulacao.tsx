@@ -54,6 +54,9 @@ function SimulacaoProvider({ children }: { children: JSX.Element[] | JSX.Element
   const [showOverlay, setShowOverlay] = useState(false);
   const [selectedTargets, setSelectedTargets] = useState<string[]>([]);
   const [isSelectionMode, setIsSelectionMode] = useState(false);
+  const [targetsHash, setTargetsHash] = useState<{
+    [key in string]: null
+  }>({});
 
   const value = useMemo(() => ({
     config,
@@ -61,10 +64,22 @@ function SimulacaoProvider({ children }: { children: JSX.Element[] | JSX.Element
     showOverlay,
     handleOverlay: () => setShowOverlay(!showOverlay),
     selectedTargets,
-    handleSelectedTargets: (target: string) => setSelectedTargets([...selectedTargets, target]),
+    handleSelectedTargets: (target: string) => {
+      if (target in targetsHash) {
+        const filteredArr = selectedTargets.filter((val) => target !== val);
+        const targetsHashCopy = { ...targetsHash };
+        delete targetsHashCopy[target];
+
+        setSelectedTargets(filteredArr);
+        setTargetsHash(targetsHashCopy);
+      } else {
+        setTargetsHash({ ...targetsHash, [target]: null });
+        setSelectedTargets([...selectedTargets, target]);
+      }
+    },
     handleIsSelectionMode: () => setIsSelectionMode(!isSelectionMode),
     isSelectionMode,
-  }), [config, isSelectionMode, selectedTargets, showOverlay]);
+  }), [config, isSelectionMode, selectedTargets, showOverlay, targetsHash]);
 
   return <ContextSimulacao.Provider value={value}>{children}</ContextSimulacao.Provider>;
 }

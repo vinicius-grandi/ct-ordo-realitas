@@ -33,7 +33,12 @@ const Entity = ({
     handleNewShortcut,
     newShortcut,
   } = useEntity(type, extraInfo, eid, removeEntity);
-  const { showOverlay, handleOverlay } = useSimulacao();
+  const {
+    showOverlay,
+    handleOverlay,
+    isSelectionMode,
+    handleSelectedTargets,
+  } = useSimulacao();
   useEffect(() => {
     const handleEsc: any = (ev: KeyboardEvent): void => {
       const key = ev.key.toLowerCase();
@@ -49,13 +54,28 @@ const Entity = ({
 
   return (
     <>
-      <Token
-        handleSave={handleSave}
-        nome={entity.nome}
-        type={type}
-        handleRemoval={handleRemoval}
-        pv={String(entity.pv)}
-      />
+      <div
+        style={{ pointerEvents: !isSelectionMode ? 'none' : 'initial' }}
+        onClick={() => handleSelectedTargets(eid)}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(ev) => {
+          const key = ev.key.toLowerCase();
+          if (key === 'space' || key === 'enter') {
+            handleSelectedTargets(eid);
+          }
+        }}
+      >
+        <div style={{ pointerEvents: isSelectionMode ? 'none' : 'initial' }}>
+          <Token
+            handleSave={handleSave}
+            nome={entity.nome}
+            type={type}
+            handleRemoval={handleRemoval}
+            pv={String(entity.pv)}
+          />
+        </div>
+      </div>
       {showOverlay && (
         <div className={styles['simulation-overlay']}>
           <EntityHeader entity={entity} handleChange={handleChange} handleSave={handleSave} />
