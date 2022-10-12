@@ -24,11 +24,12 @@
     ],
     "nohoist": [
       "**/react",
-      "**/react/**"
+      "**/react/**",
+      "**/react-dom",
+      "**/react-dom/**"
     ]
   },
   "devDependencies": {
-    "eslint": "^8.24.0",
     "lerna": "^5.5.2",
     "prettier": "^2.7.1",
     "typescript": "^4.8.3"

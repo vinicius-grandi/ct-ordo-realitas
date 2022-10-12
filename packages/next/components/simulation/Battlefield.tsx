@@ -1,40 +1,42 @@
 import { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  addEntity as addEnt,
+  selectEntities,
+  BattlefieldSliceValues,
+  selectIsSelectionMode,
+} from '@ct-ordo-realitas/app/redux/battlefieldSlice';
 import Entity from './Entity';
 import styles from '../../styles/main.module.sass';
-import { useSimulacao } from '../../contexts/simulacao';
-import { useSelector, useDispatch } from 'react-redux';
-import type { EntitiesHash } from '@ct-ordo-realitas/app/redux/battlefieldSlice'
-import { RootState } from "@ct-ordo-realitas/app/redux/reducers"
 
 export type Entities = 'player' | 'enemy';
 
 const AddButton = ({
-  addEntity,
   type,
 }: {
-  addEntity: (type: Entities) => void | null;
   type: Entities;
 }) => {
   const [height, setHeight] = useState(0);
+  const dispatch = useDispatch();
   useEffect(() => {
     setHeight(document.body.scrollHeight - window.innerHeight);
   }, []);
+
   return (
     <button
       type="button"
       aria-label={`add-new-${type}`}
       onClick={() => {
-        addEntity(type);
+        dispatch(addEnt({ type }));
         if (type === 'player') {
           setTimeout(() => {
             const currHeight = document.body.scrollHeight - window.innerHeight;
             if (height < currHeight) {
               setHeight(currHeight);
               setTimeout(
-                () =>
-                  window.scrollBy({
-                    top: 70,
-                  }),
+                () => window.scrollBy({
+                  top: 70,
+                }),
                 0,
               );
             }
@@ -48,45 +50,34 @@ const AddButton = ({
   );
 };
 
-const Battlefield = ({
-  players,
-  enemies,
-  addEntity,
-  removeEntity,
-}: {
-  players: JSX.Element[];
-  enemies: JSX.Element[];
-  addEntity: (e: Entities) => void;
-  removeEntity: (e: Entities, k: string) => void;
-}) => {
-  const { isSelectionMode } = useSimulacao();
-  const entities = useSelector<RootState, EntitiesHash['entities']>((state) => state.battlefieldReducer.entities);
+const Battlefield = () => {
+  const entities = useSelector(selectEntities);
+  const getEntities = (
+    obj: BattlefieldSliceValues['entities'],
+    t: Entities,
+  ) => Object.values(obj).filter(({ type }) => type === t);
+  const isSelectionMode = useSelector(selectIsSelectionMode);
+
   return (
     <div className={styles.battlefield}>
-      <AddButton addEntity={addEntity} type="enemy" />
+      <AddButton type="enemy" />
       <div className={styles['entity-container']}>
-        {enemies.map(({ props: { type, eid, extraInfo } }) => (
+        {getEntities(entities, 'enemy').map(({ id }) => (
           <Entity
-            type={type}
-            key={eid}
-            eid={eid}
-            removeEntity={removeEntity}
-            extraInfo={extraInfo}
+            key={id}
+            eid={id}
           />
         ))}
       </div>
       <div className={styles['entity-container']}>
-        {players.map(({ props: { type, eid, extraInfo } }) => (
+        {getEntities(entities, 'player').map(({ id }) => (
           <Entity
-            type={type}
-            key={eid}
-            eid={eid}
-            removeEntity={removeEntity}
-            extraInfo={extraInfo}
+            key={id}
+            eid={id}
           />
         ))}
       </div>
-      <AddButton addEntity={addEntity} type="player" />
+      <AddButton type="player" />
       {isSelectionMode && <button type="button">ATACAR</button>}
     </div>
   );

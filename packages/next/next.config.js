@@ -1,4 +1,5 @@
 const path = require('path');
+const withTM = require('next-transpile-modules')(['@ct-ordo-realitas/app']);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -9,4 +10,4 @@ const nextConfig = {
   },
 }
 
-module.exports = nextConfig
+module.exports = withTM(nextConfig);

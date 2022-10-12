@@ -1,22 +1,12 @@
 /* eslint-disable @typescript-eslint/quotes */
 import { NextPage } from 'next';
+import { selectEntities } from '@ct-ordo-realitas/app/redux/battlefieldSlice';
+import { useSelector } from 'react-redux';
 import Battlefield from '../components/simulation/Battlefield';
-import { useSimulacao } from '../contexts/simulacao';
 import styles from '../styles/main.module.sass';
-import Entity from '../components/simulation/Entity';
-import useEntities from "../lib/hooks/useEntities";
 
 const SimulationPage: NextPage = () => {
-  const {
-    addEntity,
-    removeEntity,
-    enemies,
-    players,
-    setPlayers,
-    setEnemies,
-  } = useEntities(Entity);
-  const { config, setConfig } = useSimulacao();
-
+  const entities = useSelector(selectEntities);
   return (
     <main className={styles.simulacao}>
       <h1>Simulação</h1>
@@ -26,12 +16,7 @@ const SimulationPage: NextPage = () => {
           Você pode clicar e segurar em um inimigo ou aliado para removê-lo do campo de batalha
         </li>
       </ul>
-      <Battlefield
-        addEntity={addEntity}
-        enemies={enemies}
-        players={players}
-        removeEntity={removeEntity}
-      />
+      <Battlefield />
       <h1>Configuração</h1>
       <label htmlFor="import-config">
         importar
@@ -44,27 +29,7 @@ const SimulationPage: NextPage = () => {
               reader.onload = ({ target }) => {
                 if (target !== null && typeof target.result === 'string') {
                   const json = JSON.parse(target.result);
-                  setConfig(json);
-                  setPlayers(
-                    Object.keys(json.entidades.player).map((eid) => (
-                      <Entity
-                        eid={eid}
-                        type="player"
-                        removeEntity={removeEntity}
-                        extraInfo={json.entidades.player[eid]}
-                      />
-                    )),
-                  );
-                  setEnemies(
-                    Object.keys(json.entidades.enemy).map((eid) => (
-                      <Entity
-                        eid={eid}
-                        type="enemy"
-                        removeEntity={removeEntity}
-                        extraInfo={json.entidades.enemy[eid]}
-                      />
-                    )),
-                  );
+                  console.log(json);
                 }
               };
               reader.readAsText(ev.target.files[0]);
@@ -76,7 +41,7 @@ const SimulationPage: NextPage = () => {
       <button
         type="button"
         onClick={() => {
-          const blob = new Blob([JSON.stringify(config)], { type: 'text/json' });
+          const blob = new Blob([JSON.stringify(entities)], { type: 'text/json' });
           const link = document.createElement('a');
 
           link.download = 'simulacao-config.json';

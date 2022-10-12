@@ -1,33 +1,24 @@
+import { handleOverlay, removeEntity, selectEntity } from '@ct-ordo-realitas/app/redux/battlefieldSlice';
 import {
   useEffect,
   useState,
   useRef,
   useCallback,
 } from 'react';
-import { useSimulacao } from '../../contexts/simulacao';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from '../../styles/main.module.sass';
+import ClickToggler from './entity/token/ClickToggler';
 
-const Token = ({
-  nome,
-  pv,
-  type,
-  handleSave,
-  handleRemoval,
-}: {
-  nome: string;
-  type: string;
-  pv: string;
-  handleSave: () => void;
-  handleRemoval: () => void;
-}) => {
+const Token = ({ eid }: { eid: string }) => {
   const ref = useRef(null);
+  const dispatch = useDispatch();
   const isItOverlay = useRef<boolean>(true);
   const [toId, setToId] = useState<NodeJS.Timeout>();
   const removeEnemy = useCallback(() => setTimeout(() => {
-    handleRemoval();
+    dispatch(removeEntity({ eid }));
     isItOverlay.current = false;
-  }, 500), [handleRemoval]);
-  const { handleOverlay } = useSimulacao();
+  }, 500), [dispatch, eid]);
+  const entity = useSelector(selectEntity(eid));
 
   useEffect(() => {
     function absorbEvent(event: TouchEvent) {
@@ -49,8 +40,7 @@ const Token = ({
         absorbEvent(ev);
         clearTimeout(toId);
         if (isItOverlay.current) {
-          handleSave();
-          handleOverlay();
+          handleOverlay({});
         }
       };
       n.ontouchcancel = absorbEvent;
@@ -58,34 +48,36 @@ const Token = ({
     if (ref.current) {
       preventLongPressMenu(ref.current);
     }
-  }, [handleOverlay, handleSave, removeEnemy, toId]);
+  }, [removeEnemy, toId]);
 
   return (
     <div>
-      <button
-        type="button"
-        ref={ref}
-        className={styles[type]}
-        onClick={() => { handleSave(); handleOverlay(); }}
-        onMouseUp={() => {
-          clearTimeout(toId);
-        }}
-        onMouseDown={() => {
-          setToId(removeEnemy());
-        }}
-      >
-        <span>{nome}</span>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          version="1.1"
-          viewBox="0 0 600 520"
-          width="50"
-          height="50"
+      <ClickToggler eid={eid}>
+        <button
+          type="button"
+          ref={ref}
+          className={styles[entity.type]}
+          onClick={() => { dispatch(handleOverlay({})); }}
+          onMouseUp={() => {
+            clearTimeout(toId);
+          }}
+          onMouseDown={() => {
+            setToId(removeEnemy());
+          }}
         >
-          <polygon points="300,0 600,520 0,520" fill="#007843" />
-        </svg>
-        <output>{pv}</output>
-      </button>
+          <span>{entity.name}</span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            version="1.1"
+            viewBox="0 0 600 520"
+            width="50"
+            height="50"
+          >
+            <polygon points="300,0 600,520 0,520" fill="#007843" />
+          </svg>
+          <output>{entity.hp}</output>
+        </button>
+      </ClickToggler>
     </div>
   );
 };

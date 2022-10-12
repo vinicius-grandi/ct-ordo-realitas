@@ -1,12 +1,13 @@
+import { handleSelectionMode, handleOverlay } from '@ct-ordo-realitas/app/redux/battlefieldSlice';
+import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
-import { useSimulacao } from '../../contexts/simulacao';
 import useDice from '../../lib/hooks/useDice';
 import styles from '../../styles/main.module.sass';
 import type { ShortcutT } from './Shortcut.d';
 
 const Shortcut = ({ nome, dados }: ShortcutT) => {
   const { diceValue, handleDice, dice } = useDice(dados);
-  const { handleOverlay, handleIsSelectionMode } = useSimulacao();
+  const dispatch = useDispatch();
 
   return (
     <div>
@@ -24,7 +25,17 @@ const Shortcut = ({ nome, dados }: ShortcutT) => {
           <li key={uuidv4()}>{val}</li>
         ))}
       </ul>
-      { dice.length > 0 && <button type="button" onClick={() => { handleOverlay(); handleIsSelectionMode(); }}>ATACAR UM ALVO</button> }
+      { dice.length > 0 && (
+      <button
+        type="button"
+        onClick={() => {
+          dispatch(handleOverlay({}));
+          dispatch(handleSelectionMode({}));
+        }}
+      >
+        ATACAR UM ALVO
+      </button>
+      ) }
     </div>
   );
 };
