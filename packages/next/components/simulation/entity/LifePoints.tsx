@@ -15,7 +15,15 @@ function LifePoints({
   return (
     <div className={styles['life-points-tab']}>
       <h2>Pontos de Vida</h2>
-      <input type="number" name="hp" value={entity.hp} onChange={handleChange} />
+      <input
+        type="number"
+        name="hp"
+        value={entity.hp}
+        onChange={(ev) => {
+          const value = Number(ev.target.value).toString();
+          handleChange({ target: { value, name: ev.target.name } });
+        }}
+      />
     </div>
   );
 }

@@ -2,6 +2,7 @@
 import { NextPage } from 'next';
 import { selectEntities } from '@ct-ordo-realitas/app/redux/battlefieldSlice';
 import { useSelector } from 'react-redux';
+import Head from "next/head";
 import Battlefield from '../components/simulation/Battlefield';
 import styles from '../styles/main.module.sass';
 
@@ -9,6 +10,9 @@ const SimulationPage: NextPage = () => {
   const entities = useSelector(selectEntities);
   return (
     <main className={styles.simulacao}>
+      <Head>
+        <title>Simulação de Batalha</title>
+      </Head>
       <h1>Simulação</h1>
       <ul className={styles['true-list']}>
         <li>Para editar as informações do alvo, efetue um clique simples sobre ele</li>

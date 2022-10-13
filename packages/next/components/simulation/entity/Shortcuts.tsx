@@ -6,7 +6,7 @@ import { selectShortcuts, Shortcut as SC } from '@ct-ordo-realitas/app/redux/bat
 import Shortcut from '../Shortcut';
 import NewShortcutContainer from './shortcuts/NewShortcutContainer';
 
-function Shortcuts({ eid }: { eid: string }) {
+function Shortcuts({ eid, handleOverlay }: { eid: string; handleOverlay: () => void }) {
   const shortcuts = useSelector(selectShortcuts(eid));
 
   return (
@@ -15,7 +15,12 @@ function Shortcuts({ eid }: { eid: string }) {
       <div className={styles.shortcuts}>
         {shortcuts.length > 0 &&
           shortcuts.map((val: SC) => (
-            <Shortcut nome={val.name} dados={val.dice} key={uuidv4()} />
+            <Shortcut
+              diceName={val.name}
+              diceConfig={val.dice}
+              key={uuidv4()}
+              handleOverlay={handleOverlay}
+            />
           ))}
       </div>
       <NewShortcutContainer eid={eid} />

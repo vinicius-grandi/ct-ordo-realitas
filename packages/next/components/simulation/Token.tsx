@@ -1,4 +1,4 @@
-import { handleOverlay, removeEntity, selectEntity } from '@ct-ordo-realitas/app/redux/battlefieldSlice';
+import { removeEntity, selectEntity } from '@ct-ordo-realitas/app/redux/battlefieldSlice';
 import {
   useEffect,
   useState,
@@ -9,10 +9,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import styles from '../../styles/main.module.sass';
 import ClickToggler from './entity/token/ClickToggler';
 
-const Token = ({ eid }: { eid: string }) => {
+const Token = ({ eid, handleOverlay }: { eid: string; handleOverlay: () => void }) => {
   const ref = useRef(null);
-  const dispatch = useDispatch();
   const isItOverlay = useRef<boolean>(true);
+  const dispatch = useDispatch();
   const [toId, setToId] = useState<NodeJS.Timeout>();
   const removeEnemy = useCallback(() => setTimeout(() => {
     dispatch(removeEntity({ eid }));
@@ -40,7 +40,7 @@ const Token = ({ eid }: { eid: string }) => {
         absorbEvent(ev);
         clearTimeout(toId);
         if (isItOverlay.current) {
-          handleOverlay({});
+          handleOverlay();
         }
       };
       n.ontouchcancel = absorbEvent;
@@ -48,7 +48,7 @@ const Token = ({ eid }: { eid: string }) => {
     if (ref.current) {
       preventLongPressMenu(ref.current);
     }
-  }, [removeEnemy, toId]);
+  }, [handleOverlay, removeEnemy, toId]);
 
   return (
     <div>
@@ -57,7 +57,7 @@ const Token = ({ eid }: { eid: string }) => {
           type="button"
           ref={ref}
           className={styles[entity.type]}
-          onClick={() => { dispatch(handleOverlay({})); }}
+          onClick={() => handleOverlay()}
           onMouseUp={() => {
             clearTimeout(toId);
           }}

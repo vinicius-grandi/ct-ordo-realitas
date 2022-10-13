@@ -1,8 +1,8 @@
 import type { Entities } from './Battlefield';
 
 export type ShortcutT = {
-  nome: string;
-  dados: string;
+  diceName: string;
+  diceConfig: string;
 };
 
 export type EntityConfig = {

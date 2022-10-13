@@ -1,5 +1,6 @@
 import { createSlice, SliceCaseReducers } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
+import validateInputs from '../lib/validateInputs';
 import { RootState } from './reducers';
 
 export type Entities = 'player' | 'enemy';
@@ -29,7 +30,7 @@ type AddEntityAction = Action<{
 
 type EntityActionId = Action<{ eid: string }>;
 
-type ChangeEntityAction = Action<{ eid: string; name: string; value: string }>;
+type ChangeEntityAction = Action<{ eid: string; name: keyof EntityConfig; value: string }>;
 
 type AddNewShortcutAction = Action<{ eid: string; shortcut: Shortcut }>;
 
@@ -38,11 +39,13 @@ export type BattlefieldSliceValues = {
     [key in string]: EntityConfig;
   };
   isSelectionMode: boolean;
-  targets: string[];
+  attack: {
+    damage: number;
+    targets: string[];
+  }
   entityShortcut: {
     [key in string]: Shortcut[];
   },
-  showOverlay: boolean;
 };
 
 const battlefieldSlice = createSlice<
@@ -54,9 +57,11 @@ const battlefieldSlice = createSlice<
   initialState: {
     entities: {},
     isSelectionMode: false,
-    targets: [],
+    attack: {
+      targets: [],
+      damage: 0,
+    },
     entityShortcut: {},
-    showOverlay: false,
   },
   reducers: {
     addEntity: (state, action: AddEntityAction) => {
@@ -78,11 +83,14 @@ const battlefieldSlice = createSlice<
       delete state.entities[eid];
     },
     changeEntity: (state, { payload: { eid, name, value } }: ChangeEntityAction) => {
-      let entity = state.entities[eid];
-      state.entities[eid] = {
-        ...entity,
-        [name]: value,
-      };
+      const isInputValid = validateInputs({ name, value });
+      if (isInputValid) {
+        let entity = state.entities[eid];
+        state.entities[eid] = {
+          ...entity,
+          [name]: value,
+        };
+      }
     },
     addNewShortcut: (
       state,
@@ -94,19 +102,26 @@ const battlefieldSlice = createSlice<
       state.isSelectionMode = !state.isSelectionMode;
     },
     handleTargets: (state, { payload: { eid: newTarget } }: EntityActionId) => {
-      let targets = state.targets;
+      let targets = state.attack.targets;
       if (targets.findIndex((id) => newTarget === id) < 0) {
-        targets.push(newTarget);
+        state.attack.targets.push(newTarget);
       } else {
-        targets = targets.filter((id) => id !== newTarget);
+        state.attack.targets = targets.filter((id) => id !== newTarget);
       }
     },
-    resetTargets: (state) => {
-      state.targets = [];
+    completeAttack: (state, action) => {
+      if (action.payload.decision === 'attack') {
+        state.attack.targets.forEach((eid) => {
+          state.entities[eid].hp -= state.attack.damage;
+        });
+      }
+      state.attack.targets = [];
+      state.attack.damage = 0;
+      state.isSelectionMode = false;
     },
-    handleOverlay: (state) => {
-      state.showOverlay = !state.showOverlay;
-    }
+    setDamage: (state, action) => {
+      state.attack.damage = Number(action.payload.damage);
+    },
   },
 });
 
@@ -115,10 +130,10 @@ export const {
   removeEntity,
   changeEntity,
   addNewShortcut,
-  handleOverlay,
-  resetTargets,
+  completeAttack,
   handleTargets,
   handleSelectionMode,
+  setDamage,
 } = battlefieldSlice.actions;
 
 export const selectEntities = (state: RootState) => state.battlefieldReducer.entities;
@@ -129,8 +144,10 @@ export const selectEntity = (
 
 export const selectShortcuts = (eid: string) => (state: RootState) => state.battlefieldReducer.entityShortcut[eid];
 
-export const selectShowOverlay = (state: RootState) => state.battlefieldReducer.showOverlay;
-
 export const selectIsSelectionMode = (state: RootState) => state.battlefieldReducer.isSelectionMode;
+
+export const selectAttack = (state: RootState) => state.battlefieldReducer.attack;
+
+export const selectTargets = (state: RootState) => state.battlefieldReducer.attack.targets;
 
 export default battlefieldSlice.reducer;

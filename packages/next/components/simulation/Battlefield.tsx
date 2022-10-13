@@ -5,6 +5,7 @@ import {
   selectEntities,
   BattlefieldSliceValues,
   selectIsSelectionMode,
+  completeAttack,
 } from '@ct-ordo-realitas/app/redux/battlefieldSlice';
 import Entity from './Entity';
 import styles from '../../styles/main.module.sass';
@@ -57,6 +58,7 @@ const Battlefield = () => {
     t: Entities,
   ) => Object.values(obj).filter(({ type }) => type === t);
   const isSelectionMode = useSelector(selectIsSelectionMode);
+  const dispatch = useDispatch();
 
   return (
     <div className={styles.battlefield}>
@@ -78,7 +80,16 @@ const Battlefield = () => {
         ))}
       </div>
       <AddButton type="player" />
-      {isSelectionMode && <button type="button">ATACAR</button>}
+      {isSelectionMode && (
+      <button
+        type="button"
+        onClick={() => dispatch(completeAttack({
+          decision: 'attack',
+        }))}
+      >
+        ATACAR
+      </button>
+      )}
     </div>
   );
 };
