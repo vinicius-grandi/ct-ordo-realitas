@@ -14,6 +14,7 @@
   "dependencies": {
     "@ct-ordo-realitas/app": "*",
     "@ct-ordo-realitas/expo": "*",
+    "@reduxjs/toolkit": "^1.8.6",
     "@types/uuid": "^8.3.4",
     "next": "12.2.5",
     "next-redux-wrapper": "^8.0.0",

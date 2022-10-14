@@ -1,8 +1,9 @@
 import { NextPage } from 'next';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useState } from 'react';
 import useWindowsSize from '../lib/hooks/useWindowSize';
-import mainCss from '../styles/main.module.sass';
+import styles from '../styles/main.module.sass';
 import CloseButton from './CloseButton';
 import Menu from './header/Menu';
 
@@ -11,12 +12,15 @@ const Header: NextPage = () => {
   const windowsSize = useWindowsSize(setShowPopup);
 
   return (
-    <header id={mainCss.header}>
+    <header id={styles.header}>
       <button type="button">
-        <Image src="/images/logo.svg" height={100} width={100} alt="ordo realitas" />
+        <Link href="/">
+          <a>
+            <Image src="/images/logo.svg" height={100} width={100} alt="ordo realitas" />
+          </a>
+        </Link>
       </button>
-      { windowsSize > 1000 && <Menu /> }
-      {!showPopup && (
+      {windowsSize > 1000 && <Menu />}
       <button
         id="menubutton"
         onClick={() => setShowPopup(true)}
@@ -25,15 +29,9 @@ const Header: NextPage = () => {
         aria-controls="menu"
         aria-label="menu-button"
       >
-        <Image
-          src="/images/burger.svg"
-          height={40}
-          width={40}
-          alt="burger menu button"
-        />
+        <Image src="/images/burger.svg" height={40} width={40} alt="burger menu button" />
       </button>
-      )}
-      { windowsSize < 1000 && showPopup && (
+      {windowsSize < 1000 && showPopup && (
         <>
           <Menu id="menu" role="menu" aria="menubutton" />
           <CloseButton handleClose={() => setShowPopup(false)} />

@@ -1,7 +1,6 @@
 import battlefieldReducer from './battlefieldSlice';
-import { combineReducers, configureStore, AnyAction } from '@reduxjs/toolkit';
+import { combineReducers, configureStore, AnyAction, PreloadedState } from '@reduxjs/toolkit';
 import { createWrapper, HYDRATE } from 'next-redux-wrapper';
-
 
 const rootReducer = combineReducers({
   battlefieldReducer,
@@ -27,6 +26,15 @@ const store = configureStore({
 export type RootState = ReturnType<typeof store.getState>;
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch;
+
+export const setupStore = (preloadedState?: PreloadedState<RootState>) => {
+  return configureStore({
+    reducer: rootReducer,
+    preloadedState,
+  });
+};
+
+export type AppStore = ReturnType<typeof setupStore>;
 
 export default store;
 

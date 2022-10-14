@@ -29,6 +29,11 @@ export default function NewShortcutContainer({ eid }: { eid: string }) {
     setShortcut({ ...shortcut, [name]: value });
     return true;
   };
+  const resetShortcut = () => {
+    handleNewShortcut();
+    setShortcut(initialState);
+  };
+
   return (
     <>
       {newShortcut && (
@@ -70,7 +75,7 @@ export default function NewShortcutContainer({ eid }: { eid: string }) {
                     },
                   }),
                 );
-                setShortcut(initialState);
+                resetShortcut();
               }}
             >
               salvar
@@ -83,8 +88,7 @@ export default function NewShortcutContainer({ eid }: { eid: string }) {
           type="button"
           aria-label="add-new-shortcut"
           onClick={() => {
-            handleNewShortcut();
-            setShortcut(initialState);
+            resetShortcut();
           }}
         >
           {newShortcut ? '-' : '+'}

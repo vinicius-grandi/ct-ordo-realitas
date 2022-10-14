@@ -7,18 +7,26 @@ const Menu = ({ id, role, aria }: {
   aria: string
 }) => (
   <ul id={id} role={role} aria-labelledby={aria}>
-    <Link href="/simulation">
-      <li>simulação</li>
-    </Link>
-    <Link href="/classes/ocultista">
-      <li>ocultista</li>
-    </Link>
-    <Link href="/classes/combatente">
-      <li>combatente</li>
-    </Link>
-    <Link href="/classes/especialista">
-      <li>especialista</li>
-    </Link>
+    <li>
+      <Link href="/simulation">
+        simulação
+      </Link>
+    </li>
+    <li>
+      <Link href="/classes/ocultista">
+        ocultista
+      </Link>
+    </li>
+    <li>
+      <Link href="/classes/combatente">
+        combatente
+      </Link>
+    </li>
+    <li>
+      <Link href="/classes/especialista">
+        especialista
+      </Link>
+    </li>
   </ul>
 );
 

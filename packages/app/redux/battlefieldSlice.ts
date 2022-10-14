@@ -148,6 +148,8 @@ export const selectIsSelectionMode = (state: RootState) => state.battlefieldRedu
 
 export const selectAttack = (state: RootState) => state.battlefieldReducer.attack;
 
+export const selectDamage = (state: RootState) => state.battlefieldReducer.attack.damage;
+
 export const selectTargets = (state: RootState) => state.battlefieldReducer.attack.targets;
 
 export default battlefieldSlice.reducer;

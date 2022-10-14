@@ -19,6 +19,7 @@
     button
         border: none
         background-color: transparent
+        filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.5))
     img
         cursor: pointer
 
@@ -124,11 +125,14 @@
 
 .player
     @include mixins.entity
+    polygon
+        filter: drop-shadow(0 15px 30px rgba(40, 200, 0, 0.5))
 
 .enemy
     @include mixins.entity
     polygon
         fill: vars.$red
+        filter: drop-shadow(0 15px 30px rgba(200, 0, 0, 0.5))
 
 .simulation-overlay
     margin: 0 !important
@@ -231,6 +235,38 @@
     align-items: center
     span
         margin-top: 0.36rem
+
+.attack-confirmation
+    position: fixed
+    display: flex
+    width: 100%
+    margin: 0 !important
+    justify-content: space-around
+    background: #00000042
+    padding: 2rem 0.6rem
+    bottom: 0
+    z-index: 2
+    *
+        border: none
+        color: #fff
+        flex-basis: 20%
+        @include mixins.buttons
+        font-size: 1.1rem
+    button:first-child
+        background: vars.$red
+    button:last-child
+        background: vars.$blue
+
+.inflicted-damage
+    background: #000
+    background: #00000042
+    width: 100%
+    color: white
+    position: fixed
+    text-align: center
+    font-size: 1.8rem
+    z-index: 2
+    pointer-events: none
 
 @keyframes rotate-center
   0%

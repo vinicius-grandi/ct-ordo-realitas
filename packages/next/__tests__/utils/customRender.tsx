@@ -1,6 +1,25 @@
-import { render } from '@testing-library/react';
-import SimulacaoProvider from '../../contexts/simulacao';
+import React, { PropsWithChildren } from 'react';
+import { render, RenderOptions } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import type { PreloadedState } from '@reduxjs/toolkit';
+import { AppStore, RootState, setupStore } from '@ct-ordo-realitas/app/redux/reducers';
 
-export default function customRender(elem: JSX.Element) {
-  return render(<SimulacaoProvider>{elem}</SimulacaoProvider>);
+interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
+  preloadedState?: PreloadedState<RootState>;
+  store?: AppStore;
+}
+
+export default function customRender(
+  ui: React.ReactElement,
+  {
+    preloadedState = {},
+    // Automatically create a store instance if no store was passed in
+    store = setupStore(preloadedState),
+    ...renderOptions
+  }: ExtendedRenderOptions = {},
+) {
+  function Wrapper({ children }: PropsWithChildren<Record<string, unknown>>): JSX.Element {
+    return <Provider store={store}>{children}</Provider>;
+  }
+  return { store, ...render(ui, { wrapper: Wrapper, ...renderOptions }) };
 }

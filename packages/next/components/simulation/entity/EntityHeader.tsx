@@ -21,7 +21,7 @@ function EntityHeader(
     <div className={styles['name-tab']}>
       <span>
         <Image src="/images/user-icon.svg" width={50} height={50} alt="user-icon" />
-        {entity.type}
+        {entity.type === 'enemy' ? 'inimigo' : 'jogador'}
       </span>
       <input type="text" value={entity.name} name="name" onChange={handleChange} />
       <CloseButton handleClose={() => handleOverlay()} />

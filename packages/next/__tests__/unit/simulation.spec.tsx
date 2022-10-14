@@ -54,10 +54,10 @@ describe('Simulation Page', () => {
     expect(screen.getByText(/pontos de vida/i)).toBeInTheDocument();
     expect(screen.getByText(/atalhos/i)).toBeInTheDocument();
     expect(screen.getByText(/notas/i)).toBeInTheDocument();
-    expect(screen.getByText(/jogador/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/inimigo/i)[1]).toBeInTheDocument();
   });
 
-  it('shows a popup when a entity is clicked', async () => {
+  it('allows you roll dice', async () => {
     customRender(<Simulation />);
     const addEnemyBtn = screen.getByRole('button', {
       name: 'add-new-enemy',
@@ -74,12 +74,8 @@ describe('Simulation Page', () => {
       }),
     );
 
-    const shortcutName = screen.getByRole('textbox', {
-      name: 'nome:',
-    });
-    const shortcutDice = screen.getByRole('textbox', {
-      name: 'dados:',
-    });
+    const shortcutName = screen.getByPlaceholderText(/ex: agredir/i);
+    const shortcutDice = screen.getByPlaceholderText(/ex: 2d6/i);
 
     expect(shortcutName).toBeInTheDocument();
     expect(shortcutDice).toBeInTheDocument();
@@ -126,12 +122,8 @@ describe('Simulation Page', () => {
       }),
     );
 
-    const shortcutName = screen.getByRole('textbox', {
-      name: 'nome:',
-    });
-    const shortcutDice = screen.getByRole('textbox', {
-      name: 'dados:',
-    });
+    const shortcutName = screen.getByPlaceholderText(/ex: agredir/i);
+    const shortcutDice = screen.getByPlaceholderText(/ex: 2d6/i);
 
     expect(shortcutName).toBeInTheDocument();
     expect(shortcutDice).toBeInTheDocument();
@@ -169,6 +161,8 @@ describe('Simulation Page', () => {
     const attackBtn = screen.getByRole('button', {
       name: 'ATACAR',
     });
+    expect(screen.getByText(/dano:/i)).toBeInTheDocument();
+
     fireEvent.click(attackBtn);
     expect(screen.getByDisplayValue(/-[0-9]/i)).toBeInTheDocument();
   });
