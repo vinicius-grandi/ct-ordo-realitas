@@ -10,6 +10,7 @@ import Menu from './header/Menu';
 const Header: NextPage = () => {
   const [showPopup, setShowPopup] = useState(false);
   const windowsSize = useWindowsSize(setShowPopup);
+  const handleClose = () => setShowPopup(!showPopup);
 
   return (
     <header id={styles.header}>
@@ -33,8 +34,8 @@ const Header: NextPage = () => {
       </button>
       {windowsSize < 1000 && showPopup && (
         <>
-          <Menu id="menu" role="menu" aria="menubutton" />
-          <CloseButton handleClose={() => setShowPopup(false)} />
+          <Menu id="menu" role="menu" aria="menubutton" handleClose={handleClose} />
+          <CloseButton handleClose={() => handleClose()} />
         </>
       )}
     </header>

@@ -17,6 +17,7 @@
     "@reduxjs/toolkit": "^1.8.6",
     "@types/uuid": "^8.3.4",
     "next": "12.2.5",
+    "next-i18next": "^12.1.0",
     "next-redux-wrapper": "^8.0.0",
     "next-transpile-modules": "^9.1.0",
     "prop-types": "^15.8.1",

@@ -2,7 +2,8 @@
 import { NextPage } from 'next';
 import { selectEntities } from '@ct-ordo-realitas/app/redux/battlefieldSlice';
 import { useSelector } from 'react-redux';
-import Head from "next/head";
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import Head from 'next/head';
 import Battlefield from '../components/simulation/Battlefield';
 import styles from '../styles/main.module.sass';
 
@@ -61,5 +62,13 @@ const SimulationPage: NextPage = () => {
     </main>
   );
 };
+
+export async function getStaticProps({ locale }) {
+  const props = { ...(await serverSideTranslations(locale, ['common'])) };
+  console.log(JSON.stringify(props._nextI18Next));
+  return {
+    props,
+  };
+}
 
 export default SimulationPage;
