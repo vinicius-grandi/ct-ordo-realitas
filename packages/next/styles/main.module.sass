@@ -90,6 +90,13 @@
     span
         font-family: Arial, Helvetica, sans-serif
 
+.tips
+    font-weight: 700
+    &:first-child
+        color: vars.$green
+    &:last-child
+        color: vars.$red
+
 .content
     @include mixins.content
     a
@@ -186,6 +193,7 @@
         border: none
         font-size: 1rem
         width: 100px
+        padding-left: 10px
 
 .shortcuts-tab
     button
@@ -269,6 +277,7 @@
     font-size: 1.8rem
     z-index: 2
     pointer-events: none
+    top: 50%
 
 @keyframes rotate-center
     0%

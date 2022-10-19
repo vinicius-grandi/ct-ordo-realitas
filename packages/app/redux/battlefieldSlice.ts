@@ -42,10 +42,10 @@ export type BattlefieldSliceValues = {
   attack: {
     damage: number;
     targets: string[];
-  }
+  };
   entityShortcut: {
     [key in string]: Shortcut[];
-  },
+  };
 };
 
 const battlefieldSlice = createSlice<
@@ -92,11 +92,15 @@ const battlefieldSlice = createSlice<
         };
       }
     },
-    addNewShortcut: (
-      state,
-      { payload: { shortcut: newShortcut, eid } }: AddNewShortcutAction
-    ) => {
-      state.entityShortcut[eid].push(newShortcut);
+    addNewShortcut: (state, { payload: { shortcut: newShortcut, eid } }: AddNewShortcutAction) => {
+      const isInputValid = validateInputs({
+        name: 'newShortcut',
+        value: newShortcut.dice,
+      });
+
+      if (isInputValid) {
+        state.entityShortcut[eid].push(newShortcut);
+      }
     },
     handleSelectionMode: (state) => {
       state.isSelectionMode = !state.isSelectionMode;
@@ -138,11 +142,11 @@ export const {
 
 export const selectEntities = (state: RootState) => state.battlefieldReducer.entities;
 
-export const selectEntity = (
-  eid: string
-) => (state: RootState) => state.battlefieldReducer.entities[eid];
+export const selectEntity = (eid: string) => (state: RootState) =>
+  state.battlefieldReducer.entities[eid];
 
-export const selectShortcuts = (eid: string) => (state: RootState) => state.battlefieldReducer.entityShortcut[eid];
+export const selectShortcuts = (eid: string) => (state: RootState) =>
+  state.battlefieldReducer.entityShortcut[eid];
 
 export const selectIsSelectionMode = (state: RootState) => state.battlefieldReducer.isSelectionMode;
 

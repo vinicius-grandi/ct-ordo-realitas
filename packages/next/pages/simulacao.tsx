@@ -2,24 +2,28 @@
 import { NextPage } from 'next';
 import { selectEntities } from '@ct-ordo-realitas/app/redux/battlefieldSlice';
 import { useSelector } from 'react-redux';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
+import { Trans } from 'next-i18next';
 import Battlefield from '../components/simulation/Battlefield';
 import styles from '../styles/main.module.sass';
+import getStaticProps from "../components/withTranslationProps";
+import useT from "../lib/hooks/useT";
 
 const SimulationPage: NextPage = () => {
   const entities = useSelector(selectEntities);
+  const t = useT();
   return (
     <main className={styles.simulacao}>
       <Head>
         <title>Simulação de Batalha</title>
       </Head>
-      <h1>Simulação</h1>
+      <h1>{t('simulacao.title')}</h1>
       <ul className={styles['true-list']}>
-        <li>Para editar as informações do alvo, efetue um clique simples sobre ele</li>
-        <li>
-          Você pode clicar e segurar em um inimigo ou aliado para removê-lo do campo de batalha
-        </li>
+        {t<string[]>('simulacao.tips', true).map((val, idx) => (
+          <li key={`tip ${idx + 1}`}>
+            <Trans components={{ span: <span className={styles.tips} /> }}>{val}</Trans>
+          </li>
+        ))}
       </ul>
       <Battlefield />
       <h1>Configuração</h1>
@@ -63,11 +67,6 @@ const SimulationPage: NextPage = () => {
   );
 };
 
-export async function getStaticProps({ locale }: any) {
-  const props = { ...(await serverSideTranslations(locale, ['common'])) };
-  return {
-    props,
-  };
-}
+export { getStaticProps };
 
 export default SimulationPage;

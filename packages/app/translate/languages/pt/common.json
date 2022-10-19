@@ -7,8 +7,11 @@
       "simulacao": {
         "title": "Simulação",
         "tips": [
+          "<span>Aliados</span> e <span>inimigos</span> serão referidos no plural como \"entidade\" ou \"alvo\"",
           "Para editar as informações do alvo, efetue um clique simples sobre ele",
-          "Você pode clicar e segurar em um inimigo ou aliado para removê-lo do campo de batalha"
+          "Você pode clicar e segurar em uma entidade para removê-la do campo de batalha",
+          "Para criar um novo atalho, siga o modelo: <strong>número d número + modificadores</strong>. Por exemplo: <strong>2d6+10</strong>",
+          "Os únicos modificadores permitidos por enquanto são de adição"
         ],
         "overlay": {
           "player": "jogador",

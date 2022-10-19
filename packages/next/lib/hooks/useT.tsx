@@ -1,11 +1,13 @@
+/* eslint-disable @typescript-eslint/comma-dangle */
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
 
 const useT = () => {
   const { locale } = useRouter();
-  console.log(locale);
-  const { t: earlyT } = useTranslation('');
-  const t = (key: string) => earlyT(`${locale}.translations.${key}`);
+  const { t: earlyT } = useTranslation();
+  const t = <T extends string | string[]>(key: string, shouldReturnObj = false) => earlyT<string, T>(`${locale}.translations.${key}`, {
+    returnObjects: shouldReturnObj
+  });
   return t;
 };
 

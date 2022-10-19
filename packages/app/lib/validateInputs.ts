@@ -14,7 +14,7 @@ const validatorHash: ValidatorHash = {
   },
 };
 
-function validateInputs(input: { name: keyof EntityConfig; value: string }) {
+function validateInputs(input: { name: keyof ValidatorHash; value: string }) {
   const inputValidation = validatorHash[input.name] ?? false;
   if (inputValidation) {
     return inputValidation(input.value);

@@ -1,3 +1,4 @@
+import { useBattlefield } from '@ct-ordo-realitas/app/contexts/battlefield';
 import { handleSelectionMode, setDamage } from '@ct-ordo-realitas/app/redux/battlefieldSlice';
 import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
@@ -9,6 +10,7 @@ const Shortcut = (
   { diceName, diceConfig, handleOverlay }: ShortcutT & { handleOverlay: () => void },
 ) => {
   const { diceValue, handleDice, dice } = useDice(diceConfig);
+  const { battlefieldRef } = useBattlefield();
   const dispatch = useDispatch();
   return (
     <div>
@@ -33,6 +35,10 @@ const Shortcut = (
           handleOverlay();
           dispatch(handleSelectionMode({}));
           dispatch(setDamage({ damage: diceValue }));
+          battlefieldRef?.current?.scrollIntoView({
+            block: 'center',
+          });
+          setTimeout(() => { document.body.style.overflowY = 'hidden'; }, 100);
         }}
       >
         ATACAR UM ALVO

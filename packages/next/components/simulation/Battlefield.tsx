@@ -7,6 +7,7 @@ import {
   selectDamage,
 } from '@ct-ordo-realitas/app/redux/battlefieldSlice';
 import styles from '@styles/main.module.sass';
+import { useBattlefield } from '@ct-ordo-realitas/app/contexts/battlefield';
 import Entity from './Entity';
 import AddButton from './AddButton';
 
@@ -34,9 +35,13 @@ const Battlefield = () => {
   const isSelectionMode = useSelector(selectIsSelectionMode);
   const damage = useSelector(selectDamage);
   const dispatch = useDispatch();
+  const { battlefieldRef } = useBattlefield();
+  const handleOverflow = () => {
+    document.body.style.overflowY = 'initial';
+  };
 
   return (
-    <div className={styles.battlefield}>
+    <div className={styles.battlefield} ref={battlefieldRef}>
       <AddButton type="enemy" />
       <TokenContainer entType="enemy" />
       {damage !== 0 && (
@@ -52,15 +57,21 @@ const Battlefield = () => {
       <div className={styles['attack-confirmation']}>
         <button
           type="button"
-          onClick={() => dispatch(completeAttack({
-            decision: 'attack',
-          }))}
+          onClick={() => {
+            dispatch(completeAttack({
+              decision: 'attack',
+            }));
+            handleOverflow();
+          }}
         >
           ATACAR
         </button>
         <button
           type="button"
-          onClick={() => dispatch(completeAttack({}))}
+          onClick={() => {
+            dispatch(completeAttack({}));
+            handleOverflow();
+          }}
         >
           CANCELAR
         </button>
