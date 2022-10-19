@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import Link from 'next/link';
-import { useTranslation } from 'next-i18next';
-import { useRouter } from "next/router";
+import useT from '../../lib/hooks/useT';
 
 const MenuItem = ({ href, label, hc }: { href: string; label: string; hc: () => void }) => (
   <li>
@@ -24,28 +23,20 @@ const Menu = ({
   aria: string;
   handleClose: () => void;
 }) => {
+  const t = useT();
   const hrefArr = [
     '/simulacao',
     '/classes/ocultista',
     '/classes/combatente',
     '/classes/especialista',
   ];
-  const { locale } = useRouter();
-  const { t: earlyT } = useTranslation('');
-  const t = (key: string) => earlyT(`${locale}.translations.${key}`);
+
   return (
     <ul id={id} role={role} aria-labelledby={aria}>
       {hrefArr.map((href) => {
         const paths = href.split('/');
         const path = paths[paths.length - 1];
-        return (
-          <MenuItem
-            href={href}
-            key={href}
-            label={t(`${path}.title`)}
-            hc={handleClose}
-          />
-        );
+        return <MenuItem href={href} key={href} label={t(`${path}.title`)} hc={handleClose} />;
       })}
     </ul>
   );

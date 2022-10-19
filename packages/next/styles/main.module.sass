@@ -26,8 +26,12 @@
     ul
         display: flex
 
-    li
-        cursor: pointer
+    a
+        text-decoration: none
+        color: #fff
+        text-transform: uppercase
+        margin-top: 2rem
+        font-size: 1.1rem
 
     @include mixins.mobile
         ul
@@ -44,13 +48,11 @@
             top: 0
             left: 0
 
-        button
-            text-transform: uppercase
-            margin-top: 2rem
-            font-size: 1.4rem
+        li
+            margin: 1rem 0
+
         a
-            text-decoration: none
-            color: white
+            font-size: 1.4rem
 
         ul ~ button
             cursor: pointer
@@ -63,8 +65,6 @@
             bottom: 0
             margin-bottom: 2rem
     @include mixins.desktop
-        button:last-child
-            display: none
         li:first-child
             background: vars.$red
 

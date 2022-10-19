@@ -63,9 +63,8 @@ const SimulationPage: NextPage = () => {
   );
 };
 
-export async function getStaticProps({ locale }) {
+export async function getStaticProps({ locale }: any) {
   const props = { ...(await serverSideTranslations(locale, ['common'])) };
-  console.log(JSON.stringify(props._nextI18Next));
   return {
     props,
   };

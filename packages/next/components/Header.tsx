@@ -21,9 +21,10 @@ const Header: NextPage = () => {
           </a>
         </Link>
       </button>
-      {windowsSize > 1000 && <Menu />}
+      {windowsSize > 1000 && <Menu handleClose={handleClose} id="menu" role="menu" aria="menubutton" />}
+      {windowsSize < 1000 && (
       <button
-        id="menubutton"
+        id="menu-btn"
         onClick={() => setShowPopup(true)}
         type="button"
         aria-haspopup="true"
@@ -32,6 +33,7 @@ const Header: NextPage = () => {
       >
         <Image src="/images/burger.svg" height={40} width={40} alt="burger menu button" />
       </button>
+      )}
       {windowsSize < 1000 && showPopup && (
         <>
           <Menu id="menu" role="menu" aria="menubutton" handleClose={handleClose} />
