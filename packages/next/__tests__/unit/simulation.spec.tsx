@@ -10,7 +10,7 @@ import customRender from '../utils/customRender';
 describe('Simulation Page', () => {
   it('renders a battlefield where a player can fight against enemies', () => {
     customRender(<Simulation />);
-    const title = screen.getByText(/simulação/i);
+    const title = screen.getByText(/simulacao\.title/i);
     const addEnemyBtn = screen.getByRole('button', {
       name: 'add-new-enemy',
     });
