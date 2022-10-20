@@ -7,9 +7,9 @@ import {
   selectDamage,
 } from '@ct-ordo-realitas/app/redux/battlefieldSlice';
 import styles from '@styles/main.module.sass';
-import { useBattlefield } from '@ct-ordo-realitas/app/contexts/battlefield';
 import Entity from './Entity';
 import AddButton from './AddButton';
+import { useBattlefield } from '../../contexts/battlefield';
 
 export type Entities = 'player' | 'enemy';
 

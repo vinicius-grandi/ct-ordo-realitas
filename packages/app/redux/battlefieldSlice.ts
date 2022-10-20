@@ -43,9 +43,6 @@ export type BattlefieldSliceValues = {
     damage: number;
     targets: string[];
   };
-  entityShortcut: {
-    [key in string]: Shortcut[];
-  };
 };
 
 const battlefieldSlice = createSlice<
@@ -61,7 +58,6 @@ const battlefieldSlice = createSlice<
       targets: [],
       damage: 0,
     },
-    entityShortcut: {},
   },
   reducers: {
     addEntity: (state, action: AddEntityAction) => {
@@ -77,7 +73,6 @@ const battlefieldSlice = createSlice<
           notes: '',
         },
       };
-      state.entityShortcut[id] = [];
     },
     removeEntity: (state, { payload: { eid } }: EntityActionId) => {
       delete state.entities[eid];
@@ -99,7 +94,7 @@ const battlefieldSlice = createSlice<
       });
 
       if (isInputValid) {
-        state.entityShortcut[eid].push(newShortcut);
+        state.entities[eid].shortcuts.push(newShortcut);
       }
     },
     handleSelectionMode: (state) => {
@@ -126,6 +121,9 @@ const battlefieldSlice = createSlice<
     setDamage: (state, action) => {
       state.attack.damage = Number(action.payload.damage);
     },
+    importEntities: (state, { payload: { loadedEntities } }) => {
+      state.entities = loadedEntities;
+    }
   },
 });
 
@@ -138,6 +136,7 @@ export const {
   handleTargets,
   handleSelectionMode,
   setDamage,
+  importEntities,
 } = battlefieldSlice.actions;
 
 export const selectEntities = (state: RootState) => state.battlefieldReducer.entities;
@@ -146,7 +145,7 @@ export const selectEntity = (eid: string) => (state: RootState) =>
   state.battlefieldReducer.entities[eid];
 
 export const selectShortcuts = (eid: string) => (state: RootState) =>
-  state.battlefieldReducer.entityShortcut[eid];
+  state.battlefieldReducer.entities[eid].shortcuts;
 
 export const selectIsSelectionMode = (state: RootState) => state.battlefieldReducer.isSelectionMode;
 

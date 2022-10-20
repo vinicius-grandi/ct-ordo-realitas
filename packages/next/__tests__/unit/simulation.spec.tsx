@@ -4,7 +4,7 @@ import {
   waitFor,
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import Simulation from '../../pages/simulacao';
+import { Simulation } from '../../pages/simulacao';
 import customRender from '../utils/customRender';
 
 describe('Simulation Page', () => {
@@ -165,5 +165,23 @@ describe('Simulation Page', () => {
 
     fireEvent.click(attackBtn);
     expect(screen.getByDisplayValue(/-[0-9]/i)).toBeInTheDocument();
+  });
+  it('allows you to toggle between enemies and players', async () => {
+    customRender(<Simulation />);
+    const addEnemyBtn = screen.getByRole('button', {
+      name: 'add-new-enemy',
+    });
+    const addPlayerBtn = screen.getByRole('button', {
+      name: 'add-new-player',
+    });
+
+    fireEvent.click(addEnemyBtn);
+    fireEvent.click(addPlayerBtn);
+
+    const enemy = screen.getByText('enemy');
+
+    fireEvent.click(enemy);
+    fireEvent.click(screen.getByText(/jogador/));
+    expect(screen.getByText(/inimigo/i)).toBeInTheDocument();
   });
 });

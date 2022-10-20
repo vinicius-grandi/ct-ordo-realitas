@@ -3,6 +3,7 @@ import { render, RenderOptions } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import type { PreloadedState } from '@reduxjs/toolkit';
 import { AppStore, RootState, setupStore } from '@ct-ordo-realitas/app/redux/reducers';
+import BattlefieldProvider from '../../contexts/battlefield';
 
 interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
   preloadedState?: PreloadedState<RootState>;
@@ -19,7 +20,11 @@ export default function customRender(
   }: ExtendedRenderOptions = {},
 ) {
   function Wrapper({ children }: PropsWithChildren<Record<string, unknown>>): JSX.Element {
-    return <Provider store={store}>{children}</Provider>;
+    return (
+      <BattlefieldProvider>
+        <Provider store={store}>{children}</Provider>
+      </BattlefieldProvider>
+    );
   }
   return { store, ...render(ui, { wrapper: Wrapper, ...renderOptions }) };
 }

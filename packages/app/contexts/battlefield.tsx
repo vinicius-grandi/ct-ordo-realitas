@@ -1,24 +1,27 @@
-import React, { createContext, useContext, useRef, useMemo } from 'react'
+// import React, { createContext, useContext, useRef, useMemo } from 'react'
 
-type BattlefieldContext = {
-  battlefieldRef: React.RefObject<HTMLDivElement> | null
-};
+// type BattlefieldContext = {
+//   battlefieldRef: React.RefObject<HTMLDivElement> | null
+// };
 
-const battlefieldContext = createContext<BattlefieldContext>({
-  battlefieldRef: null,
-});
+// const battlefieldContext = createContext<BattlefieldContext>({
+//   battlefieldRef: null,
+// });
 
-function BattlefieldProvider({ children }: { children: JSX.Element[] | JSX.Element }) {
-  const battlefieldRef = useRef<HTMLDivElement>(null);
-  const values = useMemo(() => ({ battlefieldRef }), []);
+// function BattlefieldProvider({ children }: { children: JSX.Element[] | JSX.Element }) {
+//   const battlefieldRef = useRef<HTMLDivElement>(null);
+//   const values = useMemo(() => ({ battlefieldRef }), []);
 
-  return (
-    <battlefieldContext.Provider value={values}>
-      {children}
-    </battlefieldContext.Provider>
-  );
-}
+//   return (
+//     <battlefieldContext.Provider value={values}>
+//       {children}
+//     </battlefieldContext.Provider>
+//   );
+// }
 
-export const useBattlefield = () => useContext(battlefieldContext);
+// export function useBattlefield() {
+//   const a = useContext(battlefieldContext);
+//   return a;
+// }
 
-export default BattlefieldProvider;
+// export default BattlefieldProvider;

@@ -1,7 +1,7 @@
-import { useBattlefield } from '@ct-ordo-realitas/app/contexts/battlefield';
 import { handleSelectionMode, setDamage } from '@ct-ordo-realitas/app/redux/battlefieldSlice';
 import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
+import { useBattlefield } from '../../contexts/battlefield';
 import useDice from '../../lib/hooks/useDice';
 import styles from '../../styles/main.module.sass';
 import type { ShortcutT } from './Shortcut.d';
@@ -35,9 +35,11 @@ const Shortcut = (
           handleOverlay();
           dispatch(handleSelectionMode({}));
           dispatch(setDamage({ damage: diceValue }));
-          battlefieldRef?.current?.scrollIntoView({
-            block: 'center',
-          });
+          if (typeof battlefieldRef?.current?.scrollIntoView === 'function') {
+            battlefieldRef.current?.scrollIntoView({
+              block: 'center',
+            });
+          }
           setTimeout(() => { document.body.style.overflowY = 'hidden'; }, 100);
         }}
       >

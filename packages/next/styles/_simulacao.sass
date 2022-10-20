@@ -1,0 +1,23 @@
+@use './mixins'
+@use './variables' as vars
+@use './import'
+
+.tips
+    font-weight: 700
+    &:first-child
+        color: vars.$green
+    &:last-child
+        color: vars.$red
+
+.content
+    @include mixins.content
+    a
+        text-decoration: none
+        color: vars.$red
+        &:visited
+            color: vars.$dark-yellow
+        &:hover
+            color: vars.$yellow
+
+.simulacao
+    @include mixins.content

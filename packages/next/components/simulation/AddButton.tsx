@@ -36,7 +36,7 @@ export default function AddButton({ type }: { type: Entities }) {
               target.style.left = '0';
               target.style.filter = 'none';
             }
-          }, 1000);
+          }, 500);
         }
       }}
       className={styles[`add-${type}`]}
