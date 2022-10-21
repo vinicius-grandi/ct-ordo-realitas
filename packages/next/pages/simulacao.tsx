@@ -17,13 +17,11 @@ const SimulationPage: NextPage = () => {
       </Head>
       <h1>{t('simulacao.title')}</h1>
       <ul className={styles['true-list']}>
-        {t<string[]>('simulacao.tips', true).map((val, idx) => {
-          console.log(val);
-          return (
+        {t<string[]>('simulacao.tips', true).map((val, idx) => (
           <li key={`tip ${idx + 1}`}>
             <Trans components={{ span: <span className={styles.tips} /> }}>{val}</Trans>
           </li>
-        )})}
+        ))}
       </ul>
       <Battlefield />
       <h1>{t('simulacao.configuration.title')}</h1>

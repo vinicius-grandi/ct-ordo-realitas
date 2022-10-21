@@ -43,6 +43,12 @@ export type BattlefieldSliceValues = {
     damage: number;
     targets: string[];
   };
+  entitiesCount: {
+    enemy: number;
+    player: number;
+  };
+  currOverlay: null | string;
+  currType: null | Entities;
 };
 
 const battlefieldSlice = createSlice<
@@ -58,17 +64,24 @@ const battlefieldSlice = createSlice<
       targets: [],
       damage: 0,
     },
+    entitiesCount: {
+      enemy: 0,
+      player: 0,
+    },
+    currOverlay: null,
+    currType: null,
   },
   reducers: {
-    addEntity: (state, action: AddEntityAction) => {
+    addEntity: (state, { payload: { type } }: AddEntityAction) => {
       const id = uuidv4();
+      state.entitiesCount[type] += 1;
       state.entities = {
         ...state.entities,
         [id]: {
           id,
-          type: action.payload.type,
+          type: type,
           hp: 0,
-          name: action.payload.type,
+          name: `${type}${state.entitiesCount[type]}`,
           shortcuts: [],
           notes: '',
         },
@@ -123,7 +136,30 @@ const battlefieldSlice = createSlice<
     },
     importEntities: (state, { payload: { loadedEntities } }) => {
       state.entities = loadedEntities;
-    }
+    },
+    setCurrOverlay: (state, { payload: { eid } }) => {
+      state.currOverlay = eid;
+    },
+    setCurrType: (state, { payload: { type } }) => {
+      state.currType = type;
+    },
+    changeCurrType: (state) => {
+      state.currType = state.currType === 'enemy' ? 'player' : 'enemy';
+      const entitiesValues = Object.values(state.entities).filter(({ type }) => type === state.currType);
+      if (entitiesValues.length > 0) {
+        state.currOverlay = entitiesValues[0].id;
+      }
+    },
+    handleEntities: (state, { payload: { nextOrPrev }}) => {
+      const entitiesValues = Object.values(state.entities).filter(({ type }) => type === state.currType);
+      const currTargetIdx = entitiesValues.findIndex((entity) => entity.id === state.currOverlay);
+      if (currTargetIdx !== -1 && currTargetIdx < entitiesValues.length - 1 && nextOrPrev === 'next') {
+        state.currOverlay = entitiesValues[currTargetIdx + 1].id;
+      }
+      if (currTargetIdx !== -1 && currTargetIdx > 0 && nextOrPrev === 'prev') {
+        state.currOverlay = entitiesValues[currTargetIdx - 1].id;
+      }
+    },
   },
 });
 
@@ -137,6 +173,10 @@ export const {
   handleSelectionMode,
   setDamage,
   importEntities,
+  setCurrOverlay,
+  setCurrType,
+  handleEntities,
+  changeCurrType,
 } = battlefieldSlice.actions;
 
 export const selectEntities = (state: RootState) => state.battlefieldReducer.entities;
@@ -154,5 +194,9 @@ export const selectAttack = (state: RootState) => state.battlefieldReducer.attac
 export const selectDamage = (state: RootState) => state.battlefieldReducer.attack.damage;
 
 export const selectTargets = (state: RootState) => state.battlefieldReducer.attack.targets;
+
+export const selectCurrOverlay = (state: RootState) => state.battlefieldReducer.currOverlay;
+
+export const selectCurrType = (state: RootState) => state.battlefieldReducer.currType;
 
 export default battlefieldSlice.reducer;

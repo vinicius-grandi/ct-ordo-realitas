@@ -3,7 +3,7 @@ import type { AppProps } from 'next/app';
 import { Provider } from 'react-redux';
 import { wrapper } from '@ct-ordo-realitas/app/redux/reducers';
 import { appWithTranslation } from 'next-i18next';
-import BattlefieldProvider from '@ct-ordo-realitas/app/contexts/battlefield';
+import BattlefieldProvider from '../contexts/battlefield';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 

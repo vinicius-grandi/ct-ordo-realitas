@@ -3,10 +3,6 @@
   "version": "1.0.0",
   "private": true,
   "main": "index.js",
-  "scripts": {
-    "expo:start": "npm -w @ct-ordo-realitas/expo start",
-    "next:dev": "npm run dev -w @ct-ordo-realitas/next"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vinicius-grandi/ct-ordo-realitas.git"

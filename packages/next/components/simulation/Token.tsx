@@ -1,9 +1,10 @@
-import { removeEntity, selectEntity } from '@ct-ordo-realitas/app/redux/battlefieldSlice';
 import {
-  useEffect,
-  useState,
-  useRef,
-  useCallback,
+  removeEntity,
+  selectEntity,
+  setCurrType,
+} from '@ct-ordo-realitas/app/redux/battlefieldSlice';
+import {
+  useEffect, useState, useRef, useCallback,
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from '../../styles/main.module.sass';
@@ -14,10 +15,13 @@ const Token = ({ eid, handleOverlay }: { eid: string; handleOverlay: () => void 
   const isItOverlay = useRef<boolean>(true);
   const dispatch = useDispatch();
   const [toId, setToId] = useState<NodeJS.Timeout>();
-  const removeEnemy = useCallback(() => setTimeout(() => {
-    dispatch(removeEntity({ eid }));
-    isItOverlay.current = false;
-  }, 500), [dispatch, eid]);
+  const removeEnemy = useCallback(
+    () => setTimeout(() => {
+      dispatch(removeEntity({ eid }));
+      isItOverlay.current = false;
+    }, 500),
+    [dispatch, eid],
+  );
   const entity = useSelector(selectEntity(eid));
 
   useEffect(() => {
@@ -57,7 +61,10 @@ const Token = ({ eid, handleOverlay }: { eid: string; handleOverlay: () => void 
           type="button"
           ref={ref}
           className={styles[entity.type]}
-          onClick={() => handleOverlay()}
+          onClick={() => {
+            handleOverlay();
+            dispatch(setCurrType({ type: entity.type }));
+          }}
           onMouseUp={() => {
             clearTimeout(toId);
           }}

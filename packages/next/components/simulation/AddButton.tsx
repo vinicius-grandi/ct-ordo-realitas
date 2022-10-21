@@ -11,7 +11,7 @@ export default function AddButton({ type }: { type: Entities }) {
   return (
     <button
       type="button"
-      aria-label={`add-new-${type}`}
+      aria-label={`add new ${type}`}
       ref={ref}
       onClick={(ev) => {
         if (isSelectionMode) return;

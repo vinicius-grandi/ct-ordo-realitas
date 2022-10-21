@@ -12,11 +12,11 @@ describe('Simulation Page', () => {
     customRender(<Simulation />);
     const title = screen.getByText(/simulacao\.title/i);
     const addEnemyBtn = screen.getByRole('button', {
-      name: 'add-new-enemy',
+      name: 'add new enemy',
     });
 
     const addPlayerBtn = screen.getByRole('button', {
-      name: 'add-new-player',
+      name: 'add new player',
     });
 
     expect(title).toBeInTheDocument();
@@ -27,50 +27,50 @@ describe('Simulation Page', () => {
   it('allows to add a new player and enemy', async () => {
     customRender(<Simulation />);
     const addEnemyBtn = screen.getByRole('button', {
-      name: 'add-new-enemy',
+      name: 'add new enemy',
     });
     const addPlayerBtn = screen.getByRole('button', {
-      name: 'add-new-player',
+      name: 'add new player',
     });
     // interacting with buttons
     fireEvent.click(addPlayerBtn);
     fireEvent.click(addEnemyBtn);
 
     // enemy and player should appear on the screen
-    expect(screen.getByText('player')).toBeInTheDocument();
-    expect(screen.getByText('enemy')).toBeInTheDocument();
+    expect(screen.getByText('player1')).toBeInTheDocument();
+    expect(screen.getByText('enemy1')).toBeInTheDocument();
   });
 
   it('shows a popup when a entity is clicked', async () => {
     customRender(<Simulation />);
     const addEnemyBtn = screen.getByRole('button', {
-      name: 'add-new-enemy',
+      name: 'add new enemy',
     });
 
     fireEvent.click(addEnemyBtn);
 
-    const enemy = screen.getByText('enemy');
+    const enemy = screen.getByText('enemy1');
     fireEvent.click(enemy);
-    expect(screen.getByText(/pontos de vida/i)).toBeInTheDocument();
-    expect(screen.getByText(/atalhos/i)).toBeInTheDocument();
-    expect(screen.getByText(/notas/i)).toBeInTheDocument();
-    expect(screen.getAllByText(/inimigo/i)[1]).toBeInTheDocument();
+    expect(screen.getByText(/hpTab/i)).toBeInTheDocument();
+    expect(screen.getByText(/shortcuts/i)).toBeInTheDocument();
+    expect(screen.getByText(/notes/i)).toBeInTheDocument();
+    expect(screen.getByText(/enemies/i)).toBeInTheDocument();
   });
 
   it('allows you roll dice', async () => {
     customRender(<Simulation />);
     const addEnemyBtn = screen.getByRole('button', {
-      name: 'add-new-enemy',
+      name: 'add new enemy',
     });
 
     fireEvent.click(addEnemyBtn);
 
-    const enemy = screen.getByText('enemy');
+    const enemy = screen.getByText('enemy1');
 
     fireEvent.click(enemy);
     fireEvent.click(
       screen.getByRole('button', {
-        name: 'add-new-shortcut',
+        name: 'add new shortcut',
       }),
     );
 
@@ -108,17 +108,17 @@ describe('Simulation Page', () => {
   it('allows you select a target to deal damage', async () => {
     customRender(<Simulation />);
     const addEnemyBtn = screen.getByRole('button', {
-      name: 'add-new-enemy',
+      name: 'add new enemy',
     });
 
     fireEvent.click(addEnemyBtn);
 
-    const enemy = screen.getByText('enemy');
+    const enemy = screen.getByText('enemy1');
 
     fireEvent.click(enemy);
     fireEvent.click(
       screen.getByRole('button', {
-        name: 'add-new-shortcut',
+        name: 'add new shortcut',
       }),
     );
 
@@ -157,7 +157,7 @@ describe('Simulation Page', () => {
     fireEvent.click(damageBtn);
 
     // battlefield screen locked
-    fireEvent.click(screen.getByText('enemy'));
+    fireEvent.click(screen.getByText('enemy1'));
     const attackBtn = screen.getByRole('button', {
       name: 'ATACAR',
     });
@@ -166,22 +166,39 @@ describe('Simulation Page', () => {
     fireEvent.click(attackBtn);
     expect(screen.getByDisplayValue(/-[0-9]/i)).toBeInTheDocument();
   });
-  it('allows you to toggle between enemies and players', async () => {
+  it('allows you to toggle between enemies and players and between entities', async () => {
     customRender(<Simulation />);
     const addEnemyBtn = screen.getByRole('button', {
-      name: 'add-new-enemy',
+      name: 'add new enemy',
     });
     const addPlayerBtn = screen.getByRole('button', {
-      name: 'add-new-player',
+      name: 'add new player',
     });
 
     fireEvent.click(addEnemyBtn);
+    fireEvent.click(addEnemyBtn);
     fireEvent.click(addPlayerBtn);
 
-    const enemy = screen.getByText('enemy');
-
+    const enemy = screen.getByText('enemy1');
     fireEvent.click(enemy);
-    fireEvent.click(screen.getByText(/jogador/));
-    expect(screen.getByText(/inimigo/i)).toBeInTheDocument();
+
+    const nextTargetBtn = screen.getByRole('button', {
+      name: 'next target',
+    });
+
+    expect(nextTargetBtn).toBeInTheDocument();
+    fireEvent.click(nextTargetBtn);
+    screen.getByDisplayValue('enemy2');
+
+    const prevTargetBtn = screen.getByRole('button', {
+      name: 'previous target',
+    });
+    expect(prevTargetBtn).toBeInTheDocument();
+    fireEvent.click(prevTargetBtn);
+    screen.getByDisplayValue('enemy1');
+
+    fireEvent.click(screen.getByText(/enemies/i));
+    expect(screen.getByText(/players/i)).toBeInTheDocument();
+    screen.getByDisplayValue('player1');
   });
 });

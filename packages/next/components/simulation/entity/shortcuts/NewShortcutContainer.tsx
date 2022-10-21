@@ -86,7 +86,7 @@ export default function NewShortcutContainer({ eid }: { eid: string }) {
       {!hasShortcut && (
         <button
           type="button"
-          aria-label="add-new-shortcut"
+          aria-label="add new shortcut"
           onClick={() => {
             resetShortcut();
           }}

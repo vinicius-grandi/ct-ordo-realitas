@@ -1,11 +1,10 @@
 import {
   KeyboardEvent,
   useEffect,
-  useState,
   useCallback,
 } from 'react';
-import { useDispatch } from 'react-redux';
-import { changeEntity } from '@ct-ordo-realitas/app/redux/battlefieldSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { changeEntity, selectCurrOverlay, setCurrOverlay } from '@ct-ordo-realitas/app/redux/battlefieldSlice';
 import styles from '../../styles/main.module.sass';
 import Token from './Token';
 import EntityHeader from './entity/EntityHeader';
@@ -14,6 +13,7 @@ import Shortcuts from './entity/Shortcuts';
 import Notes from './entity/Notes';
 import { entityPropTypes } from '../../types';
 import type { EventHandler } from '../../lib/hooks/useEntity';
+import EntityToggler from './entity/EntityToggler';
 
 export type InputChangeEvent = React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>;
 
@@ -23,8 +23,14 @@ const Entity = ({
   eid: string;
 }) => {
   const dispatch = useDispatch();
-  const [showOverlay, setShowOverlay] = useState(false);
-  const handleOverlay = useCallback(() => setShowOverlay(!showOverlay), [showOverlay]);
+  const currOverlay = useSelector(selectCurrOverlay);
+  const handleOverlay = useCallback(() => {
+    if (currOverlay === eid) {
+      dispatch(setCurrOverlay({ eid: null }));
+    } else {
+      dispatch(setCurrOverlay({ eid }));
+    }
+  }, [currOverlay, dispatch, eid]);
 
   const handleChange = ({ target: { name, value } }: EventHandler) => {
     if (name !== 'notes' && value.length > 15) return;
@@ -39,22 +45,23 @@ const Entity = ({
   useEffect(() => {
     const handleEsc: any = (ev: KeyboardEvent): void => {
       const key = ev.key.toLowerCase();
-      if (key === 'escape' && showOverlay) {
-        handleOverlay();
+      if (key === 'escape' && currOverlay !== null) {
+        setCurrOverlay(null);
       }
     };
 
     document.addEventListener('keydown', handleEsc);
     return () => document.removeEventListener('keydown', handleEsc);
-  }, [dispatch, handleOverlay, showOverlay]);
+  }, [currOverlay, dispatch, handleOverlay]);
 
   return (
     <>
-      <Token eid={eid} handleOverlay={handleOverlay} />
-      {showOverlay && (
+      {currOverlay !== eid && <Token eid={eid} handleOverlay={handleOverlay} />}
+      {currOverlay === eid && (
         <div className={styles['simulation-overlay']}>
           <EntityHeader eid={eid} handleChange={handleChange} handleOverlay={handleOverlay} />
           <LifePoints eid={eid} handleChange={handleChange} />
+          <EntityToggler />
           <Shortcuts eid={eid} handleOverlay={handleOverlay} />
           <Notes eid={eid} handleChange={handleChange} />
         </div>
