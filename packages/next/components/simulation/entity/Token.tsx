@@ -8,9 +8,9 @@ import {
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from '../../styles/main.module.sass';
-import ClickToggler from './entity/token/ClickToggler';
+import ClickToggler from './token/ClickToggler';
 
-const Token = ({ eid, handleOverlay }: { eid: string; handleOverlay: () => void }) => {
+const Token = ({ eid, handleOverlay }: { eid: number; handleOverlay: () => void }) => {
   const ref = useRef(null);
   const isItOverlay = useRef<boolean>(true);
   const dispatch = useDispatch();

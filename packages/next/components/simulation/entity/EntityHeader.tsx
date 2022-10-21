@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import styles from '@styles/main.module.sass';
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   changeCurrType,
@@ -21,11 +21,20 @@ function EntityHeader({
   handleOverlay: () => void;
 }) {
   const entity = useSelector(selectEntity(eid));
+  const ref = useRef<HTMLButtonElement>(null);
   const t = useT();
   useEffect(() => {
+    const handleKey = (ev: KeyboardEvent) => {
+      const key = ev.key.toLowerCase();
+      if (key === 'c' && ev.shiftKey) {
+        ref.current?.click();
+      }
+    };
     document.body.style.overflow = 'hidden';
+    document.addEventListener('keydown', handleKey);
     return () => {
       document.body.style.overflow = 'initial';
+      document.removeEventListener('keydown', handleKey);
     };
   }, []);
   const dispatch = useDispatch();
@@ -35,7 +44,14 @@ function EntityHeader({
       <button
         type="button"
         onClick={() => dispatch(changeCurrType({}))}
-        style={{ fontSize: '0.9rem', display: 'flex', flexDirection: 'column' }}
+        ref={ref}
+        style={{
+          fontSize: '0.75rem',
+          display: 'flex',
+          fontWeight: '600',
+          flexDirection: 'column',
+          textTransform: 'uppercase',
+        }}
       >
         <Image src="/images/user-icon.svg" width={50} height={50} alt="user-icon" />
         {currType === 'enemy' ? t('simulacao.overlay.enemies') : t('simulacao.overlay.players')}

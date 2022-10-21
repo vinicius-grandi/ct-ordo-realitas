@@ -1,7 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import {
   selectEntities,
-  BattlefieldSliceValues,
   selectIsSelectionMode,
   completeAttack,
   selectDamage,
@@ -15,16 +14,12 @@ export type Entities = 'player' | 'enemy';
 
 const TokenContainer = ({ entType }: { entType: Entities }) => {
   const entities = useSelector(selectEntities);
-  const getEntities = (
-    obj: BattlefieldSliceValues['entities'],
-    t: Entities,
-  ) => Object.values(obj).filter(({ type }) => type === t);
   return (
     <div className={styles['entity-container']}>
-      {getEntities(entities, entType).map(({ id }) => (
+      {entities[entType].map(({ id }, idx) => (
         <Entity
           key={id}
-          eid={id}
+          idx={idx}
         />
       ))}
     </div>

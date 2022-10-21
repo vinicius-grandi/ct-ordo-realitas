@@ -2,25 +2,25 @@ import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrOverlay, setCurrOverlay } from '@ct-ordo-realitas/app/redux/battlefieldSlice';
 import { entityPropTypes } from '../../types';
-import Token from './Token';
-import Overlay from './Overlay';
+import Token from './entity/Token';
+import Overlay from './entity/Overlay';
 
 export type InputChangeEvent = React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>;
 
-function Entity({ eid }: { eid: string }) {
+function Entity({ idx }: { idx: number }) {
   const currOverlay = useSelector(selectCurrOverlay);
   const dispatch = useDispatch();
   const handleOverlay = useCallback(() => {
-    if (currOverlay === eid) {
-      dispatch(setCurrOverlay({ eid: null }));
+    if (currOverlay === idx) {
+      dispatch(setCurrOverlay({ idx: null }));
     } else {
-      dispatch(setCurrOverlay({ eid }));
+      dispatch(setCurrOverlay({ idx }));
     }
-  }, [currOverlay, dispatch, eid]);
+  }, [currOverlay, dispatch, idx]);
   return (
     <>
-      {currOverlay !== eid && <Token eid={eid} handleOverlay={handleOverlay} />}
-      {currOverlay === eid && <Overlay eid={eid} handleOverlay={handleOverlay} />}
+      {currOverlay !== idx && <Token idx={idx} handleOverlay={handleOverlay} />}
+      {currOverlay === idx && <Overlay idx={idx} handleOverlay={handleOverlay} />}
     </>
   );
 }
