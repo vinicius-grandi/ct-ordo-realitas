@@ -144,9 +144,10 @@ const battlefieldSlice = createSlice<
       state.currType = type;
     },
     changeCurrType: (state) => {
-      state.currType = state.currType === 'enemy' ? 'player' : 'enemy';
-      const entitiesValues = Object.values(state.entities).filter(({ type }) => type === state.currType);
+      const selectOpposingType = state.currType === 'enemy' ? 'player' : 'enemy';
+      const entitiesValues = Object.values(state.entities).filter(({ type }) => type === selectOpposingType);
       if (entitiesValues.length > 0) {
+        state.currType = selectOpposingType;
         state.currOverlay = entitiesValues[0].id;
       }
     },
