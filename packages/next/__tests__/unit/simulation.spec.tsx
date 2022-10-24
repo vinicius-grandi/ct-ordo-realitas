@@ -182,19 +182,11 @@ describe('Simulation Page', () => {
     const enemy = screen.getByText('enemy1');
     fireEvent.click(enemy);
 
-    const nextTargetBtn = screen.getByRole('button', {
-      name: 'next target',
-    });
+    fireEvent.keyDown(document, { key: 'ArrowRight', code: 'ArrowRight', charCode: 39 });
 
-    expect(nextTargetBtn).toBeInTheDocument();
-    fireEvent.click(nextTargetBtn);
     screen.getByDisplayValue('enemy2');
 
-    const prevTargetBtn = screen.getByRole('button', {
-      name: 'previous target',
-    });
-    expect(prevTargetBtn).toBeInTheDocument();
-    fireEvent.click(prevTargetBtn);
+    fireEvent.keyDown(document, { key: 'ArrowLeft', code: 'ArrowLeft', charCode: 37 });
     screen.getByDisplayValue('enemy1');
 
     fireEvent.click(screen.getByText(/enemies/i));
