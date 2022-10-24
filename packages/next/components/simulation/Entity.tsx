@@ -11,17 +11,13 @@ import LifePoints from './entity/LifePoints';
 import Shortcuts from './entity/Shortcuts';
 import Notes from './entity/Notes';
 import { entityPropTypes } from '../../types';
-import type { EventHandler } from '../../lib/hooks/useEntity';
-import EntityToggler from './entity/EntityToggler';
-import Token from './entity/Token';
+import Token from './Token';
+import Overlay from './Overlay';
 
 export type InputChangeEvent = React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>;
 
-const Entity = ({
-  eid,
-}: {
-  eid: string;
-}) => {
+function Entity({ eid }: { eid: string }) {
+  const currOverlay = useSelector(selectCurrOverlay);
   const dispatch = useDispatch();
   const currOverlay = useSelector(selectCurrOverlay);
   const handleOverlay = useCallback(() => {
@@ -31,41 +27,10 @@ const Entity = ({
       dispatch(setCurrOverlay({ eid }));
     }
   }, [currOverlay, dispatch, eid]);
-
-  const handleChange = ({ target: { name, value } }: EventHandler) => {
-    if (name !== 'notes' && value.length > 15) return;
-    dispatch(
-      changeEntity({
-        eid,
-        name,
-        value,
-      }),
-    );
-  };
-  useEffect(() => {
-    const handleEsc: any = (ev: KeyboardEvent): void => {
-      const key = ev.key.toLowerCase();
-      if (key === 'escape' && currOverlay !== null) {
-        setCurrOverlay(null);
-      }
-    };
-
-    document.addEventListener('keydown', handleEsc);
-    return () => document.removeEventListener('keydown', handleEsc);
-  }, [currOverlay, dispatch, handleOverlay]);
-
   return (
     <>
       {currOverlay !== eid && <Token eid={eid} handleOverlay={handleOverlay} />}
-      {currOverlay === eid && (
-        <div className={styles['simulation-overlay']}>
-          <EntityHeader eid={eid} handleChange={handleChange} handleOverlay={handleOverlay} />
-          <LifePoints eid={eid} handleChange={handleChange} />
-          <EntityToggler />
-          <Shortcuts eid={eid} handleOverlay={handleOverlay} />
-          <Notes eid={eid} handleChange={handleChange} />
-        </div>
-      )}
+      {currOverlay === eid && <Overlay eid={eid} handleOverlay={handleOverlay} />}
     </>
   );
 };

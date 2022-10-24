@@ -2,12 +2,12 @@ import { selectCurrOverlay, setCurrOverlay, changeEntity } from '@ct-ordo-realit
 import styles from '@styles/main.module.sass';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { EventHandler } from '../../../lib/hooks/useEntity';
-import EntityHeader from './EntityHeader';
-import EntityToggler from './EntityToggler';
-import LifePoints from './LifePoints';
-import Notes from './Notes';
-import Shortcuts from './Shortcuts';
+import { EventHandler } from '../../lib/hooks/useEntity';
+import EntityHeader from './entity/EntityHeader';
+import EntityToggler from './entity/EntityToggler';
+import LifePoints from './entity/LifePoints';
+import Notes from './entity/Notes';
+import Shortcuts from './entity/Shortcuts';
 
 function Overlay({ eid, handleOverlay }: { eid: string; handleOverlay: () => void }) {
   const dispatch = useDispatch();
