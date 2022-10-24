@@ -168,11 +168,10 @@ const battlefieldSlice = createSlice<
       state.currType = type;
     },
     changeCurrType: (state) => {
-      const selectOpposingType = state.currType === 'enemy' ? 'player' : 'enemy';
-      const entitiesValues = state.entities[selectOpposingType];
+      state.currType = state.currType === 'enemy' ? 'player' : 'enemy';
+      const entitiesValues = Object.values(state.entities).filter(({ type }) => type === state.currType);
       if (entitiesValues.length > 0) {
-        state.currType = selectOpposingType;
-        state.currOverlay = `${selectOpposingType}-0`;
+        state.currOverlay = entitiesValues[0].id;
       }
     },
     handleEntities: (state, { payload: { nextOrPrev }}) => {

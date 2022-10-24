@@ -18,7 +18,7 @@
     *
         border: none
         color: #fff
-        flex-basis: 30%
+        flex-basis: 20%
         @include mixins.buttons
         font-size: 1.1rem
     button:first-child
@@ -31,6 +31,7 @@
     background: #00000042
     width: 100%
     color: #fff
+    position: fixed
     text-align: center
     font-size: 1.8rem
     z-index: 2
@@ -79,7 +80,7 @@
     left: 0
     width: 100%
     height: 100%
-    z-index: 11
+    z-index: 2
     textarea
         width: 100%
         font-size: 1rem
@@ -98,7 +99,7 @@
         text-align: center
         background: inherit
         color: inherit
-        border: 1px solid #fff
+        border: none
     button
         border: none
         background: none
@@ -118,26 +119,6 @@
         font-size: 1rem
         width: 100px
         padding-left: 10px
-
-.entity-toggler
-    button
-        background: none
-        border: none
-        color: #fff
-        position: fixed
-        top: 0
-        font-size: 0.5rem
-        font-stretch: ultra-condensed
-        background: #0000001a
-        text-align: start
-        overflow: hidden
-        padding: 0 0.5rem
-        width: 1rem
-        height: 100%
-    button:first-child
-        left: 0
-    button:last-child
-        right: 0
 
 .shortcuts-tab
     button
@@ -178,7 +159,6 @@
         margin: 0
         margin-top: 1rem
         justify-items: center
-        align-items: center
         border-top: 1px solid white
         padding: 0.5rem
 

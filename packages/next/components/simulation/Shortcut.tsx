@@ -40,6 +40,7 @@ const Shortcut = (
               block: 'center',
             });
           }
+          setTimeout(() => { document.body.style.overflowY = 'hidden'; }, 100);
         }}
       >
         ATACAR UM ALVO
