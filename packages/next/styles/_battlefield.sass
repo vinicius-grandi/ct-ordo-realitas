@@ -69,6 +69,8 @@
         filter: drop-shadow(0 15px 30px rgba(200, 0, 0, 0.5))
 
 .simulation-overlay
+    h2
+        user-select: none
     margin: 0 !important
     overflow-y: scroll
     padding: 1rem
@@ -86,6 +88,13 @@
         font-size: 1rem
     *:focus
         outline: white solid 1px
+
+.entity-toggler
+    width: 200px
+    background: vars.$black
+    height: 100%
+    position: fixed
+    top: 0
 
 .name-tab
     display: grid
