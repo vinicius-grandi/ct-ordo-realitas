@@ -16,10 +16,10 @@ const TokenContainer = ({ entType }: { entType: Entities }) => {
   const entities = useSelector(selectEntities);
   return (
     <div className={styles['entity-container']}>
-      {entities[entType].map(({ id }, idx) => (
+      {entities[entType].map(({ id, type }, idx) => (
         <Entity
           key={id}
-          idx={idx}
+          elem={[idx, type]}
         />
       ))}
     </div>

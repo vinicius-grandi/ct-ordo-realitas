@@ -48,7 +48,7 @@ export type BattlefieldSliceValues = {
     enemy: number;
     player: number;
   };
-  currOverlay: null | number;
+  currOverlay: null | string;
   currType: null | Entities;
   idToType: {
     [key in number]: string
@@ -172,7 +172,7 @@ const battlefieldSlice = createSlice<
       const entitiesValues = state.entities[selectOpposingType];
       if (entitiesValues.length > 0) {
         state.currType = selectOpposingType;
-        state.currOverlay = 0;
+        state.currOverlay = `${selectOpposingType}-0`;
       }
     },
     handleEntities: (state, { payload: { nextOrPrev }}) => {

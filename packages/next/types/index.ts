@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 
 export const entityPropTypes = {
-  idx: PropTypes.number.isRequired,
+  elem: PropTypes.oneOfType([PropTypes.number.isRequired, PropTypes.string.isRequired]),
 };
 
 export default entityPropTypes;

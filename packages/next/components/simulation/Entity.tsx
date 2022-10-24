@@ -7,20 +7,20 @@ import Overlay from './entity/Overlay';
 
 export type InputChangeEvent = React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>;
 
-function Entity({ idx }: { idx: number }) {
+function Entity({ elem }: { elem: [number, string] }) {
   const currOverlay = useSelector(selectCurrOverlay);
   const dispatch = useDispatch();
   const handleOverlay = useCallback(() => {
-    if (currOverlay === idx) {
-      dispatch(setCurrOverlay({ idx: null }));
+    if (currOverlay === elem) {
+      dispatch(setCurrOverlay({ elem: null }));
     } else {
-      dispatch(setCurrOverlay({ idx }));
+      dispatch(setCurrOverlay({ elem }));
     }
-  }, [currOverlay, dispatch, idx]);
+  }, [currOverlay, dispatch, elem]);
   return (
     <>
-      {currOverlay !== idx && <Token idx={idx} handleOverlay={handleOverlay} />}
-      {currOverlay === idx && <Overlay idx={idx} handleOverlay={handleOverlay} />}
+      {currOverlay !== elem && <Token elem={elem} handleOverlay={handleOverlay} />}
+      {currOverlay === elem && <Overlay elem={elem} handleOverlay={handleOverlay} />}
     </>
   );
 }
