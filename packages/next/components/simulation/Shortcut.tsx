@@ -10,7 +10,7 @@ const Shortcut = (
   { diceName, diceConfig, handleOverlay }: ShortcutT & { handleOverlay: () => void },
 ) => {
   const { diceValue, handleDice, dice } = useDice(diceConfig);
-  const { battlefieldRef } = useBattlefield();
+  const { scrollIntoBattlefield } = useBattlefield();
   const dispatch = useDispatch();
   return (
     <div>
@@ -35,12 +35,7 @@ const Shortcut = (
           handleOverlay();
           dispatch(handleSelectionMode({}));
           dispatch(setDamage({ damage: diceValue }));
-          if (typeof battlefieldRef?.current?.scrollIntoView === 'function') {
-            battlefieldRef.current?.scrollIntoView({
-              block: 'center',
-            });
-          }
-          setTimeout(() => { document.body.style.overflowY = 'hidden'; }, 100);
+          scrollIntoBattlefield();
         }}
       >
         ATACAR UM ALVO

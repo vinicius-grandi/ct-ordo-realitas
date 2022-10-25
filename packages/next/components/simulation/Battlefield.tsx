@@ -35,7 +35,7 @@ const Battlefield = () => {
   const isSelectionMode = useSelector(selectIsSelectionMode);
   const damage = useSelector(selectDamage);
   const dispatch = useDispatch();
-  const { battlefieldRef } = useBattlefield();
+  const { battlefieldRef, scrollIntoBattlefield } = useBattlefield();
   const handleOverflow = () => {
     document.body.style.overflowY = 'initial';
   };
@@ -62,6 +62,7 @@ const Battlefield = () => {
               decision: 'attack',
             }));
             handleOverflow();
+            scrollIntoBattlefield();
           }}
         >
           ATACAR
@@ -71,6 +72,7 @@ const Battlefield = () => {
           onClick={() => {
             dispatch(completeAttack({}));
             handleOverflow();
+            scrollIntoBattlefield();
           }}
         >
           CANCELAR

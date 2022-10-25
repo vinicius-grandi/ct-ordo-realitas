@@ -2,6 +2,8 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
 import { Trans, withTranslation } from 'next-i18next';
+import { useSelector } from 'react-redux';
+import { selectIsSelectionMode } from '@ct-ordo-realitas/app/redux/battlefieldSlice';
 import Battlefield from '../components/simulation/Battlefield';
 import styles from '../styles/main.module.sass';
 import getStaticProps from '../components/withTranslationProps';
@@ -10,22 +12,31 @@ import SimulacaoConfig from '../components/simulation/SimulacaoConfig';
 
 const SimulationPage: NextPage = () => {
   const t = useT();
+  const isSelectionMode = useSelector(selectIsSelectionMode);
   return (
     <main className={styles.simulacao}>
       <Head>
         <title>Simulação de Batalha</title>
       </Head>
-      <h1>{t('simulacao.title')}</h1>
-      <ul className={styles['true-list']}>
-        {t<string[]>('simulacao.tips', true).map((val, idx) => (
-          <li key={`tip ${idx + 1}`}>
-            <Trans components={{ span: <span className={styles.tips} /> }}>{val}</Trans>
-          </li>
-        ))}
-      </ul>
+      {!isSelectionMode && (
+      <>
+        <h1>{t('simulacao.title')}</h1>
+        <ul className={styles['true-list']}>
+          {t<string[]>('simulacao.tips', true).map((val, idx) => (
+            <li key={`tip ${idx + 1}`}>
+              <Trans components={{ span: <span className={styles.tips} /> }}>{val}</Trans>
+            </li>
+          ))}
+        </ul>
+      </>
+      )}
       <Battlefield />
-      <h1>{t('simulacao.configuration.title')}</h1>
-      <SimulacaoConfig />
+      {!isSelectionMode && (
+      <>
+        <h1>{t('simulacao.configuration.title')}</h1>
+        <SimulacaoConfig />
+      </>
+      )}
     </main>
   );
 };
