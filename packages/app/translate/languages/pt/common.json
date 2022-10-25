@@ -1,0 +1,47 @@
+{
+  "pt": {
+    "translations": {
+      "home": {
+        "title": "Home"
+      },
+      "simulacao": {
+        "title": "Simulação",
+        "tips": [
+          "<span>Aliados</span> e <span>inimigos</span> serão referidos no plural como \"entidade\" ou \"alvo\"",
+          "Para editar as informações do alvo, efetue um clique simples sobre ele",
+          "Ao clicar e segurar em uma entidade é possível removê-la do campo de batalha",
+          "Para criar um novo atalho, siga o modelo: <strong>número d número + modificadores</strong>. Por exemplo: <strong>2d6+10</strong>",
+          "Os únicos modificadores permitidos por enquanto são de adição"
+        ],
+        "overlay": {
+          "player": "jogador",
+          "players": "jogadores",
+          "enemies": "inimigos",
+          "hpTab": "Pontos de Vida",
+          "shortcuts": {
+            "title": "Atalhos",
+            "name": "ex: agredir",
+            "nameLabel": "NOME",
+            "dice": "ex: 2d6",
+            "diceLabel": "DADOS"
+          },
+          "notes": "Notas"
+        },
+        "configuration": {
+          "title": "Configuração",
+          "import": "importar",
+          "export": "exportar"
+        }
+      },
+      "ocultista": {
+        "title": "ocultista"
+      },
+      "combatente": {
+        "title": "combatente"
+      },
+      "especialista": {
+        "title": "especialista"
+      }
+    }
+  }
+}

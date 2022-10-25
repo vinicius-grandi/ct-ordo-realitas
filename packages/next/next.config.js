@@ -1,4 +1,6 @@
 const path = require('path');
+const withTM = require('next-transpile-modules')(['@ct-ordo-realitas/app']);
+const { i18n } = require('./next-i18next.config');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -7,6 +9,7 @@ const nextConfig = {
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],
   },
+  i18n,
 }
 
-module.exports = nextConfig
+module.exports = withTM(nextConfig);

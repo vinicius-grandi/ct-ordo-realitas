@@ -1,0 +1,20 @@
+@use './variables' as vars
+@use './mixins'
+
+.import-export-btn
+    justify-content: space-around
+    display: flex
+    label, button
+        @include mixins.buttons
+        flex-basis: 33.3%
+        height: 40px
+        background: vars.$blue
+        text-transform: uppercase
+        box-sizing: border-box
+        display: flex
+        align-items: center
+        justify-content: center
+        padding: 1.2rem
+    margin-bottom: 1rem
+    input
+        display: none

@@ -1,0 +1,124 @@
+@use "~@ct-ordo-realitas/next/styles/variables" as vars
+@use "~@ct-ordo-realitas/next/styles/mixins"
+@use "./mixins" as relMixins
+
+.battlefield
+    @include mixins.battlefield
+    min-height: 0
+    flex: 1
+    padding-top: rem(10)
+    padding-bottom: rem(10)
+
+.entity
+    flex-direction: row
+    flex-wrap: wrap
+    justify-content: center
+
+.line
+    flex-direction: row
+    justify-content: space-between
+    align-items: center
+    width: 100%
+
+.overlay-title
+    @include relMixins.font
+    color: #ffffff
+    font-family: Vazirmat
+    font-weight: bold
+    font-size: 1.5rem
+
+.shortcuts
+    flex-basis: 33%
+    width: 100%
+
+.notes
+    width: 100%
+    margin-top: auto
+    flex-basis: 33%
+
+.add-enemy
+    @include mixins.buttons
+    @include relMixins.center
+    background-color: vars.$red
+
+.add-player
+    @include mixins.buttons
+    @include relMixins.center
+    background-color: vars.$green
+
+.token
+    align-items: center
+    flex-basis: 30%
+
+.token-text
+    @include relMixins.font
+    color: #fff
+
+.title
+    fontSize: 32
+    fontWeight: 600
+    padding: rem(2)
+
+.list
+    padding: rem(2)
+
+.text
+    fontSize: 16
+
+.dice
+    flex-direction: row
+    flex-wrap: wrap
+    justify-content: space-around
+    margin-bottom: 1rem
+    align-items: center
+
+.simulation-overlay
+    position: absolute
+    background-color: #000
+    top: 0
+    align-items: flex-start
+    padding: 20px
+    width: 100%
+    height: 100%
+
+.shortcut-container
+    margin-top: 0.5rem
+    flex-direction: row
+    width: 50%
+    align-items: center
+
+.shortcut-button
+    @include mixins.blue-button
+    padding: 0.01rem
+    width: 20%
+    margin-top: 1rem
+
+.save-shortcut
+    @include mixins.blue-button
+    padding: 0.01rem
+    width: 50%
+    margin-top: 1rem
+    align-self: flex-end
+
+.shortcut-button-text
+    color: #fff
+    font-size: 1.2rem
+
+.shortcut-input
+    height: 30
+    background-color: #fff
+    width: 100px
+    margin-left: auto
+
+.shortcut-label
+    color: #fff
+    text-transform: uppercase
+
+.close-btn
+    font-size: 30
+    color: #fff
+
+.life-points
+    @include relMixins.font
+    @include mixins.life-points-tab
+    color: #fff

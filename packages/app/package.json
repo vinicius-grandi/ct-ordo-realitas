@@ -1,6 +1,24 @@
 {
     "name": "@ct-ordo-realitas/app",
     "version": "1.0.0",
+    "main": "./index.ts",
     "scripts": {},
-    "license": "MIT"
-  }
+    "license": "MIT",
+    "dependencies": {
+        "@os-team/i18next-react-native-language-detector": "^1.0.16",
+        "@reduxjs/toolkit": "^1.8.6",
+        "i18next": "^21.9.2",
+        "i18next-browser-languagedetector": "^6.1.5",
+        "next-redux-wrapper": "^8.0.0",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "react-i18next": "^11.18.6",
+        "react-redux": "^8.0.4",
+        "uuid": "^9.0.0",
+        "validator": "^13.7.0"
+    },
+    "devDependencies": {
+        "@types/react": "^18.0.21",
+        "@types/validator": "^13.7.7"
+    }
+}

@@ -1,3 +1,5 @@
+@use './variables' as vars
+
 @mixin desktop
     @media (min-width: 1000px)
         @content
@@ -8,10 +10,11 @@
 
 @mixin buttons
     border: none
+    box-shadow: 2px 3px 7px rgba(0, 0, 0, 0.247)
     width: 50px
     height: 50px
     border-radius: 5px
-    color: white
+    color: #ffffff
     font-size: 1.3rem
 
 @mixin content
@@ -33,7 +36,7 @@
 @mixin entity
     @include flex-column
     @include buttons
-    cursor: pointer
+    box-shadow: none
     font-size: 0.8rem
     text-align: center
     overflow-wrap: break-word
@@ -41,8 +44,6 @@
     position: relative
     margin: auto
     justify-content: space-evenly
-    button, output
-        z-index: 1
     output
         background: white
         padding: 0 0.5rem
@@ -51,5 +52,32 @@
     color: white
     svg
         position: absolute
-    span
+        cursor: pointer
+    span, output
         z-index: 1
+        pointer-events: none
+
+
+@mixin life-points-tab
+    border-radius: 3px
+    text-align: center
+    background: vars.$red
+    color: #ffffff
+    font-size: 18px
+    width: 100px
+
+@mixin blue-button
+    border: none
+    background: vars.$blue
+    color: white
+    font-size: 1.5rem
+    padding: 0.5rem 1rem
+    border-radius: 3px
+
+@mixin battlefield
+    justify-content: space-between
+    background: vars.$black
+    align-items: center
+    min-height: 550px
+    div
+        margin: 1rem 0

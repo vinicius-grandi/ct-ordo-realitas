@@ -63,7 +63,8 @@
     "react/function-component-definition": "off",
     "@typescript-eslint/no-floating-promises": ["error"],
     "no-void": "off",
-    "operator-linebreak": "off"
+    "operator-linebreak": "off",
+    "jsx-a11y/anchor-is-valid": "off"
   },
   "ignorePatterns": ["**/*.js"]
 }

@@ -1,0 +1,44 @@
+{
+    "en": {
+      "translations": {
+        "home": {
+          "title": "Home"
+        },
+        "simulacao": {
+          "title": "Simulation",
+          "tips": [
+            "With a click you're able to edit target's info",
+            "Click and hold to remove the target from the battlefield"
+          ],
+          "overlay": {
+            "player": "player",
+            "players": "players",
+            "enemies": "enemies",
+            "hpTab": "Life Points",
+            "shortcuts": {
+              "title": "Shortcuts",
+              "name": "ex: agredir",
+              "nameLabel": "NAME",
+              "dice": "ex: 2d6",
+              "diceLabel": "DICE"
+            },
+            "notes": "Notes"
+          },
+          "configuration": {
+            "title": "Configuração",
+            "import": "importar",
+            "export": "exportar"
+          }
+        },
+        "ocultista": {
+          "title": "ocultista"
+        },
+        "combatente": {
+          "title": "combatente"
+        },
+        "especialista": {
+          "title": "especialista"
+        }
+      }
+    }
+  }

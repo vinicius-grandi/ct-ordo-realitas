@@ -1,76 +1,86 @@
-import { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  selectEntities,
+  BattlefieldSliceValues,
+  selectIsSelectionMode,
+  completeAttack,
+  selectDamage,
+} from '@ct-ordo-realitas/app/redux/battlefieldSlice';
+import styles from '@styles/main.module.sass';
+import AddButton from './AddButton';
+import { useBattlefield } from '../../contexts/battlefield';
 import Entity from './Entity';
-import styles from '../../styles/main.module.sass';
 
 export type Entities = 'player' | 'enemy';
 
-const AddButton = (
-  { addEntity, type }: { addEntity: (type: Entities) => void | null; type: Entities },
-) => {
-  const [height, setHeight] = useState(0);
-  useEffect(() => {
-    setHeight(document.body.scrollHeight - window.innerHeight);
-  }, []);
+const TokenContainer = ({ entType }: { entType: Entities }) => {
+  const entities = useSelector(selectEntities);
+  const getEntities = (
+    obj: BattlefieldSliceValues['entities'],
+    t: Entities,
+  ) => Object.values(obj).filter(({ type }) => type === t);
   return (
-    <button
-      type="button"
-      aria-label="add-new-enemy"
-      onClick={() => {
-        addEntity(type);
-        if (type === 'player') {
-          setTimeout(() => {
-            const currHeight = document.body.scrollHeight - window.innerHeight;
-            if (height < currHeight) {
-              setHeight(currHeight);
-              setTimeout(() => window.scrollBy({
-                top: 70,
-              }), 0);
-            }
-          }, 200);
-        }
-      }}
-      className={styles[`add-${type}`]}
-    >
-      +
-    </button>
+    <div className={styles['entity-container']}>
+      {getEntities(entities, entType).map(({ id }) => (
+        <Entity
+          key={id}
+          eid={id}
+        />
+      ))}
+    </div>
   );
 };
 
-const Battlefield = (
-  {
-    players, enemies, addEntity, removeEntity,
-  }:
-  {
-    players: JSX.Element[];
-    enemies: JSX.Element[];
-    addEntity: (e: Entities) => void;
-    removeEntity: (e: Entities, k: string) => void;
-  },
-) => (
-  <div className={styles.battlefield}>
-    <AddButton addEntity={addEntity} type="enemy" />
-    <div className={styles['entity-container']}>
-      {enemies.map(({ props: { type, eid }, key }) => (
-        <Entity
-          type={type}
-          key={key}
-          eid={eid}
-          removeEntity={removeEntity}
-        />
-      ))}
+const Battlefield = () => {
+  const isSelectionMode = useSelector(selectIsSelectionMode);
+  const damage = useSelector(selectDamage);
+  const dispatch = useDispatch();
+  const { battlefieldRef, scrollIntoBattlefield } = useBattlefield();
+  const handleOverflow = () => {
+    document.body.style.overflowY = 'initial';
+  };
+
+  return (
+    <div className={styles.battlefield} ref={battlefieldRef}>
+      <AddButton type="enemy" />
+      <TokenContainer entType="enemy" />
+      {damage !== 0 && (
+        <span className={styles['inflicted-damage']}>
+          DANO:
+          {' '}
+          {damage}
+        </span>
+      )}
+      <TokenContainer entType="player" />
+      <AddButton type="player" />
+      {isSelectionMode && (
+      <div className={styles['attack-confirmation']}>
+        <button
+          type="button"
+          onClick={() => {
+            dispatch(completeAttack({
+              decision: 'attack',
+            }));
+            handleOverflow();
+            scrollIntoBattlefield();
+          }}
+        >
+          ATACAR
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            dispatch(completeAttack({}));
+            handleOverflow();
+            scrollIntoBattlefield();
+          }}
+        >
+          CANCELAR
+        </button>
+      </div>
+      )}
     </div>
-    <div className={styles['entity-container']}>
-      {players.map(({ props: { type, eid }, key }) => (
-        <Entity
-          type={type}
-          key={key}
-          eid={eid}
-          removeEntity={removeEntity}
-        />
-      ))}
-    </div>
-    <AddButton addEntity={addEntity} type="player" />
-  </div>
-);
+  );
+};
 
 export default Battlefield;
