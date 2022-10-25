@@ -1,27 +1,35 @@
 import { handleEntities } from '@ct-ordo-realitas/app/redux/battlefieldSlice';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import styles from '@styles/main.module.sass';
 
 export default function EntityToggler() {
   const dispatch = useDispatch();
-  const [x, setX] = useState<number>(0);
-  const testRef = useRef<NodeJS.Timer>(0);
-  const initialValue = {
+  const divRef = useRef<HTMLDivElement>(null);
+  const clickRef = useRef<{ initialClick: number | null; lastClick: number | null }>({
     initialClick: null,
     lastClick: null,
-  };
-  const ref = useRef<{ initialClick: number | null; lastClick: number | null }>(
-    initialValue,
-  );
+  });
   useEffect(() => {
     const nextOrPrev = (str: string) => {
       dispatch(handleEntities({ nextOrPrev: str }));
     };
-    const handleMouseMove = (ev: MouseEvent) => {
-      const offset = (ref.current.initialClick ?? 0) - ev.clientX;
-      testRef.current = setInterval(() => setX(x - 1), 100);
-      setX(x - 1);
+
+    const isItAInvalidSwipe = (initialClick: number, clientX: number) => (
+      initialClick < 50 && initialClick - clientX > initialClick - 5) ||
+      (clientX > document.body.clientWidth - 50 && initialClick - clientX < 0);
+
+    const handleMouseMove = ({ clientX }: MouseEvent) => {
+      const initialClick = clickRef.current.initialClick ?? 0;
+      if (isItAInvalidSwipe(initialClick, clientX)) {
+        return;
+      }
+      if (divRef.current) {
+        const offset = initialClick - clientX;
+        const percentage = 100 - Math.abs(offset);
+        const leftOrRightPercentage = percentage <= 0 ? 0 : percentage * Math.sign(offset);
+        divRef.current.style.transform = `translateX(${leftOrRightPercentage}%)`;
+      }
     };
     const handleKey = (ev: KeyboardEvent) => {
       const key = ev.key.toLowerCase();
@@ -33,37 +41,38 @@ export default function EntityToggler() {
       }
     };
     const handleMouseDown = ({ clientX }: MouseEvent) => {
-      if (clientX < 50 || clientX > (document.body.clientWidth - 50)) {
-        ref.current.initialClick = clientX;
-        document.addEventListener('mousemove', handleMouseMove);
+      if (clientX < 50 || clientX > document.body.clientWidth - 50) {
+        clickRef.current.initialClick = clientX;
+        window.addEventListener('mousemove', handleMouseMove, false);
       }
     };
-    const handleMouseUp = (ev: MouseEvent) => {
-      ref.current.lastClick = ev.clientX;
-      if (!ref.current.initialClick || ref.current.initialClick === null) {
+    const handleMouseUp = ({ clientX }: MouseEvent) => {
+      window.removeEventListener('mousemove', handleMouseMove, false);
+      divRef.current!.style.transform = 'translate(-100%)';
+      clickRef.current.lastClick = clientX;
+      if (isItAInvalidSwipe(clickRef.current.initialClick ?? 0, clientX)) {
         return;
       }
-      const offset = ref.current.initialClick - ref.current.lastClick;
+      if (!clickRef.current.initialClick || clickRef.current.initialClick === null) {
+        return;
+      }
+      const offset = clickRef.current.initialClick - clickRef.current.lastClick;
       if (Math.abs(offset) < 3) {
         return;
       }
       nextOrPrev(offset > 0 ? 'next' : 'prev');
-      ref.current.initialClick = null;
-      ref.current.lastClick = null;
-      document.removeEventListener('mousemove', handleMouseMove);
-      setX(0);
+      clickRef.current.initialClick = null;
     };
 
-    document.addEventListener('keydown', handleKey);
-    document.addEventListener('mousedown', handleMouseDown);
-    document.addEventListener('mouseup', handleMouseUp);
+    window.addEventListener('keydown', handleKey, false);
+    window.addEventListener('mousedown', handleMouseDown, false);
+    window.addEventListener('mouseup', handleMouseUp, false);
     return () => {
-      document.removeEventListener('keydown', handleKey);
-      document.removeEventListener('mousedown', handleMouseDown);
-      document.removeEventListener('mouseup', handleMouseUp);
-      document.removeEventListener('mousemove', handleMouseMove);
-      clearInterval(testRef.current);
+      window.removeEventListener('keydown', handleKey, false);
+      window.removeEventListener('mousedown', handleMouseDown, false);
+      window.removeEventListener('mouseup', handleMouseUp, false);
+      window.removeEventListener('mousemove', handleMouseMove, false);
     };
-  }, [dispatch, x]);
-  return <div className={styles['entity-toggler']} style={{ transform: `translate(${x}%)` }} />;
+  }, [dispatch]);
+  return <div ref={divRef} className={styles['entity-toggler']} />;
 }

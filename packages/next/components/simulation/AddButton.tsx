@@ -18,13 +18,11 @@ export default function AddButton({ type }: { type: Entities }) {
         dispatch(addEnt({ type }));
         const { target } = ev;
         if (type === 'player') {
-          const followMouse = (e: MouseEvent) => {
+          const followMouse = () => {
             if (target instanceof HTMLElement) {
-              target.style.position = 'fixed';
-              target.style.top = `${e.clientY - 50}px`;
-              target.style.left = `${e.clientX - 50}px`;
-              target.style.zIndex = '10';
-              target.style.filter = 'drop-shadow(0 15px 30px rgba(0, 127, 200, 0.5))';
+              target.style.position = 'sticky';
+              target.style.zIndex = '2';
+              target.style.bottom = '0';
             }
           };
           ref.current?.addEventListener('mouseout', followMouse);
@@ -34,6 +32,7 @@ export default function AddButton({ type }: { type: Entities }) {
               target.style.position = 'relative';
               target.style.top = '0';
               target.style.left = '0';
+              target.style.zIndex = '0';
               target.style.filter = 'none';
             }
           }, 500);

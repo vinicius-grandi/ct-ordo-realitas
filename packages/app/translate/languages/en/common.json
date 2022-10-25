@@ -5,22 +5,24 @@
           "title": "Home"
         },
         "simulacao": {
-          "title": "Simulação",
+          "title": "Simulation",
           "tips": [
-            "Para editar as informações do alvo, efetue um clique simples sobre ele",
-            "Você pode clicar e segurar em um inimigo ou aliado para removê-lo do campo de batalha"
+            "With a click you're able to edit target's info",
+            "Click and hold to remove the target from the battlefield"
           ],
           "overlay": {
-            "player": "jogador",
-            "hpTab": "Pontos de Vida",
+            "player": "player",
+            "players": "players",
+            "enemies": "enemies",
+            "hpTab": "Life Points",
             "shortcuts": {
-              "title": "Atalhos",
+              "title": "Shortcuts",
               "name": "ex: agredir",
-              "nameLabel": "NOME",
+              "nameLabel": "NAME",
               "dice": "ex: 2d6",
-              "diceLabel": "DADOS"
+              "diceLabel": "DICE"
             },
-            "notes": "Notas"
+            "notes": "Notes"
           },
           "configuration": {
             "title": "Configuração",
