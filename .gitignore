@@ -1,1 +1,5 @@
 node_modules
+packages/app/node_modules
+packages/next/node_modules
+packages/expo/node_modules
+
