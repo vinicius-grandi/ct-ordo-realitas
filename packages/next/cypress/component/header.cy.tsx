@@ -1,5 +1,3 @@
-/* eslint-disable testing-library/prefer-screen-queries */
-/* eslint-disable testing-library/await-async-query */
 import React from 'react';
 import Header from '../../components/Header';
 
