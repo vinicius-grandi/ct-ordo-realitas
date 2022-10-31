@@ -16,7 +16,7 @@ const SimulationPage: NextPage = () => {
   return (
     <main className={styles.simulacao}>
       <Head>
-        <title>Simulação de Batalha</title>
+        <title>Simulação de Batalha - CTOR</title>
       </Head>
       {!isSelectionMode && (
       <>

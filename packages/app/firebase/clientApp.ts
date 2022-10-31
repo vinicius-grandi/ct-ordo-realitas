@@ -19,3 +19,7 @@ const firestore = getFirestore(app);
 const ritualCollection = collection(firestore, 'rituals');
 const ritualsQuery = (type: string) => query(ritualCollection, where('type', '==', type));
 export const getRituals = (type: string) => getDocs(ritualsQuery(type));
+
+export default {
+  getRituals,
+};

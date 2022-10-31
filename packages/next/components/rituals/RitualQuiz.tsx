@@ -1,24 +1,40 @@
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
-import { getRituals } from '@ct-ordo-realitas/app/firebase/clientApp';
+// import api from '@ct-ordo-realitas/app/firebase/clientApp';
 import useT from '../../lib/hooks/useT';
+import RitualCard from './RitualCard';
 
-type Ritual = {
+export type Ritual = {
   name: string;
   imagePath: string;
   type: string;
 };
 
-export default function RitualQuiz({ selectedElements }: { selectedElements: string[] }) {
+export default function RitualQuiz({
+  selectedElements,
+  nextPage,
+  handleActualScore,
+  handleMaxScore,
+}: {
+  selectedElements: string[];
+  nextPage: () => void;
+  handleActualScore: () => void;
+  handleMaxScore: (max: number) => void }) {
   const t = useT();
   const [rituals, setRituals] = useState<Ritual[]>([]);
   useEffect(() => {
     async function getData() {
-      const promiseData = selectedElements.map((elem) => getRituals(elem));
-      const querySnapshotArr = await Promise.all(promiseData);
-      const res: Ritual[] = [];
-      querySnapshotArr.forEach((qs) => qs.docs.forEach((doc) => res.push(doc.data() as Ritual)));
-      setRituals(res);
+      // const promiseData = selectedElements.map((elem) => api.getRituals(elem));
+      // const querySnapshotArr = await Promise.all(promiseData);
+      // const res: Ritual[] = [];
+      // querySnapshotArr.forEach(
+      //   (querySnapshot) => querySnapshot.forEach((doc) => res.push(doc.data() as Ritual)),
+      // );
+      // setRituals(res);
+      setRituals([{
+        imagePath: '',
+        name: 'Cinerária',
+        type: 'blood',
+      }]);
     }
     void getData();
   }, [selectedElements]);
@@ -31,12 +47,18 @@ export default function RitualQuiz({ selectedElements }: { selectedElements: str
       </ul>
       <ul>
         {rituals.map((ritual, idx) => (
-          <li key={`ritual-${idx + 1}`}>
-            <Image src={ritual.imagePath} width={100} height={100} alt="unknown ritual" />
-            <input type="text" placeholder={t<string>('rituais.ritualQuiz.ritualPlaceholder')} />
-          </li>
+          <RitualCard key={`ritual-${idx + 1}`} ritual={ritual} handleActualScore={handleActualScore} />
         ))}
       </ul>
+      <button
+        type="button"
+        onClick={() => {
+          handleMaxScore(rituals.length);
+          nextPage();
+        }}
+      >
+        {t('rituais.ritualQuiz.finishQuiz')}
+      </button>
     </div>
   );
 }

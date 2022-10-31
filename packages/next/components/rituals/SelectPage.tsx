@@ -1,10 +1,31 @@
-import { useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
+import useT from '../../lib/hooks/useT';
 import RitualQuiz from './RitualQuiz';
 import SelectRituals from './SelectRituals';
 
 export default function SelectPage() {
+  const t = useT();
   const [page, setPage] = useState(1);
   const [selectedElements, setSelectedElements] = useState<string[]>([]);
+  const initialScores = { max: 0, actual: 0 };
+  const [scores, setScores] = useState(initialScores);
+
+  const handleActualScore = useCallback(
+    () => setScores({ ...scores, actual: scores.actual + 1 }),
+    [scores],
+  );
+
+  const handleMaxScore = useCallback(
+    (max: number) => {
+      setScores({ ...scores, max });
+    },
+    [scores],
+  );
+
+  const value = useMemo(
+    () => ({ handleActualScore, handleMaxScore }),
+    [handleActualScore, handleMaxScore],
+  );
 
   const handleSelectedElement = (e: string) => {
     const isElemAlreadySelected = selectedElements.findIndex((elem) => elem === e) !== -1;
@@ -17,17 +38,44 @@ export default function SelectPage() {
     }
   };
   const nextPage = () => {
-    if (page === 3) {
+    if (page >= 3) {
       setPage(1);
     } else {
       setPage(page + 1);
     }
   };
+
+  const resetQuiz = () => {
+    setSelectedElements([]);
+    nextPage();
+    setScores(initialScores);
+  };
+
   switch (page) {
     case 1:
       return <SelectRituals nextPage={nextPage} handleSelectedElement={handleSelectedElement} />;
     case 2:
-      return <RitualQuiz selectedElements={selectedElements} />;
+      return (
+        <RitualQuiz
+          nextPage={nextPage}
+          selectedElements={selectedElements}
+          handleActualScore={value.handleActualScore}
+          handleMaxScore={value.handleMaxScore}
+        />
+      );
+    case 3:
+      return (
+        <div>
+          <h1>
+            score:
+            {' '}
+            {scores.actual}
+            /
+            {scores.max}
+          </h1>
+          <button type="button" onClick={() => resetQuiz()}>{t('rituais.resetQuiz')}</button>
+        </div>
+      );
     default:
       return <SelectRituals nextPage={nextPage} handleSelectedElement={handleSelectedElement} />;
   }

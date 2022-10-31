@@ -9,7 +9,7 @@ import SelectPage from '../components/rituals/SelectPage';
 const RitualsPage: NextPage = () => (
   <main className={styles.simulacao}>
     <Head>
-      <title>Simulação de Batalha</title>
+      <title>Rituais - CTOR</title>
     </Head>
     <SelectPage />
   </main>

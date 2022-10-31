@@ -7,7 +7,7 @@ import styles from '../styles/main.module.sass';
 const Home: NextPage = () => (
   <>
     <Head>
-      <title>Ordo Realitas - Centro de Treinamento</title>
+      <title>Centro de Treinamento Ordo Realitas</title>
     </Head>
     <main className={styles.content}>
       <h1>BOAS VINDAS!</h1>
