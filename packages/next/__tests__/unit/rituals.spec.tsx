@@ -1,3 +1,4 @@
+/// <reference types="@testing-library/jest-dom" />
 import { screen, render } from '@testing-library/react';
 import { Rituals } from '../../pages/rituais';
 

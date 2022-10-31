@@ -1,6 +1,6 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "types": ["cypress", "@testing-library/cypress"],
+    "types": ["jest", "@testing-library/jest-dom"],
   },
 }

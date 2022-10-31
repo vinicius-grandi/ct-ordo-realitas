@@ -1,14 +1,13 @@
 import * as React from 'react';
 import Header from '../../components/Header';
-import customMount from '../utils/customMount';
 
 describe('Header', () => {
   beforeEach(() => {
     cy.viewport(360, 640);
-    customMount(<Header />);
   });
 
   it('changes its content in lockstep with viewport width', () => {
+    cy.mount(<Header />);
     cy.findByRole('banner').should('exist');
     cy.findByRole('button', {
       name: 'menu-button',
@@ -19,9 +18,10 @@ describe('Header', () => {
     }).should('not.exist');
   });
   it('expands the menu when on click', () => {
+    cy.mount(<Header />);
     cy.findByRole('button', {
       name: 'menu-button',
     }).click();
-    cy.get('ul').contains('ocultista');
+    cy.get('ul').contains('ocultist');
   });
 });
