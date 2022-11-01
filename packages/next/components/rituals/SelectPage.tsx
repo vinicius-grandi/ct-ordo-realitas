@@ -53,7 +53,13 @@ export default function SelectPage() {
 
   switch (page) {
     case 1:
-      return <SelectRituals nextPage={nextPage} handleSelectedElement={handleSelectedElement} />;
+      return (
+        <SelectRituals
+          nextPage={nextPage}
+          handleSelectedElement={handleSelectedElement}
+          selectedElements={selectedElements}
+        />
+      );
     case 2:
       return (
         <RitualQuiz

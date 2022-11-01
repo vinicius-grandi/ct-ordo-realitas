@@ -1,0 +1,55 @@
+@use './mixins'
+
+.rituais
+    display: grid
+    @include mixins.desktop
+        grid-template-areas: ". knowledge ." "blood . death" ". . ." "fear . energy" ". start ."
+    button
+        background: none
+        border: 1px solid black
+        border-radius: 5px
+        padding: 1.5rem
+        margin: 1rem
+        font-size: 1.2rem
+    button:hover
+        background: #00000018
+    margin-bottom: 1rem
+    @include mixins.mobile
+        *
+            grid-area: auto !important
+        grid-template-rows: repeat(5, 1fr)
+        grid-template-columns: 1fr
+
+
+#blood
+    grid-area: blood
+
+#fear
+    grid-area: fear
+
+#knowledge
+    grid-area: knowledge
+
+#death
+    grid-area: death
+
+#energy
+    grid-area: energy
+
+.start-quiz
+    grid-area: start
+
+.glow-blood
+    @include mixins.glow(#cc0000)
+
+.glow-fear
+    @include mixins.glow(#296dff)
+
+.glow-energy
+    @include mixins.glow(#d429ff)
+
+.glow-death
+    @include mixins.glow(#000000)
+
+.glow-knowledge
+    @include mixins.glow(#fdfa25)
