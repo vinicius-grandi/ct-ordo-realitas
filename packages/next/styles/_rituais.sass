@@ -16,7 +16,7 @@
     button:hover
         background: #00000018
     margin-bottom: 1rem
-    @include mixins.mobile
+    @include mixins.tablet
         *
             grid-area: auto !important
         grid-template-rows: repeat(5, 1fr)
@@ -71,6 +71,7 @@
     color: white
     flex-direction: column
     align-items: center
+    justify-content: center
     flex-basis: 30%
     max-width: 350px
     @include mixins.tablet
@@ -79,7 +80,7 @@
         flex-basis: 100%
     *
         text-align: center
-    background: vars.$black
+    background: #000
     height: 300px
     position: relative
     input
@@ -98,3 +99,16 @@
     margin: 1rem
     width: 50%
     align-self: center
+
+@keyframes showHide
+    0%
+        width: 0%
+    100%
+        width: 100%
+
+.rituals-loading
+    overflow: hidden
+    text-transform: uppercase
+    color: vars.$red
+    font-weight: 600
+    animation: showHide 2s ease-in-out infinite

@@ -45,7 +45,8 @@
         "resetQuiz": "Reiniciar Quiz",
         "ritualQuiz": {
             "ritualPlaceholder": "Ex: Cinerária",
-            "finishQuiz": "Finalizar Quiz"
+            "finishQuiz": "Finalizar Quiz",
+            "cardAlt": "desconhecido"
         }
       },
       "ocultista": {

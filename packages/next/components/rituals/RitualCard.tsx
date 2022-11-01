@@ -31,7 +31,7 @@ export default function RitualCard({
         width={145}
         height={155}
         layout="fixed"
-        alt="unknown ritual"
+        alt={isInputEqualActual ? `${ritual.name} ritual` : `${t('rituais.ritualQuiz.cardAlt')} ritual`}
         onError={(ev) => {
           const { currentTarget } = ev;
           currentTarget.alt = ritual.name;

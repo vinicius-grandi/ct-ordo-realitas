@@ -72,7 +72,7 @@ export default function SelectPage() {
       );
     case 3:
       return (
-        <div>
+        <>
           <h1>
             SCORE:
             {' '}
@@ -83,7 +83,7 @@ export default function SelectPage() {
           <button className={styles['finish-quiz']} type="button" onClick={() => resetQuiz()}>
             {t('rituais.resetQuiz')}
           </button>
-        </div>
+        </>
       );
     default:
       return (
