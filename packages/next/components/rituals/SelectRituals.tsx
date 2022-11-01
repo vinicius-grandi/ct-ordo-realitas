@@ -18,7 +18,7 @@ export default function SelectRituals({
   return (
     <>
       <h1>{t('rituais.title')}</h1>
-      {errorMsg.length > 0 && <p>{errorMsg}</p>}
+      {errorMsg.length > 0 && <p className={styles['error-message']}>{errorMsg}</p>}
       <div className={styles.rituais}>
         {elements.map((element) => {
           const isElemSelected = selectedElements.findIndex((s) => s === element) !== -1;
@@ -37,10 +37,15 @@ export default function SelectRituals({
         <button
           type="button"
           onClick={() => {
-            if (elements.length > 0) {
+            if (selectedElements.length > 0) {
               nextPage();
+              window.scrollTo(0, 0);
             } else {
-              setErrorMsg(t<string>('rituais.ritualsQuiz.noElementsAlert'));
+              window.scroll({
+                top: 0,
+                behavior: 'smooth',
+              });
+              setErrorMsg(t<string>('rituais.atLeastOneElementError'));
             }
           }}
           className={styles['start-quiz']}

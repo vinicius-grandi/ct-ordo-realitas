@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
+import styles from '@styles/main.module.sass';
 import useT from '../../lib/hooks/useT';
 import RitualQuiz from './RitualQuiz';
 import SelectRituals from './SelectRituals';
@@ -73,16 +74,24 @@ export default function SelectPage() {
       return (
         <div>
           <h1>
-            score:
+            SCORE:
             {' '}
             {scores.actual}
             /
             {scores.max}
           </h1>
-          <button type="button" onClick={() => resetQuiz()}>{t('rituais.resetQuiz')}</button>
+          <button className={styles['finish-quiz']} type="button" onClick={() => resetQuiz()}>
+            {t('rituais.resetQuiz')}
+          </button>
         </div>
       );
     default:
-      return <SelectRituals nextPage={nextPage} handleSelectedElement={handleSelectedElement} />;
+      return (
+        <SelectRituals
+          nextPage={nextPage}
+          handleSelectedElement={handleSelectedElement}
+          selectedElements={selectedElements}
+        />
+      );
   }
 }

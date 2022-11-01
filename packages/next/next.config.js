@@ -9,6 +9,16 @@ const nextConfig = {
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],
   },
+  experimental: {
+    images: {
+      remotePatterns: [
+        {
+          protocol: 'https',
+          hostname: 'i.ibb.co',
+        },
+      ],
+    },
+  },
   i18n,
 }
 

@@ -1,4 +1,5 @@
 @use './mixins'
+@use './variables' as vars
 
 .rituais
     display: grid
@@ -11,6 +12,7 @@
         padding: 1.5rem
         margin: 1rem
         font-size: 1.2rem
+        text-transform: uppercase
     button:hover
         background: #00000018
     margin-bottom: 1rem
@@ -53,3 +55,46 @@
 
 .glow-knowledge
     @include mixins.glow(#fdfa25)
+
+.ritual-quiz
+    @include mixins.flex-column
+
+.card-container
+    display: flex
+    margin: 0 1rem
+    flex-wrap: wrap
+    gap: 0.5rem
+    justify-content: center
+
+.ritual-card
+    display: flex
+    color: white
+    flex-direction: column
+    align-items: center
+    flex-basis: 30%
+    max-width: 350px
+    @include mixins.tablet
+        flex-basis: 48%
+    @include mixins.mobile
+        flex-basis: 100%
+    *
+        text-align: center
+    background: vars.$black
+    height: 300px
+    position: relative
+    input
+        padding: 0.33rem
+        font-size: 1.05rem
+        position: absolute
+        width: 100%
+        max-width: 300px
+        margin: auto
+        box-sizing: border-box
+        bottom: 10%
+
+.finish-quiz
+    @include mixins.buttons
+    background: vars.$blue
+    margin: 1rem
+    width: 50%
+    align-self: center

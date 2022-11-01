@@ -33,6 +33,21 @@
           "export": "exportar"
         }
       },
+      "rituais": {
+        "title": "Quiz - Rituais",
+        "atLeastOneElementError": "Por favor, escolha pelo menos um elemento",
+        "blood": "sangue",
+        "fear": "medo",
+        "knowledge": "conhecimento",
+        "energy": "energia",
+        "death": "morte",
+        "startQuiz": "Iniciar Quiz",
+        "resetQuiz": "Reiniciar Quiz",
+        "ritualQuiz": {
+            "ritualPlaceholder": "Ex: Cinerária",
+            "finishQuiz": "Finalizar Quiz"
+        }
+      },
       "ocultista": {
         "title": "ocultista"
       },
