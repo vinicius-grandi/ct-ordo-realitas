@@ -3,6 +3,7 @@ import api from '@ct-ordo-realitas/app/firebase/clientApp';
 import styles from '@styles/main.module.sass';
 import useT from '../../lib/hooks/useT';
 import RitualCard from './RitualCard';
+import useFocusNext from '../../lib/hooks/useFocusNext';
 
 export type Ritual = {
   name: string;
@@ -22,16 +23,31 @@ export default function RitualQuiz({
   handleMaxScore: (max: number) => void }) {
   const t = useT();
   const [rituals, setRituals] = useState<Ritual[]>([]);
+  const [nextInput, getNextInput] = useFocusNext();
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     async function getData() {
-      const promiseData = selectedElements.map((elem) => api.getRituals(elem));
-      const querySnapshotArr = await Promise.all(promiseData);
-      const res: Ritual[] = [];
-      querySnapshotArr.forEach(
-        (querySnapshot) => querySnapshot.forEach((doc) => res.push(doc.data() as Ritual)),
-      );
-      setRituals(res);
+      // const promiseData = selectedElements.map((elem) => api.getRituals(elem));
+      // const querySnapshotArr = await Promise.all(promiseData);
+      // const res: Ritual[] = [];
+      // querySnapshotArr.forEach(
+      //   (querySnapshot) => querySnapshot.forEach((doc) => res.push(doc.data() as Ritual)),
+      // );
+      setRituals([{
+        name: 'ci',
+        imagePath: '',
+        type: 'blood',
+      },
+      {
+        name: 'ci',
+        imagePath: '',
+        type: 'blood',
+      },
+      {
+        name: 'ci',
+        imagePath: '',
+        type: 'blood',
+      }]);
       setLoading(false);
     }
     void getData();
@@ -50,19 +66,19 @@ export default function RitualQuiz({
       </ul>
       <ul className={styles['card-container']}>
         {rituals.map((ritual, idx) => (
-          <RitualCard key={`ritual-${idx + 1}`} ritual={ritual} handleActualScore={handleActualScore} />
+          <RitualCard key={`ritual-${idx + 1}`} ritual={ritual} handleActualScore={handleActualScore} ref={nextInput} getNextInput={getNextInput} />
         ))}
       </ul>
-      <button
+      <input
         type="button"
         className={styles['finish-quiz']}
         onClick={() => {
           handleMaxScore(rituals.length);
           nextPage();
         }}
-      >
-        {t('rituais.ritualQuiz.finishQuiz')}
-      </button>
+        ref={nextInput}
+        value={t('rituais.ritualQuiz.finishQuiz')}
+      />
     </div>
   );
 }
