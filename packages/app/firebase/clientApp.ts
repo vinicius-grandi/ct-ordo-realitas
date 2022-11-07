@@ -1,6 +1,6 @@
 import { initializeApp } from '@firebase/app';
-import { getDocs, getFirestore } from '@firebase/firestore';
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from '@firebase/auth';
+import { getDocs, getFirestore, updateDoc, addDoc } from '@firebase/firestore';
+import { getAuth, signInWithEmailAndPassword } from '@firebase/auth';
 import { collection, query, where } from '@firebase/firestore';
 
 const firebaseConfig = {
@@ -21,6 +21,12 @@ const firestore = getFirestore(app);
 const ritualCollection = collection(firestore, 'rituals');
 const ritualsQuery = (type: string) => query(ritualCollection, where('type', '==', type));
 export const getRituals = (type: string) => getDocs(ritualsQuery(type));
+
+export const setRitual = (data: {
+  name: string;
+  imagePath: string;
+  type: string;
+}) => addDoc(ritualCollection, data);
 
 export const loginWithEmailAndPassword = async (email: string, password: string) => {
   try {

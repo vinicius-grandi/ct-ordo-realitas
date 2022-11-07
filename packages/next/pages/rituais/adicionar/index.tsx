@@ -36,3 +36,5 @@ export default function NewRitualPage() {
     </div>
   );
 }
+
+export const AddNewRitual = NewRitualPage;
