@@ -3,8 +3,8 @@ import imgbbUploader from 'imgbb-uploader';
 import { IncomingForm } from 'formidable';
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  async function getBase64fromImage() {
-    const data = await new Promise((resolve, reject) => {
+  async function getFormData() {
+    return new Promise((resolve, reject) => {
       const form = new IncomingForm();
 
       form.parse(req, (err, fields, files) => {
@@ -12,17 +12,26 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         return resolve({ fields, files });
       });
     });
-    const { fields: { image } }: any = await data;
-    return image.slice(22);
+  }
+  async function getBase64fromImage() {
+    const {
+      fields: { image },
+    }: any = await getFormData();
+    const result = image.split(',')[1];
+    return result;
   }
 
   if (req.method === 'POST') {
-    const response = await imgbbUploader({
-      base64string: await getBase64fromImage(),
-      apiKey: process.env.IMGBB_API_KEY,
-    });
-    console.log(response);
-    return res.json({ message: 'ok' });
+    try {
+      const response = await imgbbUploader({
+        base64string: await getBase64fromImage(),
+        apiKey: process.env.IMGBB_API_KEY,
+      });
+      return res.json({ displayUrl: response.display_url });
+    } catch (error) {
+      console.error(error);
+      return res.status(500);
+    }
   }
   return res.status(405);
 }

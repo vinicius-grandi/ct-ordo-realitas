@@ -1,5 +1,6 @@
 import { initializeApp } from '@firebase/app';
 import { getDocs, getFirestore } from '@firebase/firestore';
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from '@firebase/auth';
 import { collection, query, where } from '@firebase/firestore';
 
 const firebaseConfig = {
@@ -14,12 +15,30 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 const firestore = getFirestore(app);
 
 const ritualCollection = collection(firestore, 'rituals');
 const ritualsQuery = (type: string) => query(ritualCollection, where('type', '==', type));
 export const getRituals = (type: string) => getDocs(ritualsQuery(type));
 
+export const loginWithEmailAndPassword = async (email: string, password: string) => {
+  try {
+    const response = await signInWithEmailAndPassword(auth, email, password);
+    return {
+      user: response.user,
+      status: 200,
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      user: null,
+      status: 500,
+    };
+  }
+};
+
 export default {
   getRituals,
+  loginWithEmailAndPassword,
 };

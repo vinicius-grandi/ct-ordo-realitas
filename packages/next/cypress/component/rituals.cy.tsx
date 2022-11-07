@@ -8,7 +8,7 @@ describe('Header', () => {
     customMount(<Rituals />);
   });
 
-  it('changes its content in lockstep with viewport width', () => {
+  it('creates a quiz using selected elements, when you get the answer right, the input become disabled', () => {
     cy.findByText(/blood/i).click();
     cy.findByText(/startQuiz/i).click();
     cy.stub(api, 'getRituals').callsFake(() => Promise.resolve([{

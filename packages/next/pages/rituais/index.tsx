@@ -3,8 +3,8 @@ import { NextPage } from 'next';
 import Head from 'next/head';
 import { withTranslation } from 'next-i18next';
 import styles from '@styles/main.module.sass';
-import getStaticProps from '../../components/withTranslationProps';
-import SelectPage from '../../components/rituals/SelectPage';
+import getStaticProps from '@components/withTranslationProps';
+import SelectPage from '@components/rituals/SelectPage';
 
 const RitualsPage: NextPage = () => (
   <main className={styles.simulacao}>

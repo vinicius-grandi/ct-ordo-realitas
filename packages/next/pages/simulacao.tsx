@@ -4,11 +4,11 @@ import Head from 'next/head';
 import { Trans, withTranslation } from 'next-i18next';
 import { useSelector } from 'react-redux';
 import { selectIsSelectionMode } from '@ct-ordo-realitas/app/redux/battlefieldSlice';
-import Battlefield from '../components/simulation/Battlefield';
+import Battlefield from '@components/simulation/Battlefield';
+import getStaticProps from '@components/withTranslationProps';
+import SimulacaoConfig from '@components/simulation/SimulacaoConfig';
 import styles from '../styles/main.module.sass';
-import getStaticProps from '../components/withTranslationProps';
 import useT from '../lib/hooks/useT';
-import SimulacaoConfig from '../components/simulation/SimulacaoConfig';
 
 const SimulationPage: NextPage = () => {
   const t = useT();

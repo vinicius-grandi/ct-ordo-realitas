@@ -1,12 +1,12 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import '../styles/globals.sass';
+import '@styles/globals.sass';
 import type { AppProps } from 'next/app';
 import { Provider } from 'react-redux';
 import { wrapper } from '@ct-ordo-realitas/app/redux/reducers';
 import { appWithTranslation } from 'next-i18next';
+import Header from '@components/Header';
+import Footer from '@components/Footer';
 import BattlefieldProvider from '../contexts/battlefield';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
 
 function MyApp({ Component, ...rest }: AppProps) {
   const { store, props } = wrapper.useWrappedStore(rest);
