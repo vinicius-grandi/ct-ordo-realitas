@@ -18,6 +18,11 @@ export default function NewRitualPage() {
   };
   const [ritual, setRitual] = useState(initialStateRitual);
   useEffect(() => {
+    document.body.style.background = 'url(\'/images/add-new-ritual-bg.jpg\')';
+    document.body.style.backgroundPosition = '90% 100%';
+    document.body.style.backgroundSize = 'auto';
+  });
+  useEffect(() => {
     if (image instanceof File) {
       const reader = new FileReader();
       reader.readAsDataURL(image);

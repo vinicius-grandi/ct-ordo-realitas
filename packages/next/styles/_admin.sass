@@ -1,2 +1,42 @@
+@use './mixins'
+
 .admin-login
-    @include mixins.debian-title
+    $green: #98f574
+    &-container
+        color: $green
+        font-family: 'Times New Roman', Times, serif
+        *:not(input)
+            text-transform: uppercase
+    &-form
+        margin-top: 2rem
+        margin-left: 2rem
+        @include mixins.flex-column
+        *
+            font-size: 1.1rem
+            color: $green
+        input
+            background: none
+            border: none
+            caret-color: $green
+            margin-left: 1rem
+        input:focus
+            outline: none
+        span
+            @include mixins.show-hide-animation
+    &-title
+        @include mixins.debian-title
+        color: #000
+    &-btn
+        background: $green
+        padding: 0.5rem 2rem
+        font-weight: bold
+        font-size: 1.5rem
+        border: none
+        border-radius: 5px
+        float: right
+        margin-right: 2rem
+    &-btn:focus
+        outline: 3px solid white
+    &-btn:hover
+        background: #233a1a
+        cursor: pointer

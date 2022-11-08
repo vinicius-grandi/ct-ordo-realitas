@@ -43,6 +43,8 @@
     padding: 1rem 2rem
     align-self: flex-start
     width: 100%
+    box-sizing: border-box
+    text-transform: uppercase
 
 @mixin entity
     @include flex-column
@@ -95,3 +97,16 @@
 
 @mixin glow($color)
     filter: drop-shadow(1px 1px 2px $color)
+
+@mixin show-hide-animation
+    overflow: hidden
+    width: fit-content
+    animation: showHide 10s steps(40, end)
+    display: inline-block
+    max-width: fit-content
+
+@keyframes showHide
+    0%
+        width: 0%
+    100%
+        width: 100%

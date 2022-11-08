@@ -1,8 +1,9 @@
 import { withTranslation } from 'next-i18next';
 import getStaticProps from '@components/withTranslationProps';
 import { useRouter } from 'next/router';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import api from '@ct-ordo-realitas/app/firebase/clientApp';
+import styles from '@styles/main.module.sass';
 
 function AdminLoginPage() {
   const router = useRouter();
@@ -27,19 +28,25 @@ function AdminLoginPage() {
     return setErrorMsg('authentication failure');
   };
 
+  useEffect(() => {
+    document.body.style.background = 'url(\'/images/admin-bg.gif\')';
+  });
+
   return (
-    <div>
-      <h1>authentication</h1>
-      <label htmlFor="username">
-        Username
-        <input type="text" id="username" value={agent.username} onChange={handleInput} />
-      </label>
-      <label htmlFor="password">
-        Password
-        <input type="password" id="password" value={agent.password} onChange={handleInput} />
-      </label>
+    <div className={styles['admin-login-container']}>
+      <h1 className={styles['admin-login-title']}>authentication</h1>
+      <div className={styles['admin-login-form']}>
+        <label htmlFor="username">
+          <span>Username:</span>
+          <input type="text" id="username" value={agent.username} onChange={handleInput} />
+        </label>
+        <label htmlFor="password">
+          <span>Password:</span>
+          <input type="password" id="password" value={agent.password} onChange={handleInput} />
+        </label>
+      </div>
       {errorMsg.length > 0 && <p>{errorMsg}</p>}
-      <button type="button" onClick={handleLogin}>
+      <button type="button" onClick={handleLogin} className={styles['admin-login-btn']}>
         login
       </button>
     </div>
