@@ -9,26 +9,19 @@ describe('Header', () => {
   });
 
   it('should let you create a new ritual if name and type length is greater than 0 and file is a png', () => {
-    cy.stub(api, 'setRitual').callsFake(() => Promise.resolve());
+    cy.stub(api, 'setRitual').as('api').callsFake(() => Promise.resolve());
+    cy.intercept('adicionar', {
+      fixture: 'example.json',
+    });
     cy.findByText(/adicionar novo ritual/i).should('exist');
-    cy.findByLabelText(/nome/i).as('ritual-name').should('exist');
-    cy.findByLabelText(/tipo/i).as('ritual-type').should('exist');
-    cy.findByLabelText(/imagem/i).as('ritual-image').should('exist');
+    cy.findByLabelText(/nome/i).type('Cinerária');
+    cy.findByLabelText(/tipo/i).type('fear');
+    cy.get('input[type=file]').selectFile('example-ritual.png');
     cy.findByRole('button', {
-      name: 'upload',
-    }).as('add-new-ritual-btn').should('exist');
-    cy.get('@ritual-name').type('Cinerária');
-    cy.get('@ritual-type').type('fear');
-    cy.get('@ritual-image').selectFile('example-ritual.png');
-    cy.get('@add-new-ritual-btn').click();
-    cy.intercept('/api/rituais/adicionar', {
-      imagePath: 'coolImagePath',
+      name: 'salvar',
+    }).click().then(() => {
+      cy.findByText(/ritual upload successful/i);
     });
-    expect(api.setRitual).to.be.calledWith({
-      name: 'Cinerária',
-      imagePath: 'coolImagePath',
-      type: 'fear',
-    });
-    cy.findByText(/ritual upload successful/i);
+    cy.wait('@api').then(() => expect(api.setRitual).to.be.called);
   });
 });
