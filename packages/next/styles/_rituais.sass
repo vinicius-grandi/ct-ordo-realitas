@@ -114,3 +114,55 @@
     color: vars.$red
     font-weight: 600
     animation: showHide 2s ease-in-out infinite
+
+.add-new-ritual
+    &-bg
+        font-family: 'Times New Roman', Times, serif
+        font-size: 1.2rem
+        background: url('/images/add-new-ritual-bg.jpg')
+        background-position: right bottom
+        background-size: cover
+        background-repeat: no-repeat
+        position: fixed
+        height: 100%
+        width: 102%
+        display: flex
+        flex-direction: column
+        align-items: flex-end
+        label
+            margin: 0.36rem 0
+    &-form
+        margin-top: 1rem
+        margin-right: 2rem
+        color: white
+        display: flex
+        flex-direction: column
+        box-shadow: 1px 1px 4px #00000056
+        input
+            float: right
+            font-size: 1.2rem
+    img
+        align-self: flex-start
+    &-save-btn, &-bg
+        text-transform: uppercase
+    &-save-btn
+        margin-top: auto
+        font-size: 1.5rem
+        font-weight: bold
+        padding: 0.5rem 1rem
+    &-upload-btn
+        background: #bdbdbd
+        text-align: center
+        font-size: 1.2rem
+        padding: 0.12rem
+    &-container
+        width: 100%
+        display: flex
+        justify-content: space-around
+    &-container, &-form
+        padding: 2rem
+        border-radius: 3px
+        background: #000
+
+.debian-title
+    @include mixins.debian-title

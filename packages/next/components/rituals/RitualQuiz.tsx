@@ -27,27 +27,13 @@ export default function RitualQuiz({
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     async function getData() {
-      // const promiseData = selectedElements.map((elem) => api.getRituals(elem));
-      // const querySnapshotArr = await Promise.all(promiseData);
-      // const res: Ritual[] = [];
-      // querySnapshotArr.forEach(
-      //   (querySnapshot) => querySnapshot.forEach((doc) => res.push(doc.data() as Ritual)),
-      // );
-      setRituals([{
-        name: 'ci',
-        imagePath: '',
-        type: 'blood',
-      },
-      {
-        name: 'ci',
-        imagePath: '',
-        type: 'blood',
-      },
-      {
-        name: 'ci',
-        imagePath: '',
-        type: 'blood',
-      }]);
+      const promiseData = selectedElements.map((elem) => api.getRituals(elem));
+      const querySnapshotArr = await Promise.all(promiseData);
+      const res: Ritual[] = [];
+      querySnapshotArr.forEach(
+        (querySnapshot) => querySnapshot.forEach((doc) => res.push(doc.data() as Ritual)),
+      );
+      setRituals(res);
       setLoading(false);
     }
     void getData();
