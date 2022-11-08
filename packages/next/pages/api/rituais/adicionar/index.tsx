@@ -27,7 +27,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         base64string: await getBase64fromImage(),
         apiKey: process.env.IMGBB_API_KEY,
       });
-      return res.json({ displayUrl: response.display_url });
+      return res.json({ imagePath: response.display_url });
     } catch (error) {
       console.error(error);
       return res.status(500);

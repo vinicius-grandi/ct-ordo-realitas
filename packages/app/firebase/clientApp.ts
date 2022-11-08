@@ -1,5 +1,6 @@
 import { initializeApp } from '@firebase/app';
-import { getDocs, getFirestore, updateDoc, addDoc } from '@firebase/firestore';
+import slugify from 'slugify';
+import { getDocs, getFirestore, doc, setDoc } from '@firebase/firestore';
 import { getAuth, signInWithEmailAndPassword } from '@firebase/auth';
 import { collection, query, where } from '@firebase/firestore';
 
@@ -26,7 +27,7 @@ export const setRitual = (data: {
   name: string;
   imagePath: string;
   type: string;
-}) => addDoc(ritualCollection, data);
+}) => setDoc(doc(firestore, 'rituals', slugify(data.name)), data);
 
 export const loginWithEmailAndPassword = async (email: string, password: string) => {
   try {
@@ -46,5 +47,6 @@ export const loginWithEmailAndPassword = async (email: string, password: string)
 
 export default {
   getRituals,
+  setRitual,
   loginWithEmailAndPassword,
 };
