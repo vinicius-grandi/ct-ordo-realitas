@@ -2,7 +2,7 @@ import { withTranslation } from 'next-i18next';
 import getStaticProps from '@components/withTranslationProps';
 import { useRouter } from 'next/router';
 import { ChangeEvent, useEffect, useState } from 'react';
-import api from '@ct-ordo-realitas/app/firebase/clientApp';
+import api, { logout } from '@ct-ordo-realitas/app/firebase/clientApp';
 import styles from '@styles/main.module.sass';
 
 function AdminLoginPage() {
@@ -20,16 +20,29 @@ function AdminLoginPage() {
   };
 
   const handleLogin = async () => {
-    const response = await api.loginWithEmailAndPassword(agent.username, agent.password);
-    if (response.status === 200) {
+    try {
+      const response = await api.loginAndGetToken(agent.username, agent.password);
+      if (response.status !== 200) {
+        return setErrorMsg('authentication failure');
+      }
+      const body = new FormData();
+      body.append('csrfToken', response.token as string);
+      body.append('idToken', response.cookie as string);
+      await fetch('../api/login', {
+        method: 'post',
+        body,
+      });
+      setErrorMsg('authentication successful');
+      await logout();
       await router.push('/rituais/adicionar');
       return null;
+    } catch (error) {
+      return console.error(error);
     }
-    return setErrorMsg('authentication failure');
   };
 
   useEffect(() => {
-    document.body.style.background = 'url(\'/images/admin-bg.gif\')';
+    document.body.style.background = "url('/images/admin-bg.gif')";
   });
 
   return (

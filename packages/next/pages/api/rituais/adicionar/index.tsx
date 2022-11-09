@@ -1,22 +1,13 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import imgbbUploader from 'imgbb-uploader';
-import { IncomingForm } from 'formidable';
+import getFormData from '../../../../lib/getFormData';
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  async function getFormData() {
-    return new Promise((resolve, reject) => {
-      const form = new IncomingForm();
-
-      form.parse(req, (err, fields, files) => {
-        if (err) return reject(err);
-        return resolve({ fields, files });
-      });
-    });
-  }
+  console.log(req.cookies.session);
   async function getBase64fromImage() {
     const {
       fields: { image },
-    }: any = await getFormData();
+    }: any = await getFormData(req);
     const result = image.split(',')[1];
     return result;
   }

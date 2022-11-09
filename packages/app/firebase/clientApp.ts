@@ -1,24 +1,16 @@
-import { initializeApp } from '@firebase/app';
 import slugify from 'slugify';
 import { getDocs, getFirestore, doc, setDoc } from '@firebase/firestore';
-import { getAuth, signInWithEmailAndPassword } from '@firebase/auth';
+import { getAuth, signInWithEmailAndPassword, inMemoryPersistence } from '@firebase/auth';
 import { collection, query, where } from '@firebase/firestore';
 
-const firebaseConfig = {
-  apiKey: 'AIzaSyDE6K_eS2vGcPP6MkJgK2_ZblKb_9EBua4',
-  authDomain: 'ct-ordo-realitas.firebaseapp.com',
-  databaseURL: 'https://ct-ordo-realitas-default-rtdb.firebaseio.com',
-  projectId: 'ct-ordo-realitas',
-  storageBucket: 'ct-ordo-realitas.appspot.com',
-  messagingSenderId: '62300642308',
-  appId: '1:62300642308:web:9ba6399d68e0cc491ba951',
-  measurementId: 'G-3L9PCJBCX4',
-};
+function getCookie(name: string) {
+  const v = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+  return v ? v[2] : null;
+}
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const firestore = getFirestore(app);
-
+const auth = getAuth();
+const firestore = getFirestore();
+(async () => await auth.setPersistence(inMemoryPersistence))();
 const ritualCollection = collection(firestore, 'rituals');
 const ritualsQuery = (type: string) => query(ritualCollection, where('type', '==', type));
 export const getRituals = (type: string) => getDocs(ritualsQuery(type));
@@ -29,24 +21,30 @@ export const setRitual = (data: {
   type: string;
 }) => setDoc(doc(firestore, 'rituals', slugify(data.name)), data);
 
-export const loginWithEmailAndPassword = async (email: string, password: string) => {
+export const loginAndGetToken = async (email: string, password: string) => {
   try {
     const response = await signInWithEmailAndPassword(auth, email, password);
+    const idToken = await response.user.getIdToken();
+    const sdrfToken = getCookie('csrfToken');
     return {
-      user: response.user,
+      cookie: idToken,
+      token: sdrfToken,
       status: 200,
     };
   } catch (error) {
     console.error(error);
     return {
-      user: null,
+      cookie: null,
+      token: null,
       status: 500,
     };
   }
 };
 
+export const logout = () => auth.signOut();
+
 export default {
   getRituals,
   setRitual,
-  loginWithEmailAndPassword,
+  loginAndGetToken,
 };
