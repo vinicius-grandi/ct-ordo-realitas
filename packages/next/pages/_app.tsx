@@ -7,10 +7,8 @@ import { appWithTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
 import Header from '@components/Header';
 import Footer from '@components/Footer';
-import initConfig from '@ct-ordo-realitas/app/firebase/initConfig';
+// import initConfig from '@ct-ordo-realitas/app/firebase/initConfig';
 import BattlefieldProvider from '../contexts/battlefield';
-
-initConfig();
 
 function MyApp({ Component, ...rest }: AppProps) {
   const { store, props } = wrapper.useWrappedStore(rest);

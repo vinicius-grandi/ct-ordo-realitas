@@ -1,7 +1,8 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import Image from 'next/image';
 import styles from '@styles/main.module.sass';
-import api from '@ct-ordo-realitas/app/firebase/clientApp';
+import { GetServerSideProps } from 'next';
+import api from '@ct-ordo-realitas/app/firebase/serverApp';
 
 type Ritual = {
   name: string;
@@ -18,7 +19,7 @@ export default function NewRitualPage() {
   };
   const [ritual, setRitual] = useState(initialStateRitual);
   useEffect(() => {
-    document.body.style.background = 'url(\'/images/add-new-ritual-bg.jpg\')';
+    document.body.style.background = "url('/images/add-new-ritual-bg.jpg')";
     document.body.style.backgroundPosition = '90% 100%';
     document.body.style.backgroundSize = 'auto';
   });
@@ -40,9 +41,10 @@ export default function NewRitualPage() {
     setRitual({ ...ritual, type: value });
   };
 
-  async function getImagePathFromUploaded() {
+  async function setNewRitual() {
     const body = new FormData();
     body.append('image', base64Img);
+    body.append('ritual', JSON.stringify(ritual));
     const response = await fetch('../api/rituais/adicionar', {
       method: 'post',
       body,
@@ -52,17 +54,13 @@ export default function NewRitualPage() {
   }
   const isLengthGreaterThanZero = (s: string) => s.length > 0;
   const handleNewRitual = async () => {
-    console.log('alo');
     if (
-      isLengthGreaterThanZero(base64Img)
-      && isLengthGreaterThanZero(ritual.name)
-      && isLengthGreaterThanZero(ritual.type)
+      isLengthGreaterThanZero(base64Img) &&
+      isLengthGreaterThanZero(ritual.name) &&
+      isLengthGreaterThanZero(ritual.type)
     ) {
       try {
-        await api.setRitual({
-          ...ritual,
-          imagePath: await getImagePathFromUploaded(),
-        });
+        await setNewRitual();
         setStatusMsg('ritual upload successful');
       } catch (error) {
         console.error(error);
@@ -76,7 +74,9 @@ export default function NewRitualPage() {
     <div className={styles['add-new-ritual-bg']}>
       <h1 className={styles['debian-title']}>Rituais - Adicionar novo Ritual</h1>
       <div className={styles['add-new-ritual-container']}>
-        { isLengthGreaterThanZero(base64Img) && <Image width={150} height={150} src={base64Img} alt="ritual" /> }
+        {isLengthGreaterThanZero(base64Img) && (
+          <Image width={150} height={150} src={base64Img} alt="ritual" />
+        )}
         <div className={styles['add-new-ritual-form']}>
           <label htmlFor="ritual-name">
             nome:
@@ -101,19 +101,38 @@ export default function NewRitualPage() {
               accept="image/png"
             />
           </label>
-          <button type="button" onClick={handleNewRitual} className={styles['add-new-ritual-save-btn']}>
+          <button
+            type="button"
+            onClick={handleNewRitual}
+            className={styles['add-new-ritual-save-btn']}
+          >
             salvar
           </button>
           {statusMsg.length > 0 && (
-          <p>
-            {'* '}
-            {statusMsg}
-          </p>
+            <p>
+              {'* '}
+              {statusMsg}
+            </p>
           )}
         </div>
       </div>
     </div>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { req } = context;
+  if (req.cookies.session && await api.auth(req.cookies.session)) {
+    return {
+      props: {},
+    };
+  }
+  return {
+    redirect: {
+      destination: '/',
+      permanent: false,
+    },
+  };
+};
 
 export const AddNewRitual = NewRitualPage;
