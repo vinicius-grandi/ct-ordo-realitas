@@ -1,4 +1,3 @@
-import slugify from 'slugify';
 import { getDocs, getFirestore } from '@firebase/firestore';
 import { getAuth, signInWithEmailAndPassword, inMemoryPersistence } from '@firebase/auth';
 import { collection, query, where } from '@firebase/firestore';
@@ -18,11 +17,6 @@ const firebaseConfig = {
 
 const app = getApps().length === 0 ? initializeApp(firebaseConfig, 'client') : getApp('client');
 
-function getCookie(name: string) {
-  const v = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
-  return v ? v[2] : null;
-}
-
 const auth = getAuth(app);
 const firestore = getFirestore(app);
 (async () => await auth.setPersistence(inMemoryPersistence))();
@@ -34,10 +28,8 @@ export const loginAndGetToken = async (email: string, password: string) => {
   try {
     const response = await signInWithEmailAndPassword(auth, email, password);
     const idToken = await response.user.getIdToken();
-    const sdrfToken = getCookie('csrfToken');
     return {
       cookie: idToken,
-      token: sdrfToken,
       status: 200,
     };
   } catch (error) {

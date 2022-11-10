@@ -1,12 +1,13 @@
 import { withTranslation } from 'next-i18next';
-import getStaticProps from '@components/withTranslationProps';
 import { useRouter } from 'next/router';
 import { ChangeEvent, useEffect, useState } from 'react';
 import api, { logout } from '@ct-ordo-realitas/app/firebase/clientApp';
 import styles from '@styles/main.module.sass';
+import { setup } from '../../../lib/csrf';
 
 function AdminLoginPage() {
   const router = useRouter();
+  const [componentDidMount, setComponentDidMount] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [agent, setAgent] = useState({
     username: '',
@@ -26,7 +27,6 @@ function AdminLoginPage() {
         return setErrorMsg('authentication failure');
       }
       const body = new FormData();
-      body.append('csrfToken', response.token as string);
       body.append('idToken', response.cookie as string);
       await fetch('../api/login', {
         method: 'post',
@@ -36,14 +36,22 @@ function AdminLoginPage() {
       await logout();
       await router.push('/rituais/adicionar');
       return null;
-    } catch (error) {
-      return console.error(error);
+    } catch (_) {
+      return setErrorMsg('authentication failure');
     }
   };
 
   useEffect(() => {
+    let initialBg = '';
+    if (!componentDidMount) {
+      setComponentDidMount(true);
+      initialBg = document.body.style.getPropertyValue('background');
+    }
     document.body.style.background = "url('/images/admin-bg.gif')";
-  });
+    return () => {
+      document.body.style.background = initialBg;
+    };
+  }, [componentDidMount]);
 
   return (
     <div className={styles['admin-login-container']}>
@@ -66,8 +74,8 @@ function AdminLoginPage() {
   );
 }
 
-export { getStaticProps };
-
 export const AdminLogin = withTranslation('common')(AdminLoginPage);
+
+export const getServerSideProps = setup(async () => ({ props: {} }));
 
 export default AdminLoginPage;
