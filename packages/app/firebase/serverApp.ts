@@ -1,16 +1,16 @@
-import { getAuth } from 'firebase-admin/auth';
-import { initializeApp, getApp, getApps } from 'firebase-admin/app';
+import { getAuth } from 'firebase-admin/lib/auth';
+import { initializeApp, getApp, getApps } from 'firebase-admin/lib/app';
 import { credential } from 'firebase-admin';
-import { getFirestore } from 'firebase-admin/firestore';
+import { getFirestore } from 'firebase-admin/lib/firestore';
 import slugify from 'slugify';
 
 const configAdmin = {
   credential: credential.cert({
-    projectId: process.env.PROJECT_ID,
-    privateKey: process.env.PRIVATE_KEY?.replace(/\\n/g, '\n'),
-    clientEmail: process.env.CLIENT_EMAIL,
+    projectId: process.env.PROJECT_ID ?? '.',
+    privateKey: (process.env.PRIVATE_KEY ?? '.').replace(/\\n/g, '\n'),
+    clientEmail: process.env.CLIENT_EMAIL ?? '.',
   }),
-  databaseURL: process.env.DATABASE_URL,
+  databaseURL: process.env.DATABASE_URL ?? '.',
 };
 
 const app = getApps().length === 0 ? initializeApp(configAdmin, 'server') : getApp('server');
@@ -20,7 +20,7 @@ const createSessionCookie = (idToken: string) => {
   return getAuth(app).createSessionCookie(idToken, { expiresIn });
 };
 
-const auth = async (sessionCookie: string) => {
+const isUserAdmin = async (sessionCookie: string) => {
   const decodedClaims = getAuth(app).verifySessionCookie(sessionCookie, true);
   const user = await decodedClaims;
   const authorizedUsers = await getFirestore(app).collection('admin').get();
@@ -44,6 +44,6 @@ export const setRitual = (data: {
 
 export default {
   createSessionCookie,
-  auth,
+  isUserAdmin,
   setRitual
 };

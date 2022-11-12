@@ -9,7 +9,7 @@ describe('Header', () => {
   });
 
   it('allows you to login when status code is 200', () => {
-    cy.stub(api, 'loginWithEmailAndPassword').callsFake(() => Promise.resolve({
+    cy.stub(api, 'loginAndGetToken').callsFake(() => Promise.resolve({
       user: 'vinum',
       status: 200,
     }));
@@ -24,8 +24,8 @@ describe('Header', () => {
     cy.get('@push').then((c) => expect(c).to.be.calledWith('/rituais/adicionar'));
   });
   it('sends a error message when the status code is different from 200', () => {
-    cy.stub(api, 'loginWithEmailAndPassword').callsFake(() => Promise.resolve({
-      user: 'vinum',
+    cy.stub(api, 'loginAndGetToken').callsFake(() => Promise.resolve({
+      idToken: null,
       status: 401,
     }));
     cy.findByText(/authentication/i).should('exist');

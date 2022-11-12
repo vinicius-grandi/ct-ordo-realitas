@@ -3,5 +3,5 @@
   "compilerOptions": {
     "types": ["jest", "@testing-library/jest-dom"],
   },
-  "include": ["**/*.tsx"]
+  "include": ["**/*.tsx", "../typeRoots/index.d.ts"]
 }

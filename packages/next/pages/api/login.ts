@@ -5,25 +5,23 @@ import { csrf } from '../../lib/csrf';
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
-    try {
-      const {
-        fields: { idToken: idT },
-      }: any = await getFormData(req);
-      const idToken: string = idT.toString();
-      const sessionCookie = await firebaseAdmin.createSessionCookie(idToken);
-      res.setHeader(
-        'Set-Cookie',
-        `session=${sessionCookie}; Path=/; SameSite=lax; ${
-          process.env.NODE_ENV === 'production' ? 'Secure;' : ''
-        } HttpOnly;`,
-      );
-      return res.end(JSON.stringify({ status: 'success' }));
-    } catch (error) {
-      console.log(error);
-      return res.status(400);
+    const {
+      fields: { idToken: idT },
+    }: any = await getFormData(req);
+    if (!idT) {
+      return res.status(400).json({ message: 'bad request' });
     }
+    const idToken: string = idT.toString();
+    const sessionCookie = await firebaseAdmin.createSessionCookie(idToken);
+    res.setHeader(
+      'Set-Cookie',
+      `session=${sessionCookie}; Path=/; SameSite=lax; ${
+        process.env.NODE_ENV === 'production' ? 'Secure;' : ''
+      } HttpOnly;`,
+    );
+    return res.end(JSON.stringify({ status: 'success' }));
   }
-  return res.status(405);
+  return res.status(405).json({ message: 'this method is not allowed' });
 }
 
 export const config = {

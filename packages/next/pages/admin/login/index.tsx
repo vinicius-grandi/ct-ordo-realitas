@@ -27,7 +27,7 @@ function AdminLoginPage() {
         return setErrorMsg('authentication failure');
       }
       const body = new FormData();
-      body.append('idToken', response.cookie as string);
+      body.append('idToken', response.idToken as string);
       await fetch('../api/login', {
         method: 'post',
         body,

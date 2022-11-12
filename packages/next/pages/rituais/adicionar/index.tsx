@@ -122,7 +122,7 @@ export default function NewRitualPage() {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { req } = context;
-  if (req.cookies.session && await api.auth(req.cookies.session)) {
+  if (req.cookies.session && await api.isUserAdmin(req.cookies.session)) {
     return {
       props: {},
     };

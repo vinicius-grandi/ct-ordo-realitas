@@ -29,14 +29,13 @@ export const loginAndGetToken = async (email: string, password: string) => {
     const response = await signInWithEmailAndPassword(auth, email, password);
     const idToken = await response.user.getIdToken();
     return {
-      cookie: idToken,
+      idToken,
       status: 200,
     };
   } catch (error) {
     console.error(error);
     return {
-      cookie: null,
-      token: null,
+      idToken: null,
       status: 500,
     };
   }
