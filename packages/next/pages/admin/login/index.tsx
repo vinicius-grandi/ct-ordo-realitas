@@ -2,7 +2,10 @@ import { withTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
 import { ChangeEvent, useEffect, useState } from 'react';
 import api, { logout } from '@ct-ordo-realitas/app/firebase/clientApp';
+import serverApi from '@ct-ordo-realitas/app/firebase/serverApp';
+import Head from 'next/head';
 import styles from '@styles/main.module.sass';
+import { NextApiRequest } from 'next/types';
 import { setup } from '../../../lib/csrf';
 
 function AdminLoginPage() {
@@ -55,6 +58,9 @@ function AdminLoginPage() {
 
   return (
     <div className={styles['admin-login-container']}>
+      <Head>
+        <title>Admin Login - CTOR</title>
+      </Head>
       <h1 className={styles['admin-login-title']}>authentication</h1>
       <div className={styles['admin-login-form']}>
         <label htmlFor="username">
@@ -76,6 +82,18 @@ function AdminLoginPage() {
 
 export const AdminLogin = withTranslation('common')(AdminLoginPage);
 
-export const getServerSideProps = setup(async () => ({ props: {} }));
+export const getServerSideProps = setup(
+  async (req: NextApiRequest) => {
+    if (req.cookies.session && (await serverApi.isUserAdmin(req.cookies.session))) {
+      return {
+        redirect: {
+          destination: '/rituais/adicionar',
+          permanent: false,
+        },
+      };
+    }
+    return { props: {} };
+  },
+);
 
 export default AdminLoginPage;

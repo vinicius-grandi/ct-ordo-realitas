@@ -29,6 +29,7 @@ const Menu = ({
     '/classes/ocultista',
     '/classes/combatente',
     '/classes/especialista',
+    '/rituais',
   ];
 
   return (

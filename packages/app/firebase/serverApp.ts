@@ -1,7 +1,7 @@
-import { getAuth } from 'firebase-admin/lib/auth';
-import { initializeApp, getApp, getApps } from 'firebase-admin/lib/app';
+import { getAuth } from 'firebase-admin/auth';
+import { initializeApp, getApp, getApps } from 'firebase-admin/app';
 import { credential } from 'firebase-admin';
-import { getFirestore } from 'firebase-admin/lib/firestore';
+import { getFirestore } from 'firebase-admin/firestore';
 import slugify from 'slugify';
 
 const configAdmin = {

@@ -2,6 +2,8 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import Image from 'next/image';
 import styles from '@styles/main.module.sass';
 import { GetServerSideProps } from 'next';
+import Head from 'next/head';
+import Link from 'next/link';
 import api from '@ct-ordo-realitas/app/firebase/serverApp';
 
 type Ritual = {
@@ -22,6 +24,9 @@ export default function NewRitualPage() {
     document.body.style.background = "url('/images/add-new-ritual-bg.jpg')";
     document.body.style.backgroundPosition = '90% 100%';
     document.body.style.backgroundSize = 'auto';
+    return () => {
+      document.body.style.background = 'url("images/background.png")';
+    };
   });
   useEffect(() => {
     if (image instanceof File) {
@@ -71,6 +76,9 @@ export default function NewRitualPage() {
   };
   return (
     <div className={styles['add-new-ritual-bg']}>
+      <Head>
+        <title>Rituais - Adicionar Novo Ritual - CTOR</title>
+      </Head>
       <h1 className={styles['debian-title']}>Rituais - Adicionar novo Ritual</h1>
       <div className={styles['add-new-ritual-container']}>
         {isLengthGreaterThanZero(base64Img) && (
@@ -115,13 +123,18 @@ export default function NewRitualPage() {
           )}
         </div>
       </div>
+      <button type="button" className={styles['rituais-home-btn']}>
+        <Link href="/">
+          <Image src="/images/logo.svg" height={100} width={100} alt="home button" />
+        </Link>
+      </button>
     </div>
   );
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { req } = context;
-  if (req.cookies.session && await api.isUserAdmin(req.cookies.session)) {
+  if (req.cookies.session && (await api.isUserAdmin(req.cookies.session))) {
     return {
       props: {},
     };

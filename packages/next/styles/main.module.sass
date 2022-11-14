@@ -41,8 +41,9 @@
         margin-top: 2rem
         font-size: 1.1rem
 
-    @include mixins.mobile
+    @include mixins.tablet
         ul
+            padding-top: 1rem
             animation: rotate-center 0.3s ease-in-out both
             flex-direction: column
             text-align: center
@@ -91,9 +92,13 @@
 #footer
     background-color: black
     color: white
-    padding: 0.1rem
+    display: flex
+    justify-content: space-around
+    align-items: center
+    padding: 1rem
+    height: 150px
     p
-        margin: 1rem
+        margin: 1rem 0
         font-family: 'outro-lado-regular', sans-serif
     span
         font-family: Arial, Helvetica, sans-serif
