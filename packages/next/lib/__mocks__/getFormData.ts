@@ -6,7 +6,7 @@ export default async function getFormData(req: NextApiRequest) {
       reject(Error('fake errorr'));
     }
     resolve({
-      fields: { image: '', ritual: '{"name": "a", "type": "fear"}' },
+      fields: { image: '', ritual: '{"name": "a", "type": "fear"}', idToken: 'a' },
     });
   });
 }

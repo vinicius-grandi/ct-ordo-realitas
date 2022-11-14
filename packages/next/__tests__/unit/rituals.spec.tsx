@@ -2,6 +2,8 @@
 import { screen, render, fireEvent } from '@testing-library/react';
 import { Rituals } from '../../pages/rituais';
 
+window.scrollTo = jest.fn();
+
 describe('Rituals Page', () => {
   it('returns 6 rectangles with elements from Ordem Paranormal', () => {
     render(<Rituals />);

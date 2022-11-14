@@ -19,7 +19,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         process.env.NODE_ENV === 'production' ? 'Secure;' : ''
       } HttpOnly;`,
     );
-    return res.end(JSON.stringify({ status: 'success' }));
+    return res.end(JSON.stringify({ message: 'success' }));
   }
   return res.status(405).json({ message: 'this method is not allowed' });
 }

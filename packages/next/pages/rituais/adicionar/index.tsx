@@ -63,7 +63,6 @@ export default function NewRitualPage() {
         await setNewRitual();
         setStatusMsg('ritual upload successful');
       } catch (error) {
-        console.error(error);
         setStatusMsg('ritual upload failed');
       }
     } else {

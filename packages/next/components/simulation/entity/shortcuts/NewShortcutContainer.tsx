@@ -12,7 +12,7 @@ export default function NewShortcutContainer({ eid }: { eid: string }) {
     }
     return true;
   };
-  const focusNext = useFocusNext();
+  const [focusNext] = useFocusNext();
   const initialState = {
     shortcutName: '',
     shortcutDice: '',

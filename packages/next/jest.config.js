@@ -32,6 +32,7 @@ const customJestConfig = {
   roots: [
     '<rootDir>'
   ],
+  testMatch: ["**/__tests__/**/*.(spec|test).[jt]s?(x)", "**/?(*.)+(spec|test).[jt]s?(x)"],
   transform: {
       '^.+\\.tsx?$': 'ts-jest'
   },
