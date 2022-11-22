@@ -1,5 +1,11 @@
 import { getDocs, getFirestore } from '@firebase/firestore';
-import { getAuth, signInWithEmailAndPassword, inMemoryPersistence } from '@firebase/auth';
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  inMemoryPersistence,
+  signInWithPopup,
+  GoogleAuthProvider,
+} from '@firebase/auth';
 import { collection, query, where } from '@firebase/firestore';
 
 import { initializeApp, getApps, getApp } from '@firebase/app';
@@ -39,6 +45,17 @@ export const loginAndGetToken = async (email: string, password: string) => {
       status: 500,
     };
   }
+};
+
+const provider = new GoogleAuthProvider();
+
+export const loginWithPopup = async () => {
+  const { user } = await signInWithPopup(auth, provider);
+  const idToken = await user.getIdToken();
+  return {
+    idToken,
+    status: 200,
+  };
 };
 
 export const logout = () => auth.signOut();

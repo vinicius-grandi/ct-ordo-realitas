@@ -7,6 +7,7 @@ import Head from 'next/head';
 import styles from '@styles/main.module.sass';
 import { NextApiRequest } from 'next/types';
 import { setup } from '../../../lib/csrf';
+import { useAuth } from '../../../contexts/auth';
 
 function AdminLoginPage() {
   const router = useRouter();
@@ -16,6 +17,7 @@ function AdminLoginPage() {
     username: '',
     password: '',
   });
+  const { setIsUserAuthenticated } = useAuth();
 
   const handleInput = ({ target: { id, value } }: ChangeEvent<HTMLInputElement>) => {
     if (id in agent) {
@@ -38,7 +40,7 @@ function AdminLoginPage() {
       setErrorMsg('authentication successful');
       await logout();
       await router.push('/rituais/adicionar');
-      return null;
+      return setIsUserAuthenticated(true);
     } catch (_) {
       return setErrorMsg('authentication failure');
     }

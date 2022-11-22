@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import styles from '@styles/main.module.sass';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import SheetCard from '../../components/fichas/SheetCard';
+import useT from '../../lib/hooks/useT';
 
 export type Sheet = {
   token: string;
@@ -23,6 +24,7 @@ interface SheetArr {
 }
 
 function FichasPage({ sheets }: SheetArr) {
+  const t = useT();
   return (
     <main>
       <datalist id="classes">
@@ -31,7 +33,7 @@ function FichasPage({ sheets }: SheetArr) {
         <option value="Mundano" aria-label="mundano" />
         <option value="Especialista" aria-label="especialista" />
       </datalist>
-      <h1 style={{ margin: '0 1rem' }}>Rank Fichas</h1>
+      <h1 style={{ margin: '0 1rem' }}>{t('sheets.title')}</h1>
       <input
         type="text"
         list="classes"

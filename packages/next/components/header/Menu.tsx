@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 import useT from '../../lib/hooks/useT';
+import { useAuth } from '../../contexts/auth';
 
 const MenuItem = ({ href, label, hc }: { href: string; label: string; hc: () => void }) => (
   <li>
@@ -24,10 +25,12 @@ const Menu = ({
   handleClose: () => void;
 }) => {
   const t = useT();
+  const { isUserAuthenticated } = useAuth();
   const hrefArr = [
     '/simulacao',
     '/fichas',
     '/rituais',
+    !isUserAuthenticated ? '/login' : '/logout',
   ];
 
   return (

@@ -17,7 +17,7 @@ describe('Home Page', () => {
   it("renders a card with sheet's info", async () => {
     render(<Fichas sheets={sheets} />);
     expect(screen.getByPlaceholderText(/Classe/i)).toBeInTheDocument();
-    expect(screen.getByText(/Rank Fichas/i)).toBeInTheDocument();
+    expect(screen.getByText(/sheets\.title/i)).toBeInTheDocument();
     expect(screen.getByText(/Arthur/i)).toBeInTheDocument();
     expect(screen.getByText(/for/i)).toBeInTheDocument();
     expect(screen.getByText(/agi/i)).toBeInTheDocument();
