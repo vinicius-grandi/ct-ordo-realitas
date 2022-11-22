@@ -26,9 +26,7 @@ const Menu = ({
   const t = useT();
   const hrefArr = [
     '/simulacao',
-    '/classes/ocultista',
-    '/classes/combatente',
-    '/classes/especialista',
+    '/fichas',
     '/rituais',
   ];
 

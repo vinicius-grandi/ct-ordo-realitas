@@ -27,7 +27,9 @@ const Footer: NextPage = () => {
       </div>
       <button type="button" style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
         <Link href="admin/login">
-          <Image src="/images/os-cinco.webp" height={80} width={80} alt="os cinco" layout="fixed" />
+          <div>
+            <Image src="/images/os-cinco.webp" height={80} width={80} alt="os cinco" layout="fixed" />
+          </div>
         </Link>
       </button>
     </footer>
