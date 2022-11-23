@@ -1,0 +1,46 @@
+@use './mixins'
+@use './variables' as vars
+
+.login
+    background: #fcfcfc
+    font-weight: 600
+    border-radius: 5px
+    label
+        @include mixins.flex-column
+        margin: 0.5rem
+        input
+            font-size: 1.1rem
+            border: 2px solid black
+            padding: 0.36rem
+            border-radius: 3px
+    max-width: 500px
+    margin: 1rem
+    padding: 0.5rem
+    box-shadow: -2px 4px 5px #0000003d
+    &-actions
+        font-size: 1rem
+        display: flex
+        justify-content: space-around
+        text-decoration: underline
+        p
+            color: #5c5c5c
+            cursor: pointer
+            &:hover
+                color: #000000
+    button
+        @include mixins.buttons
+        float: right
+        margin-top: 1rem
+        margin-right: 1rem
+        padding: 0.2rem
+        text-transform: uppercase
+        background: vars.$blue
+        width: fit-content
+
+    label, &-alternative
+        text-transform: uppercase
+    &-alternative
+        text-align: center
+        color: vars.$dark_blue
+        img
+            cursor: pointer

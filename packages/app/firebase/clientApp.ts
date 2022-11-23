@@ -31,20 +31,12 @@ const ritualsQuery = (type: string) => query(ritualCollection, where('type', '==
 export const getRituals = (type: string) => getDocs(ritualsQuery(type));
 
 export const loginAndGetToken = async (email: string, password: string) => {
-  try {
-    const response = await signInWithEmailAndPassword(auth, email, password);
-    const idToken = await response.user.getIdToken();
-    return {
-      idToken,
-      status: 200,
-    };
-  } catch (error) {
-    console.error(error);
-    return {
-      idToken: null,
-      status: 500,
-    };
-  }
+  const response = await signInWithEmailAndPassword(auth, email, password);
+  const idToken = await response.user.getIdToken();
+  return {
+    idToken,
+    status: 200,
+  };
 };
 
 const provider = new GoogleAuthProvider();
@@ -57,8 +49,6 @@ export const loginWithPopup = async () => {
     status: 200,
   };
 };
-
-export const logout = () => auth.signOut();
 
 export default {
   getRituals,

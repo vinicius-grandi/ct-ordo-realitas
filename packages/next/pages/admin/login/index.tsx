@@ -1,48 +1,24 @@
 import { withTranslation } from 'next-i18next';
-import { useRouter } from 'next/router';
 import { ChangeEvent, useEffect, useState } from 'react';
-import api, { logout } from '@ct-ordo-realitas/app/firebase/clientApp';
 import serverApi from '@ct-ordo-realitas/app/firebase/serverApp';
 import Head from 'next/head';
 import styles from '@styles/main.module.sass';
 import { NextApiRequest } from 'next/types';
 import { setup } from '../../../lib/csrf';
-import { useAuth } from '../../../contexts/auth';
+import useLogin from '../../../lib/hooks/useLogin';
 
 function AdminLoginPage() {
-  const router = useRouter();
   const [componentDidMount, setComponentDidMount] = useState(false);
-  const [errorMsg, setErrorMsg] = useState('');
+  const [errorMsg, setStatusMsg] = useState('');
   const [agent, setAgent] = useState({
     username: '',
     password: '',
   });
-  const { setIsUserAuthenticated } = useAuth();
+  const handleLogin = useLogin(setStatusMsg);
 
   const handleInput = ({ target: { id, value } }: ChangeEvent<HTMLInputElement>) => {
     if (id in agent) {
       setAgent({ ...agent, [id]: value });
-    }
-  };
-
-  const handleLogin = async () => {
-    try {
-      const response = await api.loginAndGetToken(agent.username, agent.password);
-      if (response.status !== 200) {
-        return setErrorMsg('authentication failure');
-      }
-      const body = new FormData();
-      body.append('idToken', response.idToken as string);
-      await fetch('../api/login', {
-        method: 'post',
-        body,
-      });
-      setErrorMsg('authentication successful');
-      await logout();
-      await router.push('/rituais/adicionar');
-      return setIsUserAuthenticated(true);
-    } catch (_) {
-      return setErrorMsg('authentication failure');
     }
   };
 
@@ -75,7 +51,7 @@ function AdminLoginPage() {
         </label>
       </div>
       {errorMsg.length > 0 && <p>{errorMsg}</p>}
-      <button type="button" onClick={handleLogin} className={styles['admin-login-btn']}>
+      <button type="button" onClick={() => handleLogin(agent.username, agent.password)} className={styles['admin-login-btn']}>
         login
       </button>
     </div>

@@ -63,9 +63,15 @@
         "email": "email",
         "password": "senha",
         "signup": "registrar nova conta",
-        "recoveryPassword": "recuperar senha",
+        "passwordRecovery": "recuperar senha",
         "loginWith": "entre com",
         "loginBtn": "entrar"
+      },
+      "fichas": {
+        "title": "Fichas"
+      },
+      "logout": {
+        "title": "logout"
       }
     }
   }

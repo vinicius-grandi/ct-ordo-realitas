@@ -19,7 +19,7 @@ const Footer: NextPage = () => {
   return (
     <footer id={styles.footer}>
       <div>
-        <p style={{ fontFamily }}>APOIE-ME</p>
+        <p style={{ fontFamily }}>COLABORE COM O SITE</p>
         <p style={{ fontFamily }}>
           PIX
           <span>: microminusss@gmail.com</span>

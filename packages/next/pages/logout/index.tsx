@@ -13,7 +13,11 @@ export default function LogoutPage() {
     setIsUserAuthenticated(false);
     void goHome();
   }, [router, setIsUserAuthenticated]);
-  return <h1>Logging out...</h1>;
+  return (
+    <main>
+      <h1>Logging out...</h1>
+    </main>
+  );
 }
 
 const getServerSideProps: GetServerSideProps = async ({ res }) => {
