@@ -13,8 +13,10 @@
             border: 2px solid black
             padding: 0.36rem
             border-radius: 3px
+    margin: 1rem auto
+    width: 50%
+    min-width: 300px
     max-width: 500px
-    margin: 1rem
     padding: 0.5rem
     box-shadow: -2px 4px 5px #0000003d
     &-actions
@@ -42,5 +44,37 @@
     &-alternative
         text-align: center
         color: vars.$dark_blue
+        font-weight: 600
         img
             cursor: pointer
+    &-error-msg
+        position: fixed
+        top: 0
+        background: #f7f7f7
+        width: 100%
+        font-size: 2rem
+        *
+            color: vars.$red
+        text-transform: uppercase
+        display: flex
+        justify-content: space-around
+        button
+            background: none
+            border: none
+            font-size: 2rem
+            cursor: pointer
+        box-shadow: -2px 3px 5px #00000033
+
+#toggle-password
+    position: absolute
+    right: 0
+    background: none
+    border: none
+    box-shadow: none
+    margin: 0
+    padding: 0
+    width: 24px
+    height: 24px
+    top: 50%
+    transform: translateY(-50%)
+    margin-right: 0.5rem
