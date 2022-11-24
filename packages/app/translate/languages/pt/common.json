@@ -61,6 +61,8 @@
       "login": {
         "title": "Login",
         "email": "email",
+        "hide": "esconder",
+        "show": "mostrar",
         "password": "senha",
         "signup": "registrar nova conta",
         "passwordRecovery": "recuperar senha",
