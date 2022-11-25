@@ -63,26 +63,12 @@ export default function AuthForm({
             onChange={handleInput}
             style={{ flexBasis: '100%' }}
           />
-          {isLoginRoute && (
-            <ShowHidePassword
-              setIsPasswordVisible={setIsPasswordVisible}
-              isPasswordVisible={isPasswordVisible}
-            />
-          )}
+          <ShowHidePassword
+            setIsPasswordVisible={setIsPasswordVisible}
+            isPasswordVisible={isPasswordVisible}
+          />
         </div>
       </label>
-      {!isLoginRoute && (
-        <label htmlFor="confirmPassword">
-          {t('registro.confirmPassword')}
-          <input
-            type="password"
-            id="confirmPassword"
-            value={agent.confirmPassword}
-            onChange={handleInput}
-            required
-          />
-        </label>
-      )}
       {isLoginRoute && (
         <div className={styles['login-actions']}>
           <Link href="/registro" passHref>
@@ -97,7 +83,9 @@ export default function AuthForm({
           </Link>
         </div>
       )}
-      <button type="submit">{t(`${authRoute}.${authRoute}Btn`)}</button>
+      <button type="submit">
+        {t(`${authRoute}.${authRoute}Btn`)}
+      </button>
     </form>
   );
 }

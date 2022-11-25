@@ -6,6 +6,7 @@ import {
   inMemoryPersistence,
   signInWithPopup,
   GoogleAuthProvider,
+  sendEmailVerification,
 } from '@firebase/auth';
 import { collection, query, where } from '@firebase/firestore';
 
@@ -53,7 +54,11 @@ const loginWithPopup = async () => {
 
 const signUpWithEmailAndPassword = async (email: string, password: string) => {
   const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-  const idToken = await userCredential.user.getIdToken();
+  const user = userCredential.user;
+  const idToken = await user.getIdToken();
+
+  await sendEmailVerification(user);
+
   return {
     idToken,
     status: 200,

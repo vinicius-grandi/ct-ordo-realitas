@@ -30,7 +30,7 @@ const Menu = ({
     '/simulacao',
     '/fichas',
     '/rituais',
-    !isUserAuthenticated ? '/login' : '/logout',
+    ...(!isUserAuthenticated ? ['/registro', '/login'] : ['/logout']),
   ];
 
   return (
