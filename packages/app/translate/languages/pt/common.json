@@ -69,6 +69,12 @@
         "loginWith": "entre com",
         "loginBtn": "entrar"
       },
+      "registro": {
+        "title": "Registro",
+        "confirmPassword": "Confirmar Senha",
+        "registroBtn": "Registrar",
+        "registroWith": "Registrar com"
+      },
       "fichas": {
         "title": "Fichas"
       },

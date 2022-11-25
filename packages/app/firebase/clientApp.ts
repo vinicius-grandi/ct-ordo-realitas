@@ -2,6 +2,7 @@ import { getDocs, getFirestore } from '@firebase/firestore';
 import {
   getAuth,
   signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
   inMemoryPersistence,
   signInWithPopup,
   GoogleAuthProvider,
@@ -41,7 +42,7 @@ export const loginAndGetToken = async (email: string, password: string) => {
 
 const provider = new GoogleAuthProvider();
 
-export const loginWithPopup = async () => {
+const loginWithPopup = async () => {
   const { user } = await signInWithPopup(auth, provider);
   const idToken = await user.getIdToken();
   return {
@@ -50,7 +51,18 @@ export const loginWithPopup = async () => {
   };
 };
 
+const signUpWithEmailAndPassword = async (email: string, password: string) => {
+  const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+  const idToken = await userCredential.user.getIdToken();
+  return {
+    idToken,
+    status: 200,
+  };
+}
+
 export default {
   getRituals,
   loginAndGetToken,
+  loginWithPopup,
+  signUpWithEmailAndPassword,
 };

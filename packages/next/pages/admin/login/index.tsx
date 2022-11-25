@@ -1,26 +1,18 @@
 import { withTranslation } from 'next-i18next';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import serverApi from '@ct-ordo-realitas/app/firebase/serverApp';
 import Head from 'next/head';
 import styles from '@styles/main.module.sass';
 import { NextApiRequest } from 'next/types';
 import { setup } from '../../../lib/csrf';
 import useLogin from '../../../lib/hooks/useLogin';
+import useAgent from '../../../lib/hooks/useAgent';
 
 function AdminLoginPage() {
   const [componentDidMount, setComponentDidMount] = useState(false);
   const [errorMsg, setStatusMsg] = useState('');
-  const [agent, setAgent] = useState({
-    username: '',
-    password: '',
-  });
   const handleLogin = useLogin(setStatusMsg);
-
-  const handleInput = ({ target: { id, value } }: ChangeEvent<HTMLInputElement>) => {
-    if (id in agent) {
-      setAgent({ ...agent, [id]: value });
-    }
-  };
+  const [agent, handleInput] = useAgent();
 
   useEffect(() => {
     let initialBg = '';
@@ -41,9 +33,9 @@ function AdminLoginPage() {
       </Head>
       <h1 className={styles['admin-login-title']}>authentication</h1>
       <div className={styles['admin-login-form']}>
-        <label htmlFor="username">
+        <label htmlFor="email">
           <span>Username:</span>
-          <input type="text" id="username" value={agent.username} onChange={handleInput} />
+          <input type="text" id="email" value={agent.email} onChange={handleInput} />
         </label>
         <label htmlFor="password">
           <span>Password:</span>
@@ -51,7 +43,7 @@ function AdminLoginPage() {
         </label>
       </div>
       {errorMsg.length > 0 && <p>{errorMsg}</p>}
-      <button type="button" onClick={() => handleLogin(agent.username, agent.password)} className={styles['admin-login-btn']}>
+      <button type="button" onClick={() => handleLogin(agent.email, agent.password)} className={styles['admin-login-btn']}>
         login
       </button>
     </div>

@@ -1,9 +1,9 @@
 import { useRouter } from 'next/router';
-import { loginAndGetToken, loginWithPopup } from '@ct-ordo-realitas/app/firebase/clientApp';
+import api from '@ct-ordo-realitas/app/firebase/clientApp';
 import React from 'react';
 import { useAuth } from '../../contexts/auth';
 
-type HandleClickOverload = {
+export type HandleLogin = {
   (type: 'google'): void;
   (email: string, password: string): void;
 };
@@ -11,15 +11,15 @@ type HandleClickOverload = {
 export default function useLogin(seterrorMsg: React.Dispatch<React.SetStateAction<string>>, route = '/') {
   const { setIsUserAuthenticated } = useAuth();
   const router = useRouter();
-  const handleClick: HandleClickOverload = async (typeOrEmail?: string, password?: string) => {
+  const handleClick: HandleLogin = async (typeOrEmail?: string, password?: string) => {
     try {
       let idToken = '';
       switch (typeOrEmail) {
         case 'google':
-          idToken = (await loginWithPopup()).idToken;
+          idToken = (await api.loginWithPopup()).idToken;
           break;
         default:
-          idToken = (await loginAndGetToken(typeOrEmail as string, password as string)).idToken;
+          idToken = (await api.loginAndGetToken(typeOrEmail as string, password as string)).idToken;
           break;
       }
       const body = new FormData();
@@ -31,7 +31,9 @@ export default function useLogin(seterrorMsg: React.Dispatch<React.SetStateActio
       setIsUserAuthenticated(true);
       await router.push(route);
     } catch (error) {
-      seterrorMsg('login error');
+      if (error instanceof Error) {
+        seterrorMsg((error.message.match(/(?<=\(auth\/).*(?=\))/ig) ?? [''])[0]);
+      }
     }
   };
   return handleClick;
