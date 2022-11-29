@@ -30,14 +30,22 @@
             "export": "exportar"
           }
         },
-        "ocultista": {
-          "title": "ocultista"
+        "login": {
+            "title": "Login",
+            "email": "email",
+            "hide": "hide",
+            "show": "show",
+            "password": "password",
+            "signup": "sign up",
+            "passwordRecovery": "password recovery",
+            "loginWith": "login with",
+            "loginBtn": "login"
         },
-        "combatente": {
-          "title": "combatente"
+        "fichas": {
+            "title": "Fichas"
         },
-        "especialista": {
-          "title": "especialista"
+        "rituais": {
+            "title": "Rituais"
         }
       }
     }

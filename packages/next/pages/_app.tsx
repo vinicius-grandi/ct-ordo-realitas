@@ -7,8 +7,8 @@ import { appWithTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
 import Header from '@components/Header';
 import Footer from '@components/Footer';
-// import initConfig from '@ct-ordo-realitas/app/firebase/initConfig';
 import BattlefieldProvider from '../contexts/battlefield';
+import AuthProvider from '../contexts/auth';
 
 function MyApp({ Component, ...rest }: AppProps) {
   const { store, props } = wrapper.useWrappedStore(rest);
@@ -17,18 +17,22 @@ function MyApp({ Component, ...rest }: AppProps) {
     return (
       <Provider store={store}>
         <BattlefieldProvider>
-          <Component {...props.pageProps} />
+          <AuthProvider>
+            <Component {...props.pageProps} />
+          </AuthProvider>
         </BattlefieldProvider>
       </Provider>
     );
   }
   return (
     <Provider store={store}>
-      <BattlefieldProvider>
-        <Header />
-        <Component {...props.pageProps} />
-        <Footer />
-      </BattlefieldProvider>
+      <AuthProvider>
+        <BattlefieldProvider>
+          <Header />
+          <Component {...props.pageProps} />
+          <Footer />
+        </BattlefieldProvider>
+      </AuthProvider>
     </Provider>
   );
 }

@@ -124,8 +124,10 @@ export default function NewRitualPage() {
         </div>
       </div>
       <button type="button" className={styles['rituais-home-btn']}>
-        <Link href="/">
-          <Image src="/images/logo.svg" height={100} width={100} alt="home button" />
+        <Link href="/" passHref>
+          <a>
+            <Image src="/images/logo.svg" height={100} width={100} alt="home button" />
+          </a>
         </Link>
       </button>
     </div>

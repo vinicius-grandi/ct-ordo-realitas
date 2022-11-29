@@ -1,48 +1,18 @@
 import { withTranslation } from 'next-i18next';
-import { useRouter } from 'next/router';
-import { ChangeEvent, useEffect, useState } from 'react';
-import api, { logout } from '@ct-ordo-realitas/app/firebase/clientApp';
+import { useEffect, useState } from 'react';
 import serverApi from '@ct-ordo-realitas/app/firebase/serverApp';
 import Head from 'next/head';
 import styles from '@styles/main.module.sass';
 import { NextApiRequest } from 'next/types';
 import { setup } from '../../../lib/csrf';
+import useLogin from '../../../lib/hooks/useLogin';
+import useAgent from '../../../lib/hooks/useAgent';
 
 function AdminLoginPage() {
-  const router = useRouter();
   const [componentDidMount, setComponentDidMount] = useState(false);
-  const [errorMsg, setErrorMsg] = useState('');
-  const [agent, setAgent] = useState({
-    username: '',
-    password: '',
-  });
-
-  const handleInput = ({ target: { id, value } }: ChangeEvent<HTMLInputElement>) => {
-    if (id in agent) {
-      setAgent({ ...agent, [id]: value });
-    }
-  };
-
-  const handleLogin = async () => {
-    try {
-      const response = await api.loginAndGetToken(agent.username, agent.password);
-      if (response.status !== 200) {
-        return setErrorMsg('authentication failure');
-      }
-      const body = new FormData();
-      body.append('idToken', response.idToken as string);
-      await fetch('../api/login', {
-        method: 'post',
-        body,
-      });
-      setErrorMsg('authentication successful');
-      await logout();
-      await router.push('/rituais/adicionar');
-      return null;
-    } catch (_) {
-      return setErrorMsg('authentication failure');
-    }
-  };
+  const [errorMsg, setStatusMsg] = useState('');
+  const handleLogin = useLogin(setStatusMsg);
+  const [agent, handleInput] = useAgent();
 
   useEffect(() => {
     let initialBg = '';
@@ -63,9 +33,9 @@ function AdminLoginPage() {
       </Head>
       <h1 className={styles['admin-login-title']}>authentication</h1>
       <div className={styles['admin-login-form']}>
-        <label htmlFor="username">
+        <label htmlFor="email">
           <span>Username:</span>
-          <input type="text" id="username" value={agent.username} onChange={handleInput} />
+          <input type="text" id="email" value={agent.email} onChange={handleInput} />
         </label>
         <label htmlFor="password">
           <span>Password:</span>
@@ -73,7 +43,11 @@ function AdminLoginPage() {
         </label>
       </div>
       {errorMsg.length > 0 && <p>{errorMsg}</p>}
-      <button type="button" onClick={handleLogin} className={styles['admin-login-btn']}>
+      <button
+        type="button"
+        onClick={() => handleLogin(agent.email, agent.password)}
+        className={styles['admin-login-btn']}
+      >
         login
       </button>
     </div>
@@ -82,18 +56,16 @@ function AdminLoginPage() {
 
 export const AdminLogin = withTranslation('common')(AdminLoginPage);
 
-export const getServerSideProps = setup(
-  async (req: NextApiRequest) => {
-    if (req.cookies.session && (await serverApi.isUserAdmin(req.cookies.session))) {
-      return {
-        redirect: {
-          destination: '/rituais/adicionar',
-          permanent: false,
-        },
-      };
-    }
-    return { props: {} };
-  },
-);
+export const getServerSideProps = setup(async (req: NextApiRequest) => {
+  if (req.cookies.session && (await serverApi.isUserAdmin(req.cookies.session))) {
+    return {
+      redirect: {
+        destination: '/rituais/adicionar',
+        permanent: false,
+      },
+    };
+  }
+  return { props: {} };
+});
 
 export default AdminLoginPage;

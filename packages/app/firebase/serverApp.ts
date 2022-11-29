@@ -4,6 +4,12 @@ import { credential } from 'firebase-admin';
 import { getFirestore } from 'firebase-admin/firestore';
 import slugify from 'slugify';
 
+if (process.env.NODE_ENV === 'development') {
+  process.env.FIREBASE_AUTH_EMULATOR_HOST = '127.0.0.1:9099';
+  process.env.FIRESTORE_EMULATOR_HOST = '127.0.0.1:8080';
+  process.env.FIREBASE_DATABASE_EMULATOR_HOST = '127.0.0.1:9000';
+}
+
 const configAdmin = {
   credential: credential.cert({
     projectId: process.env.PROJECT_ID ?? '.',
@@ -36,14 +42,11 @@ const isUserAdmin = async (sessionCookie: string) => {
   return isUserAdmin;
 };
 
-export const setRitual = (data: {
-  name: string;
-  imagePath: string;
-  type: string;
-}) => getFirestore(app).collection('rituals').doc(slugify(data.name).toLowerCase()).create(data);
+export const setRitual = (data: { name: string; imagePath: string; type: string }) =>
+  getFirestore(app).collection('rituals').doc(slugify(data.name).toLowerCase()).create(data);
 
 export default {
   createSessionCookie,
   isUserAdmin,
-  setRitual
+  setRitual,
 };

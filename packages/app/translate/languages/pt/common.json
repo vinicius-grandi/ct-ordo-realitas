@@ -57,6 +57,29 @@
       },
       "especialista": {
         "title": "especialista"
+      },
+      "login": {
+        "title": "Login",
+        "email": "email",
+        "hide": "esconder",
+        "show": "mostrar",
+        "password": "senha",
+        "signup": "registrar nova conta",
+        "passwordRecovery": "recuperar senha",
+        "loginWith": "entre com",
+        "loginBtn": "entrar"
+      },
+      "registro": {
+        "title": "Registro",
+        "confirmPassword": "Confirmar Senha",
+        "registroBtn": "Registrar",
+        "registroWith": "Registrar com"
+      },
+      "fichas": {
+        "title": "Fichas"
+      },
+      "logout": {
+        "title": "logout"
       }
     }
   }

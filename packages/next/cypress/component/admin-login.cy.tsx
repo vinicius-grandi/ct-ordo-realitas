@@ -10,7 +10,7 @@ describe('Header', () => {
 
   it('allows you to login when status code is 200', () => {
     cy.stub(api, 'loginAndGetToken').callsFake(() => Promise.resolve({
-      user: 'vinum',
+      token: 'vinum',
       status: 200,
     }));
     cy.findByText(/authentication/i).should('exist');

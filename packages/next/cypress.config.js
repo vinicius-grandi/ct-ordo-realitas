@@ -21,4 +21,5 @@ module.exports = defineConfig({
       bundler: "webpack",
     },
   },
+  port: 5001,
 });
