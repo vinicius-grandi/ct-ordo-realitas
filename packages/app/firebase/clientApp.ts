@@ -7,10 +7,12 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   sendEmailVerification,
+  connectAuthEmulator,
 } from '@firebase/auth';
-import { collection, query, where } from '@firebase/firestore';
-
+import { collection, query, where, connectFirestoreEmulator } from '@firebase/firestore';
+import { getDatabase } from "firebase/database";
 import { initializeApp, getApps, getApp } from '@firebase/app';
+import { connectDatabaseEmulator } from 'firebase/database';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyDE6K_eS2vGcPP6MkJgK2_ZblKb_9EBua4',
@@ -27,6 +29,14 @@ const app = getApps().length === 0 ? initializeApp(firebaseConfig, 'client') : g
 
 const auth = getAuth(app);
 const firestore = getFirestore(app);
+export const db = getDatabase(app);
+
+if  (process.env.NODE_ENV === 'development') {
+  connectAuthEmulator(auth, 'http://localhost:9099');
+  connectFirestoreEmulator(firestore, 'localhost', 8080);
+  connectDatabaseEmulator(db, 'localhost', 9000)
+}
+
 (async () => await auth.setPersistence(inMemoryPersistence))();
 const ritualCollection = collection(firestore, 'rituals');
 const ritualsQuery = (type: string) => query(ritualCollection, where('type', '==', type));

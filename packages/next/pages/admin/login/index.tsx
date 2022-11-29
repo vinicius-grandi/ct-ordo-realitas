@@ -43,7 +43,11 @@ function AdminLoginPage() {
         </label>
       </div>
       {errorMsg.length > 0 && <p>{errorMsg}</p>}
-      <button type="button" onClick={() => handleLogin(agent.email, agent.password)} className={styles['admin-login-btn']}>
+      <button
+        type="button"
+        onClick={() => handleLogin(agent.email, agent.password)}
+        className={styles['admin-login-btn']}
+      >
         login
       </button>
     </div>
@@ -52,18 +56,16 @@ function AdminLoginPage() {
 
 export const AdminLogin = withTranslation('common')(AdminLoginPage);
 
-export const getServerSideProps = setup(
-  async (req: NextApiRequest) => {
-    if (req.cookies.session && (await serverApi.isUserAdmin(req.cookies.session))) {
-      return {
-        redirect: {
-          destination: '/rituais/adicionar',
-          permanent: false,
-        },
-      };
-    }
-    return { props: {} };
-  },
-);
+export const getServerSideProps = setup(async (req: NextApiRequest) => {
+  if (req.cookies.session && (await serverApi.isUserAdmin(req.cookies.session))) {
+    return {
+      redirect: {
+        destination: '/rituais/adicionar',
+        permanent: false,
+      },
+    };
+  }
+  return { props: {} };
+});
 
 export default AdminLoginPage;
