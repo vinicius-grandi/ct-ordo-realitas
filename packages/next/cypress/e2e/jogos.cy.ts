@@ -1,6 +1,7 @@
 describe('Header', () => {
   beforeEach(() => {
     cy.task('clearUsers');
+    cy.task('clearDatabases');
   });
 
   it('creates a new room when authenticated', () => {
@@ -27,7 +28,9 @@ describe('Header', () => {
     cy.findByRole('button', {
       name: /createRoom/i,
     }).click();
-    cy.findByText(/jogadores/i).should('exist');
+
+    cy.url().should('contain', '/rooms/cool');
+
     cy.findByText(/anfitras/i).should('exist');
   });
 });

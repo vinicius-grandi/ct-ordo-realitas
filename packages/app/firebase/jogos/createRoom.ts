@@ -1,17 +1,31 @@
 import { db } from '../serverApp';
 
-export default async function createRoom(room: string, gameType: string, host: string) {
-  const snapshot = await db.ref(`rooms/${room}`).limitToFirst(1).once('value');
+type Room = {
+  name: string;
+  gameType: string;
+  playerName: string;
+  host: string;
+};
+
+export default async function createRoom({
+  name,
+  gameType,
+  playerName,
+  host
+}: Room) {
+  const snapshot = await db.ref(`rooms/${name}`).limitToFirst(1).once('value');
   if (snapshot.exists()) {
     return {
       message: 'room already exist!',
     };
   }
-  await db.ref(`rooms/${room}`).set({
-    room,
+  await db.ref(`rooms/${name}`).set({
+    room: name,
     host,
     gameType,
-    players: [],
+    players: {
+      [host]: playerName,
+    },
   });
 
   return {

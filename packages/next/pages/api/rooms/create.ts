@@ -11,12 +11,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       });
     }
     const {
-      fields: { roomName, gameType },
+      fields: { name, gameType, playerName },
     }: any = await getFormData(req);
 
     const { uid } = await serverApp.getUser(req.cookies.session);
 
-    const result = await createRoom(roomName, gameType, uid);
+    const result = await createRoom({
+      gameType,
+      name,
+      playerName,
+      host: uid,
+    });
 
     return res.json({
       message: result.message,

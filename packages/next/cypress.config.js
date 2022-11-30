@@ -1,5 +1,6 @@
 const { defineConfig } = require('cypress');
 const clearUsers = require('@ct-ordo-realitas/app/__tests__/utils/clearUsers');
+const clearDatabases = require('@ct-ordo-realitas/app/__tests__/utils/clearDatabases.js');
 
 module.exports = defineConfig({
   e2e: {
@@ -9,6 +10,10 @@ module.exports = defineConfig({
       on('task', {
         clearUsers: async () => {
           await clearUsers();
+          return null;
+        },
+        clearDatabases: async () => {
+          await clearDatabases();
           return null;
         }
       });
