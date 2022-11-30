@@ -6,6 +6,7 @@ export default function NewRoomOverlay() {
   const [checkedState, setCheckedState] = useState<boolean[]>(new Array(games.length).fill(false));
   const t = useT();
   const [game, setGame] = useState('');
+  const [roomName, setRoomName] = useState('');
 
   const handleCheckboxes = (e: ChangeEvent<HTMLInputElement>, idx: number): void => {
     const updatedCheckedState = checkedState.map((_, index) => index === idx);
@@ -15,11 +16,21 @@ export default function NewRoomOverlay() {
     }
   };
 
+  const handleNewRoom = async () => {
+    const data = new FormData();
+    data.append('roomName', roomName);
+    data.append('gameType', game);
+    await fetch('../api/rooms/create', {
+      method: 'post',
+      body: data,
+    });
+  };
+
   return (
     <div>
       <label htmlFor="roomName">
         {t('jogos.roomName')}
-        <input type="text" id="roomName" />
+        <input type="text" id="roomName" value={roomName} onChange={(e) => setRoomName(e.target.value)} />
       </label>
       <label htmlFor="playerName">
         {t('jogos.playerName')}
@@ -40,7 +51,7 @@ export default function NewRoomOverlay() {
           </label>
         ))}
       </div>
-      <button type="button" onClick={() => console.log(game)}>
+      <button type="button" onClick={handleNewRoom}>
         {t('jogos.createRoom')}
       </button>
     </div>

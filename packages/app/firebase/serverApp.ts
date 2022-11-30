@@ -3,6 +3,7 @@ import { initializeApp, getApp, getApps } from 'firebase-admin/app';
 import { credential } from 'firebase-admin';
 import { getFirestore } from 'firebase-admin/firestore';
 import slugify from 'slugify';
+import { getDatabase } from 'firebase-admin/database';
 
 if (process.env.NODE_ENV === 'development') {
   process.env.FIREBASE_AUTH_EMULATOR_HOST = '127.0.0.1:9099';
@@ -21,14 +22,22 @@ const configAdmin = {
 
 const app = getApps().length === 0 ? initializeApp(configAdmin, 'server') : getApp('server');
 
+export const db = getDatabase(app);
+export const auth = getAuth(app);
+
 const createSessionCookie = (idToken: string) => {
   const expiresIn = 60 * 60 * 24 * 5 * 1000;
   return getAuth(app).createSessionCookie(idToken, { expiresIn });
 };
 
-const isUserAdmin = async (sessionCookie: string) => {
+async function getUser(sessionCookie: string) {
   const decodedClaims = getAuth(app).verifySessionCookie(sessionCookie, true);
-  const user = await decodedClaims;
+  const result = await decodedClaims;
+  return result;
+}
+
+const isUserAdmin = async (sessionCookie: string) => {
+  const user = await getUser(sessionCookie);
   const authorizedUsers = await getFirestore(app).collection('admin').get();
   const res: Promise<void>[] = [];
   authorizedUsers.forEach((querySnapshot) => {
@@ -49,4 +58,5 @@ export default {
   createSessionCookie,
   isUserAdmin,
   setRitual,
+  getUser,
 };

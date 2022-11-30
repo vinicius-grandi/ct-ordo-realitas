@@ -1,6 +1,7 @@
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import api from '@ct-ordo-realitas/app/firebase/clientApp';
 import { useAuth } from '../../contexts/auth';
 
 export default function LogoutPage() {
@@ -8,6 +9,7 @@ export default function LogoutPage() {
   const router = useRouter();
   useEffect(() => {
     async function goHome() {
+      await api.logout();
       await router.push('/');
     }
     setIsUserAuthenticated(false);

@@ -3,7 +3,7 @@ import {
   getAuth,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-  inMemoryPersistence,
+  // inMemoryPersistence,
   signInWithPopup,
   GoogleAuthProvider,
   sendEmailVerification,
@@ -32,12 +32,12 @@ const firestore = getFirestore(app);
 export const db = getDatabase(app);
 
 if  (process.env.NODE_ENV === 'development') {
-  connectAuthEmulator(auth, 'http://localhost:9099');
-  connectFirestoreEmulator(firestore, 'localhost', 8080);
-  connectDatabaseEmulator(db, 'localhost', 9000)
+  connectAuthEmulator(auth, 'http://127.0.0.1:9099');
+  connectFirestoreEmulator(firestore, '127.0.0.1', 8080);
+  connectDatabaseEmulator(db, '127.0.0.1', 9000)
 }
 
-(async () => await auth.setPersistence(inMemoryPersistence))();
+// (async () => await auth.setPersistence(inMemoryPersistence))();
 const ritualCollection = collection(firestore, 'rituals');
 const ritualsQuery = (type: string) => query(ritualCollection, where('type', '==', type));
 export const getRituals = (type: string) => getDocs(ritualsQuery(type));
@@ -75,9 +75,14 @@ const signUpWithEmailAndPassword = async (email: string, password: string) => {
   };
 }
 
+const logout = async () => {
+  await auth.signOut();
+}
+
 export default {
   getRituals,
   loginAndGetToken,
   loginWithPopup,
   signUpWithEmailAndPassword,
+  logout,
 };

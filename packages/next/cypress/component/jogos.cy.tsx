@@ -1,11 +1,9 @@
 import * as React from 'react';
-import clearDatabases from '@ct-ordo-realitas/app/__tests__/utils/clearDatabases';
 import customMount from '../utils/customMount';
 import { Jogos } from '../../pages/jogos';
 
 describe('Header', () => {
   beforeEach(() => {
-    void clearDatabases();
     customMount(<Jogos />);
   });
 
@@ -25,7 +23,5 @@ describe('Header', () => {
     cy.findByRole('button', {
       name: /createRoom/i,
     });
-    cy.findByText(/jogadores/i).should('exist');
-    cy.findByText(/anfitras/i).should('exist');
   });
 });
