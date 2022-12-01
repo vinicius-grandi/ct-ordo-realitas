@@ -1,6 +1,6 @@
 import { db } from '../serverApp';
 
-type Room = {
+export type Room = {
   name: string;
   gameType: string;
   playerName: string;

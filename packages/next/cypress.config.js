@@ -1,3 +1,7 @@
+const path = require('path');
+require('dotenv').config({
+  path: path.resolve(__dirname, '.env.local'),
+});
 const { defineConfig } = require('cypress');
 const clearUsers = require('@ct-ordo-realitas/app/__tests__/utils/clearUsers');
 const clearDatabases = require('@ct-ordo-realitas/app/__tests__/utils/clearDatabases.js');
@@ -15,8 +19,13 @@ module.exports = defineConfig({
         clearDatabases: async () => {
           await clearDatabases();
           return null;
-        }
+        },
       });
+      config.env = {
+        ...process.env,
+        ...config.env,
+      };
+      return config;
     },
     baseUrl: 'http://localhost:3000',
     specPattern: 'cypress/e2e/**/*.cy.{js,jsx,ts,tsx}',
@@ -30,6 +39,23 @@ module.exports = defineConfig({
   },
 
   component: {
+    setupNodeEvents(on, config) {
+      on('task', {
+        clearUsers: async () => {
+          await clearUsers();
+          return null;
+        },
+        clearDatabases: async () => {
+          await clearDatabases();
+          return null;
+        },
+      });
+      config.env = {
+        ...process.env,
+        ...config.env,
+      };
+      return config;
+    },
     devServer: {
       framework: 'next',
       bundler: 'webpack',

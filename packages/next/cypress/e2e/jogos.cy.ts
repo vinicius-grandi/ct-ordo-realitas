@@ -29,9 +29,10 @@ describe('Header', () => {
       name: /createRoom/i,
     }).click();
 
-    cy.url().should('contain', '/rooms/cool');
+    cy.url().should('contain', '/jogos/salas/cool');
 
     cy.findByText(/anfitras/i).should('exist');
+    cy.findByText(/caixoes do diabo/).should('exist');
   });
 });
 

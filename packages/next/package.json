@@ -9,6 +9,7 @@
     "test": "jest --watch",
     "lint": "next lint",
     "cypress": "cypress open --component",
+    "cypress:e2e": "cypress open",
     "sass:lint": "stylelint ./styles/*.sass"
   },
   "dependencies": {

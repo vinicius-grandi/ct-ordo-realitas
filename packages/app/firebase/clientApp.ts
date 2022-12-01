@@ -32,9 +32,11 @@ const firestore = getFirestore(app);
 export const db = getDatabase(app);
 
 if  (process.env.NODE_ENV === 'development') {
-  connectAuthEmulator(auth, 'http://127.0.0.1:9099');
-  connectFirestoreEmulator(firestore, '127.0.0.1', 8080);
-  connectDatabaseEmulator(db, '127.0.0.1', 9000)
+  try {
+    connectAuthEmulator(auth, 'http://127.0.0.1:9099');
+    connectFirestoreEmulator(firestore, '127.0.0.1', 8080);
+    connectDatabaseEmulator(db, '127.0.0.1', 9000)
+  } catch (_) {}
 }
 
 // (async () => await auth.setPersistence(inMemoryPersistence))();

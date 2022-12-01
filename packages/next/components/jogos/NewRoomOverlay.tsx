@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { ChangeEvent, useState } from 'react';
 import useT from '../../lib/hooks/useT';
 
@@ -5,6 +6,7 @@ export default function NewRoomOverlay() {
   const games = ['masqueradeBall', 'devilCoffins', 'deathRooms'];
   const [checkedState, setCheckedState] = useState<boolean[]>(new Array(games.length).fill(false));
   const t = useT();
+  const router = useRouter();
   const [game, setGame] = useState('');
   const [roomName, setRoomName] = useState('');
   const [playerName, setPlayerName] = useState('');
@@ -26,6 +28,7 @@ export default function NewRoomOverlay() {
       method: 'post',
       body: data,
     });
+    await router.push(`/jogos/salas/${roomName}`);
   };
 
   return (
