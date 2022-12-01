@@ -11,28 +11,59 @@ describe('Header', () => {
     cy.findByRole('button', {
       name: /registrar/i,
     }).click();
-    cy.url().should('not.contain', '/registro');
+    cy.url({
+      timeout: 10000,
+    }).should('not.contain', '/registro');
     cy.visit('/jogos');
     cy.findByRole('button', {
-      name: /newRoom/i,
+      name: /nova sala/i,
     }).click();
     cy.findByRole('textbox', {
-      name: /roomName/i,
+      name: /nome/i,
     }).type('cool');
-    cy.findByRole('textbox', {
-      name: /playerName/i,
-    }).type('anfitras');
+    cy.findByLabelText(/jogador/i).type('anfitras');
     cy.findByRole('checkbox', {
-      name: /devilCoffins/,
+      name: /caixões do diabo/i,
     }).click();
     cy.findByRole('button', {
-      name: /createRoom/i,
+      name: /criar sala/i,
     }).click();
 
-    cy.url().should('contain', '/jogos/salas/cool');
+    cy.url({
+      timeout: 10000,
+    }).should('contain', '/jogos/salas/cool');
 
     cy.findByText(/anfitras/i).should('exist');
-    cy.findByText(/caixoes do diabo/).should('exist');
+    cy.findByText(/caixões do diabo/i).should('exist');
+  });
+
+  it('joins an already created room', () => {
+    cy.task('createRoom');
+
+    cy.visit('/registro');
+    cy.findByLabelText(/email/i).type('jaime@gmail.com');
+    cy.findByLabelText(/senha/i).type('123456789');
+    cy.findByRole('button', {
+      name: /registrar/i,
+    }).click();
+
+    cy.url({
+      timeout: 10000,
+    }).should('not.contain', '/registro');
+    cy.visit('/jogos');
+
+    cy.findByRole('button', {
+      name: /entrar/i,
+    }).click();
+
+    cy.findByLabelText(/jogador/i).type('guest');
+    cy.findByRole('link', {
+      name: /confirmar/i,
+    }).click();
+    cy.url({
+      timeout: 10000,
+    }).should('contain', 'salas');
+    cy.get('li').should('have.length', 2);
   });
 });
 

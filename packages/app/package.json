@@ -21,6 +21,7 @@
         "validator": "^13.7.0"
     },
     "devDependencies": {
+        "@faker-js/faker": "^7.6.0",
         "@types/react": "^18.0.21",
         "@types/validator": "^13.7.7"
     }

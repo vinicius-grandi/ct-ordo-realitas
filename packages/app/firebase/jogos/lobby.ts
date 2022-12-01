@@ -8,13 +8,11 @@ const getRoom = (room = '', roomHandler: (val: any) => void) =>
   onValue(getRoomRef(room), (snapshot) => {
     const data = snapshot.val();
     roomHandler(data);
-  }, (e) => {
-    console.log(e.message);
   });
 
 const getRooms = (roomsHandler: (val: any) => void) =>
   onValue(roomsRef, (snapshot) => {
-    const data = snapshot.val();
+    const data = snapshot.exists() ? Object.values(snapshot.val()) : [];
     roomsHandler(data);
   });
 

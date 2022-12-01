@@ -80,6 +80,17 @@
       },
       "logout": {
         "title": "logout"
+      },
+      "jogos": {
+        "newRoom": "Nova Sala",
+        "roomName": "Nome",
+        "confirm": "Confirmar",
+        "joinRoom": "entrar",
+        "playerName": "Jogador",
+        "deathRooms": "salas da morte",
+        "masqueradeBall": "baile dos mascarados",
+        "createRoom": "criar sala",
+        "devilCoffins": "Caixões do diabo"
       }
     }
   }

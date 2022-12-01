@@ -5,6 +5,7 @@ require('dotenv').config({
 const { defineConfig } = require('cypress');
 const clearUsers = require('@ct-ordo-realitas/app/__tests__/utils/clearUsers');
 const clearDatabases = require('@ct-ordo-realitas/app/__tests__/utils/clearDatabases.js');
+const { createRoom } = require('@ct-ordo-realitas/app/__tests__/utils/factory');
 
 module.exports = defineConfig({
   e2e: {
@@ -20,6 +21,10 @@ module.exports = defineConfig({
           await clearDatabases();
           return null;
         },
+        createRoom: async (amount = 1) => {
+          await createRoom(amount);
+          return null;
+        }
       });
       config.env = {
         ...process.env,
@@ -59,6 +64,16 @@ module.exports = defineConfig({
     devServer: {
       framework: 'next',
       bundler: 'webpack',
+      webpackConfig: {
+        resolve: {
+          fallback: {
+            net: false,
+            fs: false,
+            tls: false,
+            child_process: false
+          }
+        }
+      }
     },
   },
   port: 5001,
