@@ -1,8 +1,11 @@
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 import { ChangeEvent, useState } from 'react';
+import styles from '@styles/main.module.sass';
 import useT from '../../lib/hooks/useT';
+import CloseButton from '../CloseButton';
 
-export default function NewRoomOverlay() {
+export default function NewRoomOverlay({ handleClose }: { handleClose: () => void }) {
   const games = ['masqueradeBall', 'devilCoffins', 'deathRooms'];
   const [checkedState, setCheckedState] = useState<boolean[]>(new Array(games.length).fill(false));
   const t = useT();
@@ -32,8 +35,11 @@ export default function NewRoomOverlay() {
   };
 
   return (
-    <div>
-      <label htmlFor="roomName">
+    <div className={styles['jogos-overlay']}>
+      <div className={styles['jogos-overlay-close-btn']}>
+        <CloseButton handleClose={() => handleClose()} />
+      </div>
+      <label htmlFor="roomName" className={styles['jogos-overlay-label']}>
         {t('jogos.roomName')}
         <input
           type="text"
@@ -42,24 +48,31 @@ export default function NewRoomOverlay() {
           onChange={(e) => setRoomName(e.target.value)}
         />
       </label>
-      <label htmlFor="playerName">
+      <label htmlFor="playerName" className={styles['jogos-overlay-label']}>
         {t('jogos.playerName')}
         <input type="text" id="playerName" onChange={(e) => setPlayerName(e.target.value)} />
       </label>
-      <h2>{t('jogos.title')}</h2>
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
-        {games.map((availableGame, idx) => (
-          <label htmlFor={availableGame} key={availableGame}>
-            <input
-              type="checkbox"
-              id={availableGame}
-              checked={checkedState[idx]}
-              value={availableGame}
-              onChange={(ev) => handleCheckboxes(ev, idx)}
-            />
-            {t(`jogos.${availableGame}`)}
-          </label>
-        ))}
+      <div>
+        <h2>{t('jogos.title')}</h2>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          {games.map((availableGame, idx) => (
+            <label
+              htmlFor={availableGame}
+              key={availableGame}
+              className={styles['jogos-available-games']}
+            >
+              <input
+                type="checkbox"
+                id={availableGame}
+                checked={checkedState[idx]}
+                value={availableGame}
+                onChange={(ev) => handleCheckboxes(ev, idx)}
+              />
+              {t(`jogos.${availableGame}`)}
+              <Image src={`/images/${availableGame}.svg`} width={30} height={30} />
+            </label>
+          ))}
+        </div>
       </div>
       <button type="button" onClick={handleNewRoom}>
         {t('jogos.createRoom')}

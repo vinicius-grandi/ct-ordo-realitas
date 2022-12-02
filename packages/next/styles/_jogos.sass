@@ -1,16 +1,101 @@
 @use './mixins'
+@use './variables' as vars
 
-.game-rooms
+.jogos
     @include mixins.flex-column
-    justify-content: center
-    li
-        display: flex
-        justify-content: space-around
-        margin: 0.2rem 0
+    @mixin black-btn
+        background: #000
+        border: none
+        border-radius: 5px
+        color: #fff
+        font-weight: 600
+        &:hover
+            cursor: pointer
+    @mixin big-btn
+        @include black-btn
+        background: #000
+        font-size: 1.4rem
+        width: 50%
+        padding: 1rem 0.8rem
+        margin: auto
+        text-transform: uppercase
+
+    &-rooms
+        justify-content: center
+        li
+            display: flex
+            justify-content: space-between
+            align-items: center
+            margin: 0 1rem
+            border-bottom: 1px solid black
+            button
+                @include black-btn
+                margin: 1rem 0
+                padding: 0.5rem
+                font-size: 1.1rem
+
+    &-new-room-btn
+        @include big-btn
+    &-overlay
+        &-close-btn
+            align-self: center
+            width: 100%
+            text-align: center
+            button
+                background: none !important
+                color: #fff !important
+        @include mixins.flex-column
+        background: vars.$black
+        height: 100%
+        width: 100%
+        color: #fff
+        position: fixed
+        z-index: 10
+        top: 0
         button
-            background: #000
-            border: none
-            border-radius: 5px
-            padding: 0.2rem
-            font-weight: 600
+            @include big-btn
+            background: #fff
+            color: #000
+        & > *
+            margin: 1rem
+        &-label
+            @include mixins.flex-column
+            text-transform: uppercase
+            font-size: 1.3rem
+            input
+                float: right
+                height: 30px
+    &-available-games
+        font-size: 1rem !important
+        display: flex
+        justify-content: space-between
+        align-items: center
+        text-transform: lowercase
+        margin: 0.5rem 0
+        img
+            filter: brightness(0) invert(1)
+    &-join-game-overlay
+        @include mixins.flex-column
+        position: absolute
+        background: #fff
+        padding: 0.5rem
+        text-transform: uppercase
+        font-weight: 600
+        text-align: center
+        dialog::backdrop
+            position: fixed
+            top: 0
+            left: 0
+            right: 0
+            bottom: 0
+            background-color: rgba(0,0,0,0.5)
+        input
+            font-size: 1.2rem
+        a
+            align-self: flex-end
+            background: vars.$blue
             color: #fff
+            text-decoration: none
+            margin-top: 0.5rem
+            border-radius: 3px
+            padding: 0.36rem

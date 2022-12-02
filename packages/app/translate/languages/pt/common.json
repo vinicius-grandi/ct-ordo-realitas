@@ -83,7 +83,7 @@
       },
       "jogos": {
         "newRoom": "Nova Sala",
-        "roomName": "Nome",
+        "roomName": "Nome da Sala",
         "confirm": "Confirmar",
         "joinRoom": "entrar",
         "playerName": "Jogador",
