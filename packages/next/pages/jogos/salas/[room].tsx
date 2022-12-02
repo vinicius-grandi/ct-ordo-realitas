@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import lobby from '@ct-ordo-realitas/app/firebase/jogos/lobby';
 import { useEffect, useState } from 'react';
 import { Room } from '@ct-ordo-realitas/app/firebase/jogos/createRoom';
+import removeFromRoomOnDisconnect from '@ct-ordo-realitas/app/firebase/jogos/removeFromRoom';
 import useT from '../../../lib/hooks/useT';
 import { getStaticProps } from '../../../components/withTranslationProps';
 
@@ -12,7 +13,7 @@ export type FullRoom = Partial<Room> & {
   };
 };
 
-export default function RoomPage(props) {
+export default function RoomPage() {
   const router = useRouter();
   const [roomInfo, setRoomInfo] = useState<FullRoom>({
     room: '',
@@ -21,24 +22,26 @@ export default function RoomPage(props) {
     name: '',
     players: {},
   });
-  const room = Array.isArray(router.query.room) ? '' : router.query.room;
+  const room = router.query.room as string;
 
   const t = useT();
 
   useEffect(() => {
     async function setPlayer() {
       const data = new FormData();
-      data.append('player', router.query.jogador ?? '');
+      data.append('player', (router.query.jogador as string) ?? '');
       data.append('room', room ?? '');
       await fetch('../../api/rooms/join', {
         method: 'post',
         body: data,
       });
     }
-    void setPlayer();
-  }, []);
-
+    if (router.query.jogador) {
+      void setPlayer();
+    }
+  }, [room, router.query.jogador]);
   useEffect(() => {
+    removeFromRoomOnDisconnect(room);
     const unsubscribe = lobby.getRoom(room, (data) => {
       setRoomInfo(data);
     });

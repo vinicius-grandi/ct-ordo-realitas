@@ -2,6 +2,7 @@ import { withTranslation } from 'next-i18next';
 import { useEffect, useState } from 'react';
 import lobby from '@ct-ordo-realitas/app/firebase/jogos/lobby';
 import Link from 'next/link';
+import styles from '@styles/main.module.sass';
 import NewRoomModal from '../../components/jogos/NewRoomOverlay';
 import { getStaticProps } from '../../components/withTranslationProps';
 import useT from '../../lib/hooks/useT';
@@ -24,7 +25,7 @@ export default function JogosPage() {
 
   return (
     <main>
-      <ul>
+      <ul className={styles['game-rooms']}>
         {rooms.map(({ room }) => (
           <li key={room}>
             {room}

@@ -11,14 +11,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       });
     }
     const {
-      fields: { room, jogador },
+      fields: { room, player },
     }: any = await getFormData(req);
 
     const { uid } = await serverApp.getUser(req.cookies.session);
 
     const result = await joinRoom({
       name: room,
-      player: jogador,
+      player,
       uid,
     });
 

@@ -1,7 +1,6 @@
 import { ref, onValue } from 'firebase/database';
 import { db } from '../clientApp';
 
-const roomsRef = ref(db, 'rooms');
 const getRoomRef = (room: string) => ref(db, `rooms/${room}`);
 
 const getRoom = (room = '', roomHandler: (val: any) => void) =>
@@ -11,7 +10,7 @@ const getRoom = (room = '', roomHandler: (val: any) => void) =>
   });
 
 const getRooms = (roomsHandler: (val: any) => void) =>
-  onValue(roomsRef, (snapshot) => {
+  onValue(ref(db, 'rooms'), (snapshot) => {
     const data = snapshot.exists() ? Object.values(snapshot.val()) : [];
     roomsHandler(data);
   });

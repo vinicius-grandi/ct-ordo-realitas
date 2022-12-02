@@ -1,0 +1,16 @@
+@use './mixins'
+
+.game-rooms
+    @include mixins.flex-column
+    justify-content: center
+    li
+        display: flex
+        justify-content: space-around
+        margin: 0.2rem 0
+        button
+            background: #000
+            border: none
+            border-radius: 5px
+            padding: 0.2rem
+            font-weight: 600
+            color: #fff

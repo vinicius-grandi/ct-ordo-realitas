@@ -25,9 +25,10 @@ export default async function createRoom({ name, gameType, playerName, host }: R
     room: name,
     host,
     gameType,
-    players: {
-      [host]: playerName,
-    },
+  });
+
+  await db.ref(`rooms/${name}/players`).set({
+    [host]: playerName,
   });
 
   registerRoom(name, host);

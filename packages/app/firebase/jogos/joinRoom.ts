@@ -11,12 +11,8 @@ export default async function joinRoom({
   player: string;
   uid: string;
 }) {
-  const data: FullRoom = (await db.ref(`rooms/${name}`).once('value')).val();
-  db.ref(`/rooms/${name}`).update({
-    players: {
-      ...data.players,
-      [uid]: player,
-    },
+  db.ref(`/rooms/${name}/players`).update({
+    [uid]: player,
   });
 
   registerRoom(name, uid);
