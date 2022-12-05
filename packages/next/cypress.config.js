@@ -8,6 +8,7 @@ const clearDatabases = require('@ct-ordo-realitas/app/__tests__/utils/clearDatab
 const { createRoom } = require('@ct-ordo-realitas/app/__tests__/utils/factory');
 
 module.exports = defineConfig({
+  projectId: 'isfp9c',
   e2e: {
     // We've imported your old cypress plugins here.
     // You may want to clean this up later by importing these.

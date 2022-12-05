@@ -10,11 +10,16 @@ const createRoom = async (amount = 1) => {
   while (amountClone > 0) {
     const roomName = faker.word.adjective();
     const host = faker.name.firstName();
+    const games = ['devilCoffins', 'deathRooms', 'masqueradeBall'];
+    const randomNumber = faker.datatype.number({
+      min: 0,
+      max: games.length - 1,
+    });
 
     await db.ref(`rooms/${roomName}`).set({
       room: roomName,
       host,
-      gameType: '',
+      gameType: games[randomNumber],
       players: {
         [host]: faker.name.firstName(),
       },

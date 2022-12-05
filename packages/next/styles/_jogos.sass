@@ -77,23 +77,20 @@
     &-join-game-overlay
         @include mixins.flex-column
         position: absolute
+        right: 0
+        box-shadow: -2px 2px 3px #0000004b
         background: #fff
         padding: 0.5rem
         text-transform: uppercase
         font-weight: 600
         text-align: center
-        dialog::backdrop
-            position: fixed
-            top: 0
-            left: 0
-            right: 0
-            bottom: 0
-            background-color: rgba(0,0,0,0.5)
         input
             font-size: 1.2rem
         a
             align-self: flex-end
             background: vars.$blue
+            &:hover
+                background: vars.$dark-blue
             color: #fff
             text-decoration: none
             margin-top: 0.5rem

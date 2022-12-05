@@ -15,7 +15,7 @@ export default async function joinRoom({
     [uid]: player,
   });
 
-  registerRoom(name, uid);
+  await registerRoom(name, uid);
   return {
     message: `${player} has joined the room!`,
   };

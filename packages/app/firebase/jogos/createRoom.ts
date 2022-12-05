@@ -31,7 +31,7 @@ export default async function createRoom({ name, gameType, playerName, host }: R
     [host]: playerName,
   });
 
-  registerRoom(name, host);
+  await registerRoom(name, host);
   return {
     message: 'room has been created!',
   };

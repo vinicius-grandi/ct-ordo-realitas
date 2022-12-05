@@ -16,7 +16,7 @@ const AuthContext = createContext<Auth>({
   setIsUserAuthenticated: () => {},
 });
 
-export default function AuthProvider({ children }: { children: JSX.Element }) {
+export default function AuthProvider({ children }: { children: JSX.Element | JSX.Element[] }) {
   const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
   useEffect(() => {
     async function checkAuth() {

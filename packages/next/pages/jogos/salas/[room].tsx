@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import lobby from '@ct-ordo-realitas/app/firebase/jogos/lobby';
 import { useEffect, useState } from 'react';
 import { Room } from '@ct-ordo-realitas/app/firebase/jogos/createRoom';
-import removeFromRoomOnDisconnect from '@ct-ordo-realitas/app/firebase/jogos/removeFromRoom';
+import removeFromRoomOnUnmount from '@ct-ordo-realitas/app/firebase/jogos/removeFromRoomOnUnmount';
 import useT from '../../../lib/hooks/useT';
 import { getStaticProps } from '../../../components/withTranslationProps';
 
@@ -41,12 +41,14 @@ export default function RoomPage() {
     }
   }, [room, router.query.jogador]);
   useEffect(() => {
-    removeFromRoomOnDisconnect(room);
     const unsubscribe = lobby.getRoom(room, (data) => {
       setRoomInfo(data);
     });
 
-    return () => unsubscribe();
+    return () => {
+      removeFromRoomOnUnmount(room);
+      unsubscribe();
+    };
   }, [room]);
 
   return roomInfo !== null ? (
