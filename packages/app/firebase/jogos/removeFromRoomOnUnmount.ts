@@ -9,7 +9,7 @@ export default function removeFromRoomOnUnmount(room: string) {
         await disconnectFromRoom(room, user.uid);
       }
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
   });
 }

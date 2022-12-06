@@ -22,10 +22,15 @@ module.exports = defineConfig({
           await clearDatabases();
           return null;
         },
-        createRoom: async (amount = 1) => {
-          await createRoom(amount);
+        createRoom: async (
+          { amount, name } = {
+            amount: 1,
+            name: '',
+          },
+        ) => {
+          await createRoom(amount, name);
           return null;
-        }
+        },
       });
       config.env = {
         ...process.env,
@@ -71,10 +76,10 @@ module.exports = defineConfig({
             net: false,
             fs: false,
             tls: false,
-            child_process: false
-          }
-        }
-      }
+            child_process: false,
+          },
+        },
+      },
     },
   },
   port: 5001,

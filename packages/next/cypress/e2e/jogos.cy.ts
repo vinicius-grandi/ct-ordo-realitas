@@ -65,6 +65,44 @@ describe('Header', () => {
     }).should('contain', 'salas');
     cy.get('li').should('have.length', 2);
   });
+
+  it("doesn't join room if name is already taken", () => {
+    cy.task('createRoom', {
+      amount: 1,
+      name: 'jojo',
+    });
+
+    cy.visit('/registro');
+    cy.findByLabelText(/email/i).type('jaime@gmail.com');
+    cy.findByLabelText(/senha/i).type('123456789');
+    cy.findByRole('button', {
+      name: /registrar/i,
+    }).click();
+
+    cy.url({
+      timeout: 10000,
+    }).should('not.contain', '/registro');
+    cy.visit('/jogos');
+
+    cy.findByRole('button', {
+      name: /entrar/i,
+    }).click();
+
+    cy.findByLabelText(/jogador/i).type('jojo');
+    cy.findByRole('link', {
+      name: /confirmar/i,
+    }).click();
+    cy.url({
+      timeout: 10000,
+    }).should('contain', 'salas');
+
+    cy.findByText(/seu nome escolhido já está em uso!/i);
+    cy.findByLabelText(/escolha um novo nome/i).type('newJojo');
+    cy.findByRole('button', {
+      name: /confirmar/i,
+    }).click();
+    cy.findByText('newJojo').should('exist');
+  });
 });
 
 export {};

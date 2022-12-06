@@ -16,14 +16,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     const { uid } = await serverApp.getUser(req.cookies.session);
 
-    const result = await joinRoom({
+    const { status, message } = await joinRoom({
       name: room,
       player,
       uid,
     });
 
-    return res.json({
-      message: result.message,
+    return res.status(status).json({
+      message,
     });
   }
   return res.status(405).json({ message: 'this method is not allowed' });

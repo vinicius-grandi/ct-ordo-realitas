@@ -15,6 +15,8 @@ export type FullRoom = Partial<Room> & {
 
 export default function RoomPage() {
   const router = useRouter();
+  const [errMsg, setErrMsg] = useState('');
+  const [jogador, setJogador] = useState(router.query.jogador);
   const [roomInfo, setRoomInfo] = useState<FullRoom>({
     room: '',
     gameType: '',
@@ -29,17 +31,23 @@ export default function RoomPage() {
   useEffect(() => {
     async function setPlayer() {
       const data = new FormData();
-      data.append('player', (router.query.jogador as string) ?? '');
+      data.append('player', (jogador as string) ?? '');
       data.append('room', room ?? '');
-      await fetch('../../api/rooms/join', {
+      const response = await fetch('../../api/rooms/join', {
         method: 'post',
         body: data,
       });
+
+      if (response.status !== 200) {
+        const { message } = await response.json();
+        return setErrMsg(message);
+      }
+      return setErrMsg('');
     }
-    if (router.query.jogador) {
+    if (jogador) {
       void setPlayer();
     }
-  }, [room, router.query.jogador]);
+  }, [room, jogador]);
   useEffect(() => {
     const unsubscribe = lobby.getRoom(room, (data) => {
       setRoomInfo(data);
@@ -53,6 +61,25 @@ export default function RoomPage() {
 
   return roomInfo !== null ? (
     <main>
+      {errMsg.length > 0 && (
+        <>
+          <p>{t(`jogos.${errMsg}`)}</p>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (e.target instanceof HTMLFormElement && e.target[0] instanceof HTMLInputElement) {
+                setJogador(e.target[0].value);
+              }
+            }}
+          >
+            <label htmlFor="player">
+              {t('jogos.chooseNewName')}
+              <input type="text" id="player" />
+              <button type="submit">{t('confirm')}</button>
+            </label>
+          </form>
+        </>
+      )}
       {(roomInfo.gameType ?? '').length > 0 && <h1>{t(`jogos.${roomInfo.gameType}`)}</h1>}
       <h2>Jogadores</h2>
       <ul>

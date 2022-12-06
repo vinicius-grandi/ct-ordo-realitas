@@ -34,7 +34,7 @@ const Overlay = ({ room }: { room: string }) => {
               },
             }}
           >
-            {t('jogos.confirm')}
+            {t('confirm')}
           </Link>
         </div>
       )}

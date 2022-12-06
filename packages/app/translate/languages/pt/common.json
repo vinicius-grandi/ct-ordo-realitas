@@ -44,9 +44,9 @@
         "startQuiz": "Iniciar Quiz",
         "resetQuiz": "Reiniciar Quiz",
         "ritualQuiz": {
-            "ritualPlaceholder": "Ex: Cinerária",
-            "finishQuiz": "Finalizar Quiz",
-            "cardAlt": "desconhecido"
+          "ritualPlaceholder": "Ex: Cinerária",
+          "finishQuiz": "Finalizar Quiz",
+          "cardAlt": "desconhecido"
         }
       },
       "ocultista": {
@@ -81,10 +81,12 @@
       "logout": {
         "title": "logout"
       },
+      "confirm": "Confirmar",
       "jogos": {
         "newRoom": "Nova Sala",
+        "chooseNewName": "Escolha um Novo Nome",
+        "playerAlreadyExists": "Seu Nome Escolhido Já Está em Uso!",
         "roomName": "Nome da Sala",
-        "confirm": "Confirmar",
         "joinRoom": "entrar",
         "playerName": "Jogador",
         "deathRooms": "salas da morte",
