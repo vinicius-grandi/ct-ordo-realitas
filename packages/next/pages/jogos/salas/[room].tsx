@@ -1,63 +1,51 @@
-import { useRouter } from 'next/router';
-import lobby from '@ct-ordo-realitas/app/firebase/jogos/lobby';
 import { useEffect, useState } from 'react';
-import { Room } from '@ct-ordo-realitas/app/firebase/jogos/createRoom';
-import removeFromRoomOnUnmount from '@ct-ordo-realitas/app/firebase/jogos/removeFromRoomOnUnmount';
+import handleUser from '@ct-ordo-realitas/app/firebase/jogos/handleUser';
+import removeFromRoomOnUnmount from '@ct-ordo-realitas/app/firebase/jogos/salas/removeFromRoomOnUnmount';
+import { useRouter } from 'next/router';
 import useT from '../../../lib/hooks/useT';
 import { getStaticProps } from '../../../components/withTranslationProps';
-
-export type FullRoom = Partial<Room> & {
-  room: string;
-  players: {
-    [key in string]: string;
-  };
-};
+import useRoomInfo from '../../../lib/hooks/useRoomInfo';
+import useJogador from '../../../lib/hooks/useJogador';
+import maxPlayers from '../../../public/data/jogos/maxPlayers.json';
+import useRoomName from '../../../lib/hooks/useRoomName';
 
 export default function RoomPage() {
-  const router = useRouter();
-  const [errMsg, setErrMsg] = useState('');
-  const [jogador, setJogador] = useState(router.query.jogador);
-  const [roomInfo, setRoomInfo] = useState<FullRoom>({
-    room: '',
-    gameType: '',
-    host: '',
-    name: '',
-    players: {},
-  });
-  const room = router.query.room as string;
-
   const t = useT();
-
+  const [errMsg, setErrMsg] = useState('');
+  const [roomInfo] = useRoomInfo();
+  const [, setJogador] = useJogador(setErrMsg);
+  const room = useRoomName();
+  const router = useRouter();
   useEffect(() => {
-    async function setPlayer() {
-      const data = new FormData();
-      data.append('player', (jogador as string) ?? '');
-      data.append('room', room ?? '');
-      const response = await fetch('../../api/rooms/join', {
-        method: 'post',
-        body: data,
-      });
+    const exitingFunction = () => removeFromRoomOnUnmount(room);
 
-      if (response.status !== 200) {
-        const { message } = await response.json();
-        return setErrMsg(message);
-      }
-      return setErrMsg('');
-    }
-    if (jogador) {
-      void setPlayer();
-    }
-  }, [room, jogador]);
-  useEffect(() => {
-    const unsubscribe = lobby.getRoom(room, (data) => {
-      setRoomInfo(data);
-    });
+    router.events.on('routeChangeStart', exitingFunction);
 
     return () => {
-      removeFromRoomOnUnmount(room);
-      unsubscribe();
+      router.events.off('routeChangeStart', exitingFunction);
     };
-  }, [room]);
+  }, [room, router.events]);
+
+  useEffect(() => {
+    if (
+      roomInfo !== null &&
+      Object.values(roomInfo.players ?? {}).length >= maxPlayers[roomInfo.gameType]
+    ) {
+      const unsubscribe = handleUser(async (uid) => {
+        if (uid === roomInfo.host) {
+          const data = new FormData();
+          data.append('name', room);
+          const response = await fetch('../../api/sessions/create', {
+            method: 'post',
+            body: data,
+          });
+          console.log(response);
+        }
+      });
+      return () => unsubscribe();
+    }
+    return () => {};
+  }, [room, roomInfo]);
 
   return roomInfo !== null ? (
     <main>

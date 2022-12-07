@@ -1,5 +1,5 @@
 import { ref, onValue } from 'firebase/database';
-import { db } from '../clientApp';
+import { db } from '../../clientApp';
 
 const getRoomRef = (room: string) => ref(db, `rooms/${room}`);
 

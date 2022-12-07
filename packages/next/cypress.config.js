@@ -5,7 +5,7 @@ require('dotenv').config({
 const { defineConfig } = require('cypress');
 const clearUsers = require('@ct-ordo-realitas/app/__tests__/utils/clearUsers');
 const clearDatabases = require('@ct-ordo-realitas/app/__tests__/utils/clearDatabases.js');
-const { createRoom } = require('@ct-ordo-realitas/app/__tests__/utils/factory');
+const { createRoom, fillRoom } = require('@ct-ordo-realitas/app/__tests__/utils/factory');
 
 module.exports = defineConfig({
   projectId: 'isfp9c',
@@ -23,14 +23,19 @@ module.exports = defineConfig({
           return null;
         },
         createRoom: async (
-          { amount, name } = {
+          { amount, name, type } = {
             amount: 1,
             name: '',
+            type: null,
           },
         ) => {
-          await createRoom(amount, name);
+          await createRoom(amount, name, type);
           return null;
         },
+        fillRoom: async (name) => {
+          await fillRoom(name);
+          return null;
+        }
       });
       config.env = {
         ...process.env,

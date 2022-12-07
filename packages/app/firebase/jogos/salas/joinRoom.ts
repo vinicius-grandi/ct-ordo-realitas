@@ -1,4 +1,4 @@
-import { db } from '../../firebase/serverApp';
+import { db } from '../../serverApp';
 import { FullRoom } from './createRoom';
 import registerRoom from './registerRoom';
 

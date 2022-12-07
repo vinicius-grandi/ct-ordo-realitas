@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
-import getStaticProps from '@components/withTranslationProps';
+import { getStaticProps } from '@components/withTranslationProps';
 import styles from '@styles/main.module.sass';
 
 const Home: NextPage = () => (

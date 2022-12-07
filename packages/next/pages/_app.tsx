@@ -7,8 +7,9 @@ import { appWithTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
 import Header from '@components/Header';
 import Footer from '@components/Footer';
-import removeFromRoomOnDisconnect from '@ct-ordo-realitas/app/firebase/jogos/removeFromRoomsOnDisconnect';
-import { useEffect } from 'react';
+// import removeFromRoomOnDisconnect from '@ct-ordo-realitas/
+// app/firebase/jogos/salas/removeFromRoomsOnDisconnect';
+// import { useEffect } from 'react';
 import BattlefieldProvider from '../contexts/battlefield';
 import AuthProvider from '../contexts/auth';
 
@@ -30,11 +31,11 @@ function MyApp({ Component, ...rest }: AppProps) {
   const { store, props } = wrapper.useWrappedStore(rest);
   const router = useRouter();
 
-  useEffect(() => {
-    if (router.pathname.match(/\/jogos.*/)) {
-      removeFromRoomOnDisconnect();
-    }
-  });
+  // useEffect(() => () => {
+  //   if (router.pathname.match(/\/jogos\/.*/)) {
+  //     removeFromRoomOnDisconnect();
+  //   }
+  // });
 
   if (router.pathname === '/rituais/adicionar' || router.pathname === '/admin/login') {
     return (

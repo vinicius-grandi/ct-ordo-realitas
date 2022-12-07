@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import createRoom from '@ct-ordo-realitas/app/firebase/jogos/createRoom';
+import createRoom from '@ct-ordo-realitas/app/firebase/jogos/salas/createRoom';
 import serverApp from '@ct-ordo-realitas/app/firebase/serverApp';
 import getFormData from '../../../lib/getFormData';
 

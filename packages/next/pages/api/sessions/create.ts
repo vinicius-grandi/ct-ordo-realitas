@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import joinRoom from '@ct-ordo-realitas/app/firebase/jogos/salas/joinRoom';
+import createGame from '@ct-ordo-realitas/app/firebase/jogos/sessoes/createGame';
 import serverApp from '@ct-ordo-realitas/app/firebase/serverApp';
 import getFormData from '../../../lib/getFormData';
 
@@ -11,19 +11,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       });
     }
     const {
-      fields: { room, player },
+      fields: { name },
     }: any = await getFormData(req);
 
     const { uid } = await serverApp.getUser(req.cookies.session);
 
-    const { status, message } = await joinRoom({
-      name: room,
-      player,
-      uid,
-    });
+    const result = await createGame(name, uid);
 
-    return res.status(status).json({
-      message,
+    return res.json({
+      message: result.message,
     });
   }
   return res.status(405).json({ message: 'this method is not allowed' });

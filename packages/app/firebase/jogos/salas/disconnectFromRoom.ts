@@ -1,5 +1,5 @@
 import { onDisconnect, ref } from 'firebase/database';
-import { db } from '../clientApp';
+import { db } from '../../clientApp';
 
 export default async function disconnectFromRoom(room: string, uid: string) {
   const disconnectRef = onDisconnect(ref(db, `rooms/${room}/players`));
