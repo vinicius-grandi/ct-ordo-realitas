@@ -84,6 +84,9 @@
       "confirm": "Confirmar",
       "jogos": {
         "newRoom": "Nova Sala",
+        "chat": {
+            "sendMessage": "enviar"
+        },
         "chooseNewName": "Escolha um Novo Nome",
         "playerAlreadyExists": "Seu Nome Escolhido Já Está em Uso!",
         "roomName": "Nome da Sala",
@@ -92,7 +95,13 @@
         "deathRooms": "salas da morte",
         "masqueradeBall": "baile dos mascarados",
         "createRoom": "criar sala",
-        "devilCoffins": "Caixões do diabo"
+        "devilCoffins": "Caixões do diabo",
+        "existencePoints": "Pontos de Existência"
+      },
+      "caixoes": {
+        "xIsTheDevil": "é o <strong>diabo</strong>",
+        "discussionTime": "hora da conversa",
+        "remainingTime": "Ainda restam"
       }
     }
   }

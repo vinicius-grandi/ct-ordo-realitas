@@ -12,4 +12,15 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   };
 };
 
+export async function getStaticPaths() {
+  return {
+    paths: [
+      {
+        params: { room: '*', session: '*' },
+      },
+    ],
+    fallback: true,
+  };
+}
+
 export default getStaticProps;

@@ -3,7 +3,7 @@ import handleUser from '@ct-ordo-realitas/app/firebase/jogos/handleUser';
 import removeFromRoomOnUnmount from '@ct-ordo-realitas/app/firebase/jogos/salas/removeFromRoomOnUnmount';
 import { useRouter } from 'next/router';
 import useT from '../../../lib/hooks/useT';
-import { getStaticProps } from '../../../components/withTranslationProps';
+import { getStaticProps, getStaticPaths } from '../../../components/withTranslationProps';
 import useRoomInfo from '../../../lib/hooks/useRoomInfo';
 import useJogador from '../../../lib/hooks/useJogador';
 import maxPlayers from '../../../public/data/jogos/maxPlayers.json';
@@ -81,15 +81,6 @@ export default function RoomPage() {
   );
 }
 
-export async function getStaticPaths() {
-  return {
-    paths: [
-      {
-        params: { room: '*' },
-      },
-    ],
-    fallback: true,
-  };
-}
+export { getStaticPaths };
 
 export { getStaticProps };

@@ -1,7 +1,23 @@
+import { ServerValue } from 'firebase-admin/database';
+import getRandomInt from '../../../lib/getRandomInt';
 import { db } from '../../serverApp';
+import createDevilCoffinsGame from '../createDevilCoffinsGame';
 
-function getRandomInt(min: number, max: number) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+function removeExistencePoints(session: any) {
+  const selectedCoffins: number[] = session.selectedCoffins ?? [];
+  const remainingTargets = session.targets - selectedCoffins.length;
+  if (remainingTargets > 0) {
+    for (let i = remainingTargets; i > 0; i -= 1) {
+      selectedCoffins.push(getRandomInt(0, 11));
+    }
+  }
+  console.log(selectedCoffins);
+  selectedCoffins.forEach((idx) => {
+    const key = session.coffins[idx];
+    if (typeof key === 'string') {
+      session.players[key].existencePoints -= 1;
+    }
+  });
 }
 
 export default async function createGame(name: string, uid: string) {
@@ -18,24 +34,21 @@ export default async function createGame(name: string, uid: string) {
             message,
           };
         }
-        const newPlayers: {
-          [key in string]: {
-            name: string;
-            existencePoints: number;
-          };
-        } = {};
-        Object.keys(room.players).forEach((k) => {
-          newPlayers[k] = {
-            name: room.players[k],
-            existencePoints: 6,
-          };
-        });
-        await db.ref(`sessions/${name}`).set({
-          players: newPlayers,
-          devil: players[getRandomInt(0, 4)],
-          targets: 6,
-          coffins: Array(12).fill(0),
-        });
+        const { sessionRef, devil } = await createDevilCoffinsGame(room, name, players);
+
+        setTimeout(() => {
+          sessionRef.update({
+            lastDevil: devil,
+            selectNewDevil: true,
+          });
+          setTimeout(async () => {
+            const snapshot = await sessionRef.get();
+            const session = snapshot.val();
+            removeExistencePoints(session);
+            await sessionRef.set(session);
+          }, 10000);
+        }, 10000);
+
         await roomRef.set({
           redirect: true,
         });

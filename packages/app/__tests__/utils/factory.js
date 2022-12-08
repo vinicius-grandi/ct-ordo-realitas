@@ -11,7 +11,7 @@ const createRoom = async (amount = 1, name = '', type = null) => {
   let amountClone = amount;
   while (amountClone > 0) {
     const roomName = faker.word.adjective();
-    const host = faker.name.firstName();
+    const host = cloneName ?? faker.name.firstName();
     const games = ['devilCoffins', 'deathRooms', 'masqueradeBall'];
     const randomNumber = faker.datatype.number({
       min: 0,
