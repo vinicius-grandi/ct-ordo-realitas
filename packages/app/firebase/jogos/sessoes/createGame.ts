@@ -1,6 +1,6 @@
 import { db } from '../../serverApp';
 import createDevilCoffinsGame from '../createDevilCoffinsGame';
-import { removeExistencePoints } from './removeExistencePoints';
+import { updateExistencePoints } from './removeExistencePoints';
 import { Session } from './Session';
 
 export default async function createGame(name: string, uid: string) {
@@ -27,7 +27,7 @@ export default async function createGame(name: string, uid: string) {
           setTimeout(async () => {
             const snapshot = await sessionRef.get();
             const session: Session = snapshot.val();
-            const result = removeExistencePoints(session);
+            const result = updateExistencePoints(session);
             result.targets += 1;
             await sessionRef.set(result);
             if (result.eliminatedPlayers && result.eliminatedPlayers.length >= 3) {
