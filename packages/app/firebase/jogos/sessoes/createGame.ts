@@ -1,24 +1,7 @@
-import { ServerValue } from 'firebase-admin/database';
-import getRandomInt from '../../../lib/getRandomInt';
 import { db } from '../../serverApp';
 import createDevilCoffinsGame from '../createDevilCoffinsGame';
-
-function removeExistencePoints(session: any) {
-  const selectedCoffins: number[] = session.selectedCoffins ?? [];
-  const remainingTargets = session.targets - selectedCoffins.length;
-  if (remainingTargets > 0) {
-    for (let i = remainingTargets; i > 0; i -= 1) {
-      selectedCoffins.push(getRandomInt(0, 11));
-    }
-  }
-  console.log(selectedCoffins);
-  selectedCoffins.forEach((idx) => {
-    const key = session.coffins[idx];
-    if (typeof key === 'string') {
-      session.players[key].existencePoints -= 1;
-    }
-  });
-}
+import { removeExistencePoints } from './removeExistencePoints';
+import { Session } from './Session';
 
 export default async function createGame(name: string, uid: string) {
   const roomRef = db.ref(`/rooms/${name}`);
@@ -36,16 +19,20 @@ export default async function createGame(name: string, uid: string) {
         }
         const { sessionRef, devil } = await createDevilCoffinsGame(room, name, players);
 
-        setTimeout(() => {
+        const interval = setInterval(() => {
           sessionRef.update({
             lastDevil: devil,
             selectNewDevil: true,
           });
           setTimeout(async () => {
             const snapshot = await sessionRef.get();
-            const session = snapshot.val();
-            removeExistencePoints(session);
-            await sessionRef.set(session);
+            const session: Session = snapshot.val();
+            const result = removeExistencePoints(session);
+            result.targets += 1;
+            await sessionRef.set(result);
+            if (result.eliminatedPlayers && result.eliminatedPlayers.length >= 3) {
+              clearInterval(interval);
+            }
           }, 10000);
         }, 10000);
 

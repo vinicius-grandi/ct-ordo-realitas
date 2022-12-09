@@ -37,7 +37,7 @@ export default function SessionPage() {
       <div style={{ textAlign: 'center' }}>
         <h1>
           <Trans>
-            {sessionInfo.players[uid].name}
+            {sessionInfo.devil === uid ? t('you') : sessionInfo.players[sessionInfo.devil]}
             {' '}
             {t('caixoes.xIsTheDevil')}
           </Trans>

@@ -1,5 +1,4 @@
-import { get, serverTimestamp } from 'firebase/database';
-import { onValue, ref, set } from 'firebase/database';
+import { onValue, ref } from 'firebase/database';
 import { db } from '../../clientApp';
 
 export default async function countdown(fn: (remainingSeconds: string) => void, session: string) {
