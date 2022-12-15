@@ -15,7 +15,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     const sessionCookie = await firebaseAdmin.createSessionCookie(idToken);
     res.setHeader(
       'Set-Cookie',
-      `session=${sessionCookie}; Path=/; SameSite=lax; ${
+      `session=${sessionCookie}; Path=/; ${
         process.env.NODE_ENV === 'production' ? 'Secure;' : ''
       } HttpOnly;`,
     );

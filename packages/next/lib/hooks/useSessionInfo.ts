@@ -8,8 +8,11 @@ export default function useSessionInfo() {
   const session = useQueryParameter('session');
 
   useEffect(() => {
-    const unsubscribe = getSession((data) => setSessionInfo(data), session);
-    return () => unsubscribe();
+    if (session) {
+      const unsubscribe = getSession((data) => setSessionInfo(data), session);
+      return () => unsubscribe();
+    }
+    return () => {};
   }, [session]);
 
   return sessionInfo;

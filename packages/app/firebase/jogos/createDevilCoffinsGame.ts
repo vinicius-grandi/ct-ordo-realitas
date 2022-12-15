@@ -24,7 +24,7 @@ export default async function createDevilCoffinsGame(room: any, name: string, pl
   });
 
   const sessionRef = db.ref(`sessions/${name}`);
-  const devil = Object.keys(players)[getRandomInt(0, 4)];
+  const devil = playersUid[getRandomInt(0, 4)];
   await sessionRef.set({
     players: newPlayers,
     devil,
@@ -36,6 +36,7 @@ export default async function createDevilCoffinsGame(room: any, name: string, pl
   await db.ref(`countdowns/${name}`).set({
     startAt: ServerValue.TIMESTAMP,
     seconds: 180,
+    phase: 'discussionTime',
   });
   return { sessionRef, devil };
 }

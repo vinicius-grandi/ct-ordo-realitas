@@ -26,7 +26,7 @@ export default function useRoomInfo(): [FullRoom, React.Dispatch<React.SetStateA
   useEffect(() => {
     const unsubscribe = lobby.getRoom(room, async (data) => {
       if (data !== null && data.redirect) {
-        await router.push(`sessoes/${room}`);
+        await router.push(`../sessoes/${room}`);
       }
       setRoomInfo(data);
     });

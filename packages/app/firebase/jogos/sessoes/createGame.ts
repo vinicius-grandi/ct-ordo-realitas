@@ -19,23 +19,6 @@ export default async function createGame(name: string, uid: string) {
         }
         const { sessionRef, devil } = await createDevilCoffinsGame(room, name, players);
 
-        const interval = setInterval(() => {
-          sessionRef.update({
-            lastDevil: devil,
-            selectNewDevil: true,
-          });
-          setTimeout(async () => {
-            const snapshot = await sessionRef.get();
-            const session: Session = snapshot.val();
-            const result = updateExistencePoints(session);
-            result.targets += 1;
-            await sessionRef.set(result);
-            if (result.eliminatedPlayers && result.eliminatedPlayers.length >= 3) {
-              clearInterval(interval);
-            }
-          }, 10000);
-        }, 10000);
-
         await roomRef.set({
           redirect: true,
         });

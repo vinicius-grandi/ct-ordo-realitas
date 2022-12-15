@@ -6,7 +6,7 @@ const spy = jest.spyOn(global.Math, 'random');
 
 describe('Rituals API', () => {
   const session: Session = {
-    coffins: ['a', 'b', 'c', 'd', 'e', 0, 0, 0, 0, 0, 0, 0],
+    coffins: [0, 'b', 'c', 'd', 'e', 0, 0, 0, 0, 0, 0, 0],
     devil: 'a',
     players: {
       a: {
@@ -35,7 +35,13 @@ describe('Rituals API', () => {
   it('decreases existence points "randomly" if selected targets\'s property is undefined', () => {
     spy.mockReturnValue(0);
     const players = Object.values(updateExistencePoints(session).players);
-    players.forEach(({ existencePoints }) => expect(existencePoints).toBe(5));
+    players.forEach(({ existencePoints, name }) => {
+      if (name === session.players[session.devil].name) {
+        expect(existencePoints).toBe(6);
+      } else {
+        expect(existencePoints).toBe(5);
+      }
+    });
 
     spy.mockReturnValue(0.9);
     const unscathedPlayers = Object.values(updateExistencePoints(session).players);

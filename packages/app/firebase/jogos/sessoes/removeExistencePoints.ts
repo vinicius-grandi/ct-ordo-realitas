@@ -26,7 +26,7 @@ export function updateExistencePoints(session: Session) {
   }
   function setRemainingCoffins() {
     if (areThereCoffinsLeft()) {
-      for (let a = getAvailableCoffins(), i = a.length; i--; ) {
+      for (let a = availableCoffins(), i = a.length; i--; ) {
         if (selectedCoffins.length === session.targets) {
           break;
         }
@@ -40,8 +40,8 @@ export function updateExistencePoints(session: Session) {
     return typeof k === 'string';
   }
 
-  function getAvailableCoffins(): number[] {
-    return coffins.reduce((availableNumArr: number[], currCoffin, idx) => {
+  function availableCoffins(): number[] {
+    return coffins.reduce((availableNumArr: number[], _, idx) => {
       if (selectedCoffins.findIndex((i) => i === idx)) availableNumArr.push(idx);
       return availableNumArr;
     }, []);
