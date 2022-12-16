@@ -7,6 +7,7 @@ import { getStaticProps, getStaticPaths } from '../../../components/withTranslat
 import useSessionInfo from '../../../lib/hooks/useSessionInfo';
 import Chat from '../../../components/jogos/caixoes/Chat';
 import GameInfo from '../../../components/jogos/caixoes/GameInfo';
+import Coffins from '../../../components/jogos/caixoes/Coffins';
 
 export default function SessionPage() {
   const [remainingSeconds, setRemainingSeconds] = useState('timeout');
@@ -37,7 +38,19 @@ export default function SessionPage() {
   }, [session]);
   return sessionInfo ? (
     <main className={styles['sessao-container']} style={{ maxHeight: '100vh' }}>
-      <GameInfo remainingSeconds={remainingSeconds} sessionInfo={sessionInfo} uid={uid} />
+      {countdownPhase !== 'discussionTime' ? (
+        <GameInfo remainingSeconds={remainingSeconds} sessionInfo={sessionInfo} uid={uid} />
+      ) : (
+        <Coffins
+          coffins={sessionInfo.coffins.map((k) => {
+            if (k in sessionInfo.players) {
+              return sessionInfo.players[k].name;
+            }
+            return k;
+          })}
+          selectedCoffins={sessionInfo.selectedCoffins ?? []}
+        />
+      )}
       <Chat player={sessionInfo.players[uid].name} />
     </main>
   ) : (

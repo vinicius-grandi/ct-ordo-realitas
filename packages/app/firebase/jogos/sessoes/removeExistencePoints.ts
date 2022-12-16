@@ -42,7 +42,9 @@ export function updateExistencePoints(session: Session) {
 
   function availableCoffins(): number[] {
     return coffins.reduce((availableNumArr: number[], _, idx) => {
-      if (selectedCoffins.findIndex((i) => i === idx)) availableNumArr.push(idx);
+      if (selectedCoffins.findIndex((v) => v === idx) === -1) {
+        availableNumArr.push(idx);
+      }
       return availableNumArr;
     }, []);
   }
