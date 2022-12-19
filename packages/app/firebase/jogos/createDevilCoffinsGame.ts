@@ -2,6 +2,11 @@ import { ServerValue } from 'firebase-admin/database';
 import getRandomInt from '../../lib/getRandomInt';
 import { db } from '../serverApp';
 
+export type Coffin = {
+  selected: boolean;
+  player?: string;
+};
+
 export default async function createDevilCoffinsGame(room: any, name: string, players: unknown[]) {
   const newPlayers: {
     [key in string]: {
@@ -17,10 +22,13 @@ export default async function createDevilCoffinsGame(room: any, name: string, pl
       existencePoints: 6,
     };
   });
-  const initialCoffins: string[] = [];
+  const initialCoffins: Coffin[] = [];
 
   playersUid.forEach((uid) => {
-    initialCoffins.push(uid);
+    initialCoffins.push({
+      selected: true,
+      player: uid,
+    });
   });
 
   const sessionRef = db.ref(`sessions/${name}`);
@@ -29,8 +37,9 @@ export default async function createDevilCoffinsGame(room: any, name: string, pl
     players: newPlayers,
     devil,
     targets: 6,
-    coffins: [...initialCoffins, ...Array(7).fill(0)],
-    selectedCoffins: [0, 1, 2, 3, 4],
+    coffins: [...initialCoffins, ...Array(7).fill({
+      selected: false,
+    })],
   });
 
   await db.ref(`countdowns/${name}`).set({

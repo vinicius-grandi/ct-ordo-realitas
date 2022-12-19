@@ -1,5 +1,7 @@
+import type { Coffin } from '../createDevilCoffinsGame';
+
 export type Session = {
-  coffins: (string | number)[];
+  coffins: Coffin[];
   players: {
     [key in string]: {
       name: string;

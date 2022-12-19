@@ -6,7 +6,19 @@ const spy = jest.spyOn(global.Math, 'random');
 
 describe('Rituals API', () => {
   const session: Session = {
-    coffins: [0, 'b', 'c', 'd', 'e', 0, 0, 0, 0, 0, 0, 0],
+    coffins: [
+      {
+        selected: false,
+        player: 'a',
+      },
+      {
+        selected: false,
+        player: 'b',
+      },
+      ...Array(10).fill({
+        selected: false,
+      }),
+    ],
     devil: 'a',
     players: {
       a: {
@@ -49,7 +61,7 @@ describe('Rituals API', () => {
   });
   it('decreases existence points from selected targets', () => {
     spy.mockReturnValue(0);
-    const newSession = { ...session, selectedCoffins: [6, 7, 8, 9, 10, 11] };
+    const newSession = { ...session };
     const unscathedPlayers = Object.values(updateExistencePoints(newSession).players);
     unscathedPlayers.forEach(({ existencePoints }) => expect(existencePoints).toBe(6));
   });
