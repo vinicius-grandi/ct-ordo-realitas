@@ -23,16 +23,14 @@ export default async function createDevilCoffinsGame(room: any, name: string, pl
     };
   });
   const initialCoffins: Coffin[] = [];
-
+  const sessionRef = db.ref(`sessions/${name}`);
+  const devil = playersUid[getRandomInt(0, 4)];
   playersUid.forEach((uid) => {
     initialCoffins.push({
       selected: true,
-      player: uid,
+      player: uid === devil ? null : uid,
     });
   });
-
-  const sessionRef = db.ref(`sessions/${name}`);
-  const devil = playersUid[getRandomInt(0, 4)];
   await sessionRef.set({
     players: newPlayers,
     devil,

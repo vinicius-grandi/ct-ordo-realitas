@@ -41,15 +41,18 @@ export default function SessionPage() {
       {countdownPhase !== 'discussionTime' ? (
         <GameInfo remainingSeconds={remainingSeconds} sessionInfo={sessionInfo} uid={uid} />
       ) : (
-        <Coffins
-          coffins={sessionInfo.coffins.map((k) => {
-            if (k in sessionInfo.players) {
-              return sessionInfo.players[k].name;
-            }
-            return k;
-          })}
-          selectedCoffins={sessionInfo.selectedCoffins ?? []}
-        />
+        <>
+          {remainingSeconds}
+          <Coffins
+            coffins={sessionInfo.coffins.map((k) => {
+              if (k.player && k.player in sessionInfo.players) {
+                return sessionInfo.players[k.player].name;
+              }
+              return k.player ?? '';
+            })}
+            selectedCoffins={sessionInfo.selectedCoffins ?? []}
+          />
+        </>
       )}
       <Chat player={sessionInfo.players[uid].name} />
     </main>
