@@ -1,7 +1,5 @@
 import { db } from '../../serverApp';
 import createDevilCoffinsGame from '../createDevilCoffinsGame';
-import { updateExistencePoints } from './removeExistencePoints';
-import { Session } from './Session';
 
 export default async function createGame(name: string, uid: string) {
   const roomRef = db.ref(`/rooms/${name}`);

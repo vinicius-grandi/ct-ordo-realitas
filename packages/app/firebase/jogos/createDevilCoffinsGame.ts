@@ -4,7 +4,7 @@ import { db } from '../serverApp';
 
 export type Coffin = {
   selected: boolean;
-  player?: string;
+  player?: string | null;
 };
 
 export default async function createDevilCoffinsGame(room: any, name: string, players: unknown[]) {
