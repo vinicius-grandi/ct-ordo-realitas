@@ -15,7 +15,7 @@ function Notes({
   const t = useT();
   return (
     <div>
-      <h2>{t('simulacao.overlay.notes')}</h2>
+      <h2>{t('batalha.overlay.notes')}</h2>
       <textarea name="notes" value={entity.notes} cols={20} rows={10} onChange={handleChange} />
     </div>
   );

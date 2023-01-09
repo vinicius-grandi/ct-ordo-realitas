@@ -2,10 +2,14 @@
     "en": {
       "translations": {
         "home": {
-          "title": "Home"
+          "title": "Home",
+          "welcome": "Welcome!",
+          "firstParagraph": "Welcome, dear agent,",
+          "secondParagraph": "This is the Ordo Realita Training Center, here you can perform various types of activities, such as simulations and studies about the <strong>Other Side.</strong>",
+          "thirdParagraph": "As a recommendation, if the occultism is of interest, visit the page of "
         },
-        "simulacao": {
-          "title": "Simulation",
+        "batalha": {
+          "title": "Battle",
           "tips": [
             "With a click you're able to edit target's info",
             "Click and hold to remove the target from the battlefield"
@@ -25,9 +29,9 @@
             "notes": "Notes"
           },
           "configuration": {
-            "title": "Configuração",
-            "import": "importar",
-            "export": "exportar"
+            "title": "Configuration",
+            "import": "import",
+            "export": "export"
           }
         },
         "login": {
@@ -41,11 +45,28 @@
             "loginWith": "login with",
             "loginBtn": "login"
         },
+        "registro": {
+            "title": "Sign Up",
+            "registroBtn": "Confirm"
+        },
         "fichas": {
-            "title": "Fichas"
+            "title": "Sheets"
         },
         "rituais": {
-            "title": "Rituais"
+            "title": "Quiz - Rituals",
+            "atLeastOneElementError": "Please choose at least one element",
+            "blood": "blood",
+            "fear": "fear",
+            "knowledge": "knowledge",
+            "energy": "energy",
+            "death": "death",
+            "startQuiz": "Start Quiz",
+            "resetQuiz": "Reset Quiz",
+            "ritualQuiz": {
+                "ritualPlaceholder": "Ex: Cinerária",
+                "finishQuiz": "Finish Quiz",
+                "cardAlt": "unknown"
+            }
         }
       }
     }

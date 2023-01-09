@@ -60,7 +60,7 @@ export default function ShortcutsShortcuts({
   return (
     <View style={styles.shortcuts}>
       <Text style={{ ...styles['overlay-title'], width: '100%' }}>
-        {t('simulacao.overlay.shortcuts.title')}
+        {t('batalha.overlay.shortcuts.title')}
       </Text>
       <View style={styles.shortcuts}>
         <FlatList
@@ -73,15 +73,15 @@ export default function ShortcutsShortcuts({
       {newShortcut && (
         <View>
           <NewShortcutInput
-            label={t('simulacao.overlay.shortcuts.nameLabel')}
-            placeholder={t('simulacao.overlay.shortcuts.name')}
+            label={t('batalha.overlay.shortcuts.nameLabel')}
+            placeholder={t('batalha.overlay.shortcuts.name')}
             value={shortcut.nome}
             handleChange={handleChange}
             name="shortcut-name"
           />
           <NewShortcutInput
-            label={t('simulacao.overlay.shortcuts.diceLabel')}
-            placeholder={t('simulacao.overlay.shortcuts.dice')}
+            label={t('batalha.overlay.shortcuts.diceLabel')}
+            placeholder={t('batalha.overlay.shortcuts.dice')}
             value={shortcut.dados}
             handleChange={handleChange}
             name="shortcut-dice"

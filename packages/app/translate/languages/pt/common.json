@@ -2,10 +2,14 @@
   "pt": {
     "translations": {
       "home": {
-        "title": "Home"
+        "title": "Home",
+        "welcome": "Bem vindo",
+        "firstParagraph": "Bem vindo, caro agente,",
+        "secondParagraph": "Esse é o centro de treinamento da Ordo Realitas, aqui você poderá realizar diversos tipos de atividades, como simulações e estudos do <strong>Outro Lado.</strong>",
+        "thirdParagraph": "Como recomendação, caso o ocultismo seja de seu interesse, visite a página de"
       },
       "simulacao": {
-        "title": "Simulação",
+        "title": "Batalha",
         "tips": [
           "<span>Aliados</span> e <span>inimigos</span> serão referidos no plural como \"entidade\" ou \"alvo\"",
           "Para editar as informações do alvo, efetue um clique simples sobre ele",

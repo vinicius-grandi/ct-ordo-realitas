@@ -12,9 +12,9 @@ export default function Simulacao() {
 
   return (
     <View style={{ flex: 1, position: 'relative' }}>
-      <Text style={styles.title}>{t('simulacao.title')}</Text>
+      <Text style={styles.title}>{t('batalha.title')}</Text>
       <View style={styles.list}>
-        {t<string, string[]>('simulacao.tips', { returnObjects: true }).map((val, idx) => (
+        {t<string, string[]>('batalha.tips', { returnObjects: true }).map((val, idx) => (
           <Text style={styles.text} key={idx}>
             &#8226;{val}
           </Text>

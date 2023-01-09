@@ -13,7 +13,7 @@ function Shortcuts({ eid, handleOverlay }: { eid: string; handleOverlay: () => v
 
   return (
     <div className={styles['shortcuts-tab']}>
-      <h2>{t('simulacao.overlay.shortcuts.title')}</h2>
+      <h2>{t('batalha.overlay.shortcuts.title')}</h2>
       <div className={styles.shortcuts}>
         {shortcuts.length > 0 &&
           shortcuts.map((val: SC) => (

@@ -38,7 +38,7 @@ function EntityHeader({
         style={{ fontSize: '0.9rem', display: 'flex', flexDirection: 'column' }}
       >
         <Image src="/images/user-icon.svg" width={50} height={50} alt="user-icon" />
-        {currType === 'enemy' ? t('simulacao.overlay.enemies') : t('simulacao.overlay.players')}
+        {currType === 'enemy' ? t('batalha.overlay.enemies') : t('batalha.overlay.players')}
       </button>
       <input type="text" value={entity.name} name="name" onChange={handleChange} />
       <CloseButton handleClose={() => handleOverlay()} />

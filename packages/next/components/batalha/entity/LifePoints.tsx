@@ -10,7 +10,7 @@ function LifePoints({ eid, handleChange }: { eid: string; handleChange: HandleCh
   const t = useT();
   return (
     <div className={styles['life-points-tab']}>
-      <h2>{t('simulacao.overlay.hpTab')}</h2>
+      <h2>{t('batalha.overlay.hpTab')}</h2>
       <input
         type="number"
         name="hp"

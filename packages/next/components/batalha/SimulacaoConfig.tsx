@@ -3,14 +3,14 @@ import styles from '@styles/main.module.sass';
 import { useDispatch, useSelector } from 'react-redux';
 import useT from '../../lib/hooks/useT';
 
-export default function SimulacaoConfig() {
+export default function BatalhaConfig() {
   const entities = useSelector(selectEntities);
   const dispatch = useDispatch();
   const t = useT();
   return (
     <div className={styles['import-export-btn']}>
       <label htmlFor="import-config">
-        {t('simulacao.configuration.import')}
+        {t('batalha.configuration.import')}
         <input
           type="file"
           id="import-config"
@@ -40,7 +40,7 @@ export default function SimulacaoConfig() {
           link.remove();
         }}
       >
-        {t('simulacao.configuration.export')}
+        {t('batalha.configuration.export')}
       </button>
     </div>
   );

@@ -16,7 +16,7 @@ export default function LifePoints({
   const { t } = useTranslation();
   return (
     <View style={styles.line}>
-      <Text style={styles['overlay-title']}>{t('simulacao.overlay.hpTab')}</Text>
+      <Text style={styles['overlay-title']}>{t('batalha.overlay.hpTab')}</Text>
       <TextInput
         defaultValue={String(entity.pv)}
         activeOutlineColor="#ffffff"

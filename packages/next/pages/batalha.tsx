@@ -4,9 +4,9 @@ import Head from 'next/head';
 import { Trans, withTranslation } from 'next-i18next';
 import { useSelector } from 'react-redux';
 import { selectIsSelectionMode } from '@ct-ordo-realitas/app/redux/battlefieldSlice';
-import Battlefield from '@components/simulation/Battlefield';
+import Battlefield from '@components/batalha/Battlefield';
 import getStaticProps from '@components/withTranslationProps';
-import SimulacaoConfig from '@components/simulation/SimulacaoConfig';
+import BatalhaConfig from '@components/batalha/SimulacaoConfig';
 import styles from '../styles/main.module.sass';
 import useT from '../lib/hooks/useT';
 
@@ -20,9 +20,9 @@ const SimulationPage: NextPage = () => {
       </Head>
       {!isSelectionMode && (
       <>
-        <h1>{t('simulacao.title')}</h1>
+        <h1>{t('batalha.title')}</h1>
         <ul className={styles['true-list']}>
-          {t<string[]>('simulacao.tips', true).map((val, idx) => (
+          {t<string[]>('batalha.tips', true).map((val, idx) => (
             <li key={`tip ${idx + 1}`}>
               <Trans components={{ span: <span className={styles.tips} /> }}>{val}</Trans>
             </li>
@@ -33,8 +33,8 @@ const SimulationPage: NextPage = () => {
       <Battlefield />
       {!isSelectionMode && (
       <>
-        <h1>{t('simulacao.configuration.title')}</h1>
-        <SimulacaoConfig />
+        <h1>{t('batalha.configuration.title')}</h1>
+        <BatalhaConfig />
       </>
       )}
     </main>

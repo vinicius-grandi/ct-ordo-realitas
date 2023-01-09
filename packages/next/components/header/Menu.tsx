@@ -27,8 +27,7 @@ const Menu = ({
   const t = useT();
   const { isUserAuthenticated } = useAuth();
   const hrefArr = [
-    '/simulacao',
-    '/fichas',
+    '/batalha',
     '/rituais',
     ...(!isUserAuthenticated ? ['/registro', '/login'] : ['/logout']),
   ];

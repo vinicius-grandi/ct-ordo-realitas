@@ -4,7 +4,7 @@ import {
   waitFor,
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Simulation } from '../../pages/simulacao';
+import { Simulation } from '../../pages/batalha';
 import customRender from '../utils/customRender';
 
 describe('Simulation Page', () => {
