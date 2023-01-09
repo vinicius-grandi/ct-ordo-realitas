@@ -49,6 +49,9 @@
             "title": "Sign Up",
             "registroBtn": "Confirm"
         },
+        "logout": {
+            "title": "logout"
+        },
         "fichas": {
             "title": "Sheets"
         },

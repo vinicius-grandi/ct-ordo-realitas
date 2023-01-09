@@ -3,6 +3,7 @@ import {
   getAuth,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
   inMemoryPersistence,
   signInWithPopup,
   GoogleAuthProvider,
@@ -75,9 +76,14 @@ const signUpWithEmailAndPassword = async (email: string, password: string) => {
   };
 }
 
+export const resetPassword = (email: string) => {
+  return sendPasswordResetEmail(auth, email);
+}
+
 export default {
   getRituals,
   loginAndGetToken,
   loginWithPopup,
   signUpWithEmailAndPassword,
+  resetPassword,
 };

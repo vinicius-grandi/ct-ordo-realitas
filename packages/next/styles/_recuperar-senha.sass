@@ -1,0 +1,28 @@
+@use './mixins'
+@use './variables' as vars
+
+.recuperar-senha
+    h1, p
+        margin-left: 1rem
+    p
+        color: vars.$dark-blue
+        font-weight: 600
+    button
+        @include mixins.buttons
+        align-self: flex-end
+        background: vars.$blue
+        width: fit-content
+        padding: 0.2rem
+        text-transform: lowercase
+        height: fit-content
+        vertical-align: middle
+        font-weight: 600
+    form
+        margin: auto
+        font-size: 1.1rem
+        input
+            padding: 0.2rem
+            margin-right: 0.5rem
+            font-size: 1.1rem
+            border: 1px solid #000
+            border-radius: 3px
