@@ -1,0 +1,76 @@
+{
+    "en": {
+      "translations": {
+        "home": {
+          "title": "Home",
+          "welcome": "Welcome!",
+          "firstParagraph": "Welcome, dear agent,",
+          "secondParagraph": "This is the Ordo Realita Training Center, here you can perform various types of activities, such as simulations and studies about the <strong>Other Side.</strong>",
+          "thirdParagraph": "As a recommendation, if the occultism is of interest, visit the page of "
+        },
+        "batalha": {
+          "title": "Battle",
+          "tips": [
+            "With a click you're able to edit target's info",
+            "Click and hold to remove the target from the battlefield"
+          ],
+          "overlay": {
+            "player": "player",
+            "players": "players",
+            "enemies": "enemies",
+            "hpTab": "Life Points",
+            "shortcuts": {
+              "title": "Shortcuts",
+              "name": "ex: agredir",
+              "nameLabel": "NAME",
+              "dice": "ex: 2d6",
+              "diceLabel": "DICE"
+            },
+            "notes": "Notes"
+          },
+          "configuration": {
+            "title": "Configuration",
+            "import": "import",
+            "export": "export"
+          }
+        },
+        "login": {
+            "title": "Login",
+            "email": "email",
+            "hide": "hide",
+            "show": "show",
+            "password": "password",
+            "signup": "sign up",
+            "passwordRecovery": "password recovery",
+            "loginWith": "login with",
+            "loginBtn": "login"
+        },
+        "registro": {
+            "title": "Sign Up",
+            "registroBtn": "Confirm"
+        },
+        "logout": {
+            "title": "logout"
+        },
+        "fichas": {
+            "title": "Sheets"
+        },
+        "rituais": {
+            "title": "Quiz - Rituals",
+            "atLeastOneElementError": "Please choose at least one element",
+            "blood": "blood",
+            "fear": "fear",
+            "knowledge": "knowledge",
+            "energy": "energy",
+            "death": "death",
+            "startQuiz": "Start Quiz",
+            "resetQuiz": "Reset Quiz",
+            "ritualQuiz": {
+                "ritualPlaceholder": "Ex: Cinerária",
+                "finishQuiz": "Finish Quiz",
+                "cardAlt": "unknown"
+            }
+        }
+      }
+    }
+  }

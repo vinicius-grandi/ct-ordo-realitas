@@ -1,0 +1,172 @@
+@use './mixins'
+@use './variables' as vars
+
+.rituais
+    display: grid
+    @include mixins.desktop
+        grid-template-areas: ". knowledge ." "blood . death" ". . ." "fear . energy" ". start ."
+    button
+        background: none
+        border: 1px solid black
+        border-radius: 5px
+        padding: 1.5rem
+        margin: 1rem
+        font-size: 1.2rem
+        text-transform: uppercase
+        cursor: pointer
+    button:hover
+        background: #00000018
+    margin-bottom: 1rem
+    @include mixins.tablet
+        *
+            grid-area: auto !important
+        grid-template-rows: repeat(5, 1fr)
+        grid-template-columns: 1fr
+
+
+#blood
+    grid-area: blood
+
+#fear
+    grid-area: fear
+
+#knowledge
+    grid-area: knowledge
+
+#death
+    grid-area: death
+
+#energy
+    grid-area: energy
+
+.start-quiz
+    grid-area: start
+
+.glow-blood
+    @include mixins.glow(#cc0000)
+
+.glow-fear
+    @include mixins.glow(#296dff)
+
+.glow-energy
+    @include mixins.glow(#d429ff)
+
+.glow-death
+    @include mixins.glow(#000000)
+
+.glow-knowledge
+    @include mixins.glow(#fdfa25)
+
+.ritual-quiz
+    @include mixins.flex-column
+
+.card-container
+    display: flex
+    margin: 0 1rem
+    flex-wrap: wrap
+    gap: 0.5rem
+    justify-content: center
+
+.ritual-card
+    display: flex
+    color: white
+    flex-direction: column
+    align-items: center
+    justify-content: center
+    flex-basis: 30%
+    max-width: 350px
+    @include mixins.tablet
+        flex-basis: 48%
+    @include mixins.mobile
+        flex-basis: 100%
+    *
+        text-align: center
+    background: #000
+    height: 300px
+    position: relative
+    input
+        padding: 0.33rem
+        font-size: 1.05rem
+        position: absolute
+        width: 100%
+        max-width: 300px
+        margin: auto
+        box-sizing: border-box
+        bottom: 10%
+
+.rituais-home-btn
+    @include mixins.buttons
+    width: 100px
+    height: 100px
+    margin: 1rem
+    background: none
+    border: none
+    position: fixed
+    bottom: 0
+    left: 0
+
+.finish-quiz
+    @include mixins.buttons
+    cursor: pointer
+    background: vars.$blue
+    margin: 1rem
+    width: 50%
+    align-self: center
+
+@keyframes showHide
+    0%
+        width: 0%
+    100%
+        width: 100%
+
+.rituals-loading
+    overflow: hidden
+    text-transform: uppercase
+    color: vars.$red
+    font-weight: 600
+    animation: showHide 2s ease-in-out infinite
+
+.add-new-ritual
+    &-bg
+        font-family: 'Times New Roman', Times, serif
+        font-size: 1.2rem
+        display: flex
+        flex-direction: column
+        align-items: flex-end
+        label
+            margin: 0.36rem 0
+    &-form
+        margin-top: 1rem
+        margin-right: 2rem
+        color: white
+        display: flex
+        flex-direction: column
+        box-shadow: 1px 1px 4px #00000056
+        input
+            float: right
+            font-size: 1.2rem
+    img
+        align-self: flex-start
+    &-save-btn, &-bg
+        text-transform: uppercase
+    &-save-btn
+        margin-top: auto
+        font-size: 1.5rem
+        font-weight: bold
+        padding: 0.5rem 1rem
+    &-upload-btn
+        background: #bdbdbd
+        text-align: center
+        font-size: 1.2rem
+        padding: 0.12rem
+    &-container
+        width: 100%
+        display: flex
+        justify-content: space-around
+    &-container, &-form
+        padding: 2rem
+        border-radius: 3px
+        background: #000
+
+.debian-title
+    @include mixins.debian-title
