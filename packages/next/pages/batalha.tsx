@@ -20,7 +20,7 @@ const SimulationPage: NextPage = () => {
       </Head>
       {!isSelectionMode && (
       <>
-        <h1>{t('batalha.title')}</h1>
+        <h1 style={{ margin: '0 1rem' }}>{t('batalha.title')}</h1>
         <ul className={styles['true-list']}>
           {t<string[]>('batalha.tips', true).map((val, idx) => (
             <li key={`tip ${idx + 1}`}>

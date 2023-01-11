@@ -5,6 +5,7 @@ import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import api from '@ct-ordo-realitas/app/firebase/serverApp';
+import elements from '../../../public/data/elements.json';
 
 type Ritual = {
   name: string;
@@ -87,12 +88,20 @@ export default function NewRitualPage() {
         <div className={styles['add-new-ritual-form']}>
           <label htmlFor="ritual-name">
             nome:
-            <input type="text" id="ritual-name" onChange={handleName} />
+            <input type="text" id="ritual-name" onChange={handleName} spellCheck />
           </label>
-          <label htmlFor="ritual-type">
-            tipo:
-            <input type="text" id="ritual-type" onChange={handleType} />
-          </label>
+          {elements.map((element) => (
+            <label htmlFor={element} key={element}>
+              {element}
+              <input
+                id={element}
+                type="radio"
+                value={element}
+                name="ritual-type"
+                onChange={handleType}
+              />
+            </label>
+          ))}
           <label htmlFor="ritual-image" className={styles['add-new-ritual-upload-btn']}>
             upload image
             <input
@@ -105,7 +114,7 @@ export default function NewRitualPage() {
                   setImage(file);
                 }
               }}
-              accept="image/png"
+              accept="image/jpeg"
             />
           </label>
           <button
