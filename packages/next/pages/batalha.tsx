@@ -22,7 +22,7 @@ const SimulationPage: NextPage = () => {
       <>
         <h1 style={{ margin: '0 1rem' }}>{t('batalha.title')}</h1>
         <ul className={styles['true-list']}>
-          {'map' in t && t<string[]>('batalha.tips', true).map((val, idx) => (
+          {t<string[]>('batalha.tips', true).map((val, idx) => (
             <li key={`tip ${idx + 1}`}>
               <Trans components={{ span: <span className={styles.tips} /> }}>{val}</Trans>
             </li>
