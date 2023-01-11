@@ -14,7 +14,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       return res.status(401).json({ message: 'unauthorized' });
     }
 
-    if (!await firebase.isUserAdmin(req.cookies.session)) {
+    if (!(await firebase.isUserAdmin(req.cookies.session))) {
       return res.status(401).json({ message: 'unauthorized' });
     }
 
@@ -22,7 +22,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       base64string: getBase64(),
       apiKey: process.env.IMGBB_API_KEY,
     });
-    await firebase.setRitual({ ...JSON.parse(ritual), imagePath: response.display_url });
+
+    await firebase.setRitual({
+      ...JSON.parse(ritual),
+      imagePath: response.display_url,
+    });
 
     return res.json({ message: 'upload successful' });
   }
