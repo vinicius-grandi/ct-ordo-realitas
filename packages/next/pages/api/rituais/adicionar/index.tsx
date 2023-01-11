@@ -18,11 +18,12 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       return res.status(401).json({ message: 'unauthorized' });
     }
 
-    const response = await imgbbUploader({
+    imgbbUploader({
       base64string: getBase64(),
       apiKey: process.env.IMGBB_API_KEY,
-    });
-    await firebase.setRitual({ ...JSON.parse(ritual), imagePath: response.display_url });
+    }).then(async (response) => {
+      await firebase.setRitual({ ...JSON.parse(ritual), imagePath: response.display_url });
+    }).catch((err) => console.log(err));
 
     return res.json({ message: 'upload successful' });
   }
