@@ -18,20 +18,35 @@ const Footer: NextPage = () => {
   }, [isFontOutroLado]);
   return (
     <footer id={styles.footer}>
-      <div>
-        <p style={{ fontFamily }}>COLABORE COM O SITE</p>
-        <p style={{ fontFamily }}>
-          PIX
-          <span>: microminusss@gmail.com</span>
-        </p>
+      <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+        <div>
+          <p style={{ fontFamily, verticalAlign: 'middle' }}>
+            <span style={{ verticalAlign: 'sub' }}>
+              <Image src="/images/coffee.svg" height={30} width={30} alt="os cinco" layout="fixed" />
+            </span>
+            {' '}
+            Me pague um cafezin:
+          </p>
+          <p style={{ fontFamily }}>
+            Pix
+            <span> - microminusss@gmail.com</span>
+          </p>
+        </div>
+        <button type="button" style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
+          <Link href="admin/login">
+            <div>
+              <Image src="/images/os-cinco.webp" height={80} width={80} alt="os cinco" layout="fixed" />
+            </div>
+          </Link>
+        </button>
       </div>
-      <button type="button" style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
-        <Link href="admin/login">
-          <div>
-            <Image src="/images/os-cinco.webp" height={80} width={80} alt="os cinco" layout="fixed" />
-          </div>
-        </Link>
-      </button>
+      <a href="https://github.com/vinicius-grandi/ct-ordo-realitas" target="_blank" rel="noreferrer">
+        <span style={{ verticalAlign: 'sub' }}>
+          <Image src="/images/github-icon.svg" height={30} width={30} alt="os cinco" layout="fixed" />
+        </span>
+        {' '}
+        Código Fonte
+      </a>
     </footer>
   );
 };

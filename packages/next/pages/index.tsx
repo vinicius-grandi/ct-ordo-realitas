@@ -21,7 +21,7 @@ const Home: NextPage = () => {
         </p>
         <p className={styles.link}>
           {t('home.thirdParagraph')}
-          <Link href="/classe/ocultista">Sigilos</Link>
+          <Link href="/rituais">Rituais</Link>
         </p>
       </main>
     </>
