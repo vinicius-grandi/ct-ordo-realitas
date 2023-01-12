@@ -4,6 +4,7 @@ import styles from '@styles/main.module.sass';
 import useT from '../../lib/hooks/useT';
 import RitualCard from './RitualCard';
 import useFocusNext from '../../lib/hooks/useFocusNext';
+import shuffleArray from '../../lib/utils/shuffleArray';
 
 export type Ritual = {
   name: string;
@@ -51,7 +52,7 @@ export default function RitualQuiz({
         {Array.isArray(tips) && tips.map((tip, idx) => <li key={`tip-${idx + 1}`}>{tip}</li>)}
       </ul>
       <ul className={styles['card-container']}>
-        {rituals.map((ritual, idx) => (
+        {shuffleArray(rituals).map((ritual, idx) => (
           <RitualCard key={`ritual-${idx + 1}`} ritual={ritual} handleActualScore={handleActualScore} ref={nextInput} getNextInput={getNextInput} />
         ))}
       </ul>
