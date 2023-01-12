@@ -34,7 +34,7 @@ export default function RitualQuiz({
       querySnapshotArr.forEach(
         (querySnapshot) => querySnapshot.forEach((doc) => res.push(doc.data() as Ritual)),
       );
-      setRituals(res);
+      setRituals(shuffleArray(res));
       setLoading(false);
     }
     void getData();
@@ -52,7 +52,7 @@ export default function RitualQuiz({
         {Array.isArray(tips) && tips.map((tip, idx) => <li key={`tip-${idx + 1}`}>{tip}</li>)}
       </ul>
       <ul className={styles['card-container']}>
-        {shuffleArray(rituals).map((ritual, idx) => (
+        {rituals.map((ritual, idx) => (
           <RitualCard key={`ritual-${idx + 1}`} ritual={ritual} handleActualScore={handleActualScore} ref={nextInput} getNextInput={getNextInput} />
         ))}
       </ul>
