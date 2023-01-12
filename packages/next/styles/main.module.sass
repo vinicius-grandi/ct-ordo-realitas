@@ -95,16 +95,21 @@
 #footer
     background-color: black
     color: white
-    display: flex
+    @include mixins.flex-column
     justify-content: space-around
     align-items: center
     padding: 1rem
-    height: 150px
+    & > div
+        @include mixins.desktop
+            width: 50%
     p
         margin: 1rem 0
         font-family: 'outro-lado-regular', sans-serif
     span
         font-family: Arial, Helvetica, sans-serif
+    a
+        color: #fff
+        text-decoration: none
 
 @keyframes rotate-center
     0%
